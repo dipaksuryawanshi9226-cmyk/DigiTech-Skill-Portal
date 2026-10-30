@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiTech | Admin Portal</title>
+
+<style>
+:root {
+  --orange:#FF8A24;
+  --dark:#171717;
+  --dark2:#252525;
+  --light:#F7F6F3;
+  --white:#FFFFFF;
+  --muted:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:var(--light);color:#252525}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+
+/* LOGIN */
+.login-page{
+  min-height:100vh;display:flex;align-items:center;
+  justify-content:center;padding:20px;background:var(--dark)
+}
+.login-card{
+  background:white;width:100%;max-width:410px;
+  padding:38px;border-radius:16px
+}
+.logo{font-size:27px;font-weight:800;color:var(--dark)}
+.logo span{color:var(--orange)}
+.login-card h2{margin:28px 0 8px}
+.login-card p{color:#777;font-size:14px;margin-bottom:25px}
+label{display:block;font-size:13px;font-weight:bold;margin:15px 0 7px}
+input,select{
+  width:100%;padding:13px;border:1px solid #ddd;
+  border-radius:7px;font-size:14px;outline:none
+}
+input:focus{border-color:var(--orange)}
+.primary-btn{
+  background:var(--orange);color:#171717;
+  padding:13px 18px;border-radius:7px;font-weight:bold
+}
+.login-card .primary-btn{width:100%;margin-top:22px}
+.error{color:#d22;font-size:13px;margin-top:12px}
+
+/* DASHBOARD */
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;background:var(--dark);color:white;
+  padding:25px 16px;flex-shrink:0
+}
+.sidebar .logo{color:white;margin:0 10px 35px}
+.nav-title{color:#888;font-size:11px;margin:22px 12px 10px}
+.nav-btn{
+  width:100%;padding:13px 14px;background:transparent;
+  color:#ccc;text-align:left;border-radius:7px;margin:3px 0;
+  font-size:14px
+}
+.nav-btn:hover,.nav-btn.active{background:#333;color:var(--orange)}
+.main{flex:1;min-width:0}
+.topbar{
+  height:75px;background:white;display:flex;
+  align-items:center;justify-content:space-between;
+  padding:0 30px;border-bottom:1px solid #eee
+}
+.topbar h3{font-size:18px}
+.admin-label{font-size:13px;color:#777}
+.content{padding:30px}
+.welcome{margin-bottom:25px}
+.welcome h2{font-size:25px;margin-bottom:7px}
+.welcome p{color:#777;font-size:14px}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:18px;margin-bottom:28px
+}
+.stat-card,.panel{
+  background:white;padding:22px;border-radius:12px;
+  border:1px solid #eee
+}
+.stat-card p{font-size:13px;color:#777}
+.stat-card h2{font-size:30px;margin-top:12px}
+.stat-card .symbol{color:var(--orange);font-size:22px}
+.panel h3{margin-bottom:18px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:500px}
+th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eee;font-size:13px}
+th{color:#777}
+.status{background:#e8f7ed;color:#168344;padding:5px 9px;border-radius:20px;font-size:11px}
+.section{display:none}
+.section.active{display:block}
+.section-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:20px
+}
+.section-heading h2{font-size:22px}
+.menu-toggle{display:none;background:transparent;font-size:23px}
+.logout{background:#333;color:white;padding:10px 13px;border-radius:6px}
+.empty{color:#888;font-size:14px;padding:20px 0}
+@media(max-width:800px){
+  .sidebar{width:210px}
+  .content{padding:20px}
+  .stats{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .sidebar{display:none;position:fixed;z-index:5;height:100vh}
+  .sidebar.open{display:block}
+  .menu-toggle{display:block}
+  .topbar{padding:0 15px}
+  .content{padding:17px}
+  .stats{grid-template-columns:1fr}
+  .admin-label{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ADMIN LOGIN -->
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <div class="logo">Digi<span>Tech</span></div>
+    <h2>Admin Login</h2>
+    <p>Sign in to manage the Examination Portal.</p>
+
+    <form id="loginForm">
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="Enter admin email" required>
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter password" required>
+
+      <button class="primary-btn" type="submit">Login to Dashboard</button>
+      <div class="error" id="error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div class="layout hidden" id="dashboard">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">Digi<span>Tech</span></div>
+
+    <div class="nav-title">MAIN MENU</div>
+    <button class="nav-btn active" onclick="showSection('overview',this)">▦ Dashboard</button>
+    <button class="nav-btn" onclick="showSection('students',this)">♙ Students</button>
+    <button class="nav-btn" onclick="showSection('subjects',this)">▤ Subjects</button>
+    <button class="nav-btn" onclick="showSection('exams',this)">✎ Examinations</button>
+    <button class="nav-btn" onclick="showSection('results',this)">▥ Results</button>
+
+    <div class="nav-title">ACCOUNT</div>
+    <button class="nav-btn" onclick="logout()">↪ Logout</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <h3>Admin Panel</h3>
+      </div>
+      <div class="admin-label">Administrator | DigiTech</div>
+    </header>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <section class="section active" id="overview">
+        <div class="welcome">
+          <h2>Welcome, Admin!</h2>
+          <p>Manage your DigiTech Examination Portal from here.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <p>Total Students</p>
+            <h2 id="studentCount">0</h2>
+            <span class="symbol">♙</span>
+          </div>
+          <div class="stat-card">
+            <p>Total Subjects</p>
+            <h2>4</h2>
+            <span class="symbol">▤</span>
+          </div>
+          <div class="stat-card">
+            <p>Total Examinations</p>
+            <h2>0</h2>
+            <span class="symbol">✎</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Portal Overview</h3>
+          <p class="empty">Welcome to your administration dashboard. Use the sidebar to manage students, subjects and examinations.</p>
+        </div>
+      </section>
+
+      <!-- STUDENTS -->
+      <section class="section" id="students">
+        <div class="section-heading">
+          <h2>Student Management</h2>
+          <button class="primary-btn" onclick="showStudentForm()">+ Add Student</button>
+        </div>
+
+        <div class="panel hidden" id="studentForm">
+          <h3>Create Student Record</h3>
+          <form id="addStudentForm">
+            <label>Student Full Name</label>
+            <input id="studentName" required placeholder="Enter student name">
+            <label>Student Email</label>
+            <input id="studentEmail" type="email" required placeholder="Enter student email">
+            <label>Student ID</label>
+            <input id="studentId" required placeholder="Enter student ID">
+            <br><br>
+            <button class="primary-btn" type="submit">Save Student</button>
+            <button type="button" onclick="hideStudentForm()" style="padding:12px">Cancel</button>
+          </form>
+        </div>
+
+        <div class="panel" style="margin-top:18px">
+          <h3>Registered Students</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Email</th><th>Student ID</th><th>Status</th></tr>
+              </thead>
+              <tbody id="studentTable">
+                <tr><td colspan="4">No students added yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUBJECTS -->
+      <section class="section" id="subjects">
+        <div class="section-heading"><h2>Subjects</h2></div>
+        <div class="panel">
+          <h3>Available Subjects</h3>
+          <p class="empty">1. Cyber Security</p>
+          <p class="empty">2. Digital Skills</p>
+          <p class="empty">3. Coding – HTML</p>
+          <p class="empty">4. Humanities & Personality Development</p>
+        </div>
+      </section>
+
+      <!-- EXAMS -->
+      <section class="section" id="exams">
+        <div class="section-heading"><h2>Examinations</h2></div>
+        <div class="panel">
+          <h3>Examination Management</h3>
+          <p class="empty">Exam creation and publishing module will be added in the next step.</p>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="section" id="results">
+        <div class="section-heading"><h2>Examination Results</h2></div>
+        <div class="panel">
+          <h3>Student Results</h3>
+          <p class="empty">Student examination results will appear here after the exam module is connected.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// TEMPORARY FRONTEND DEMO LOGIN ONLY
+const DEMO_EMAIL = "admin@digitech.in";
+const DEMO_PASSWORD = "DigiTech@123";
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if(email === DEMO_EMAIL && password === DEMO_PASSWORD){
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+  } else {
+    document.getElementById("error").textContent = "Invalid email or password.";
+  }
+});
+
+function logout(){
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+  document.getElementById("password").value = "";
+}
+
+function showSection(id, button){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+
+  document.getElementById("sidebar").classList.remove("open");
+}
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showStudentForm(){
+  document.getElementById("studentForm").classList.remove("hidden");
+}
+
+function hideStudentForm(){
+  document.getElementById("studentForm").classList.add("hidden");
+}
+
+let students = [];
+
+document.getElementById("addStudentForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const student = {
+    name:document.getElementById("studentName").value,
+    email:document.getElementById("studentEmail").value,
+    id:document.getElementById("studentId").value
+  };
+
+  students.push(student);
+  updateStudents();
+
+  this.reset();
+  hideStudentForm();
+});
+
+function updateStudents(){
+  document.getElementById("studentCount").textContent = students.length;
+
+  const table = document.getElementById("studentTable");
+  table.innerHTML = "";
+
+  students.forEach(student=>{
+    const row = document.createElement("tr");
+
+    [student.name,student.email,student.id].forEach(value=>{
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+
+    const status = document.createElement("td");
+    status.innerHTML = '<span class="status">Added</span>';
+    row.appendChild(status);
+
+    table.appendChild(row);
+  });
+}
+</script>
+
+</body>
+</html>
