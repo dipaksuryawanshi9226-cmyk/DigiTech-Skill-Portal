@@ -84,7 +84,7 @@ input:focus{border-color:var(--orange)}
 .stat-card .symbol{color:var(--orange);font-size:22px}
 .panel h3{margin-bottom:18px}
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:500px}
+table{width:100%;border-collapse:collapse;min-width:620px}
 th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eee;font-size:13px}
 th{color:#777}
 .status{background:#e8f7ed;color:#168344;padding:5px 9px;border-radius:20px;font-size:11px}
@@ -271,12 +271,13 @@ th{color:#777}
                   <th>Email</th>
                   <th>Student ID</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
               <tbody id="studentTable">
                 <tr>
-                  <td colspan="4">No students added yet.</td>
+                  <td colspan="5">No students added yet.</td>
                 </tr>
               </tbody>
             </table>
@@ -354,6 +355,16 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+
 
 /* FIREBASE CONFIGURATION */
 
@@ -371,11 +382,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 
 /* ADMIN EMAIL */
 
 const ADMIN_EMAIL = "digitechecosystem@gmail.com";
+const ADMIN_UID = "Pzdm5hd10gQFPtlv6YZVUdyW2wq1";
 
 
 /* ELEMENTS */
@@ -388,12 +401,13 @@ const loginButton = document.getElementById("loginButton");
 
 /* AUTHENTICATION SESSION CHECK */
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
-  if (user && user.email === ADMIN_EMAIL) {
+  if (user && user.email === ADMIN_EMAIL && user.uid === ADMIN_UID) {
 
     loginPage.classList.add("hidden");
     dashboard.classList.remove("hidden");
+    await loadStudents();
 
   } else {
 
@@ -401,7 +415,7 @@ onAuthStateChanged(auth, (user) => {
     dashboard.classList.add("hidden");
 
     if (user) {
-      signOut(auth);
+      await signOut(auth);
     }
 
   }
@@ -430,7 +444,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       password
     );
 
-    if (result.user.email !== ADMIN_EMAIL) {
+    if (result.user.email !== ADMIN_EMAIL || result.user.uid !== ADMIN_UID) {
 
       await signOut(auth);
 
@@ -512,78 +526,120 @@ window.hideStudentForm = function() {
 };
 
 
-/* TEMPORARY STUDENT RECORDS */
+/* FIRESTORE STUDENT MANAGEMENT */
 
-let students = [];
+const studentCollection = collection(db, "students");
+const studentTable = document.getElementById("studentTable");
+const studentCount = document.getElementById("studentCount");
 
+async function loadStudents() {
+  studentTable.innerHTML = '<tr><td colspan="5">Loading students...</td></tr>';
 
-document.getElementById("addStudentForm").addEventListener("submit", function(e) {
+  try {
+    const snapshot = await getDocs(studentCollection);
+    const students = snapshot.docs.map(studentDoc => ({
+      firestoreId: studentDoc.id,
+      ...studentDoc.data()
+    }));
 
-  e.preventDefault();
+    renderStudents(students);
+  } catch (error) {
+    console.error("Load students error:", error);
+    studentTable.innerHTML =
+      '<tr><td colspan="5">Unable to load students. Check Firestore rules and connection.</td></tr>';
+  }
+}
 
-  const student = {
+function renderStudents(students) {
+  studentCount.textContent = students.length;
+  studentTable.innerHTML = "";
 
-    name: document.getElementById("studentName").value.trim(),
-
-    email: document.getElementById("studentEmail").value.trim(),
-
-    id: document.getElementById("studentId").value.trim()
-
-  };
-
-
-  students.push(student);
-
-  updateStudents();
-
-  this.reset();
-
-  window.hideStudentForm();
-
-});
-
-
-/* UPDATE STUDENT TABLE */
-
-function updateStudents() {
-
-  document.getElementById("studentCount").textContent = students.length;
-
-  const table = document.getElementById("studentTable");
-
-  table.innerHTML = "";
+  if (students.length === 0) {
+    studentTable.innerHTML =
+      '<tr><td colspan="5">No students added yet.</td></tr>';
+    return;
+  }
 
   students.forEach(student => {
-
     const row = document.createElement("tr");
 
-    [student.name, student.email, student.id].forEach(value => {
+    [student.name || "", student.email || "", student.studentId || ""]
+      .forEach(value => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
 
-      const cell = document.createElement("td");
-
-      cell.textContent = value;
-
-      row.appendChild(cell);
-
-    });
-
-    const status = document.createElement("td");
-
+    const statusCell = document.createElement("td");
     const badge = document.createElement("span");
-
     badge.className = "status";
+    badge.textContent = student.status || "Active";
+    statusCell.appendChild(badge);
+    row.appendChild(statusCell);
 
-    badge.textContent = "Added";
+    const actionCell = document.createElement("td");
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteButton.style.cssText =
+      "background:#fff0df;color:#a84b00;padding:7px 10px;border-radius:6px;font-weight:bold";
+    deleteButton.addEventListener("click", () => {
+      deleteStudent(student.firestoreId);
+    });
+    actionCell.appendChild(deleteButton);
+    row.appendChild(actionCell);
 
-    status.appendChild(badge);
-
-    row.appendChild(status);
-
-    table.appendChild(row);
-
+    studentTable.appendChild(row);
   });
-
 }
+
+document.getElementById("addStudentForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const saveButton = this.querySelector('button[type="submit"]');
+  saveButton.disabled = true;
+  saveButton.textContent = "Saving...";
+
+  const student = {
+    name: document.getElementById("studentName").value.trim(),
+    email: document.getElementById("studentEmail").value.trim(),
+    studentId: document.getElementById("studentId").value.trim(),
+    uid: "",
+    status: "Active",
+    createdAt: serverTimestamp()
+  };
+
+  try {
+    await addDoc(studentCollection, student);
+    this.reset();
+    window.hideStudentForm();
+    await loadStudents();
+    alert("Student record saved successfully!");
+  } catch (error) {
+    console.error("Save student error:", error);
+    alert("Student could not be saved. Please check Firestore Rules and try again.");
+  } finally {
+    saveButton.disabled = false;
+    saveButton.textContent = "Save Student";
+  }
+});
+
+async function deleteStudent(studentDocumentId) {
+  const confirmed = confirm("Are you sure you want to delete this student record?");
+  if (!confirmed) return;
+
+  try {
+    await deleteDoc(doc(db, "students", studentDocumentId));
+    await loadStudents();
+    alert("Student record deleted.");
+  } catch (error) {
+    console.error("Delete student error:", error);
+    alert("Could not delete student record. Please try again.");
+  }
+}
+
+/* Load count and student records from Firestore after admin login.
+   Student profiles created here do not create Firebase Auth accounts. */
 
 </script>
 
