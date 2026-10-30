@@ -1,0 +1,1233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DigiTech | Examination Portal</title>
+
+<meta name="description" content="DigiTech Online Examination Portal - Cyber Security, Digital Skills, Coding and Humanities.">
+
+<style>
+/* =========================
+   DIGITECH DESIGN SYSTEM
+========================= */
+
+:root {
+    --primary: #FF8A24;
+    --primary-dark: #E87512;
+    --dark: #171717;
+    --dark-2: #252525;
+    --light: #F7F6F3;
+    --white: #FFFFFF;
+    --text: #252525;
+    --muted: #777777;
+    --border: #EAE7E2;
+    --orange-light: #FFF0DF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--light);
+    color: var(--text);
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+header {
+    background: var(--white);
+    padding: 17px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 15px #0000000a;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: var(--primary);
+}
+
+.logo small {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: -3px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: var(--primary-dark);
+}
+
+.btn {
+    padding: 12px 21px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #171717;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--dark);
+}
+
+.btn-outline:hover {
+    background: var(--orange-light);
+}
+
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero {
+    background: linear-gradient(120deg, #171717, #303030);
+    color: white;
+    padding: 100px 7%;
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 50px;
+    overflow: hidden;
+}
+
+.hero-tag {
+    display: inline-block;
+    color: var(--primary);
+    background: #FF8A2418;
+    border: 1px solid #FF8A2445;
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(38px, 5vw, 60px);
+    line-height: 1.15;
+    margin-bottom: 22px;
+    letter-spacing: -1.5px;
+}
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+.hero p {
+    color: #C5C5C5;
+    max-width: 560px;
+    line-height: 1.9;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.hero-card {
+    background: #FFFFFF0D;
+    border: 1px solid #FFFFFF20;
+    padding: 30px;
+    border-radius: 17px;
+}
+
+.hero-card h3 {
+    font-size: 20px;
+    margin-bottom: 22px;
+}
+
+.hero-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: #FFFFFF0C;
+    border: 1px solid #FFFFFF10;
+    border-radius: 10px;
+}
+
+.hero-item:last-child {
+    margin-bottom: 0;
+}
+
+.hero-item .emoji {
+    font-size: 26px;
+}
+
+.hero-item b {
+    font-size: 14px;
+}
+
+.hero-item small {
+    display: block;
+    color: #B9B9B9;
+    margin-top: 5px;
+}
+
+/* =========================
+   COMMON SECTIONS
+========================= */
+
+section {
+    padding: 80px 7%;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-heading h2 {
+    font-size: 34px;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.section-heading h2 span {
+    color: var(--primary-dark);
+}
+
+.section-heading p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* =========================
+   SUBJECT CARDS
+========================= */
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.subject-card {
+    background: white;
+    padding: 27px 23px;
+    border-radius: 13px;
+    border: 1px solid var(--border);
+    transition: .3s;
+}
+
+.subject-card:hover {
+    transform: translateY(-7px);
+    border-color: var(--primary);
+    box-shadow: 0 12px 30px #0000000c;
+}
+
+.subject-icon {
+    height: 58px;
+    width: 58px;
+    display: grid;
+    place-items: center;
+    background: var(--orange-light);
+    border-radius: 13px;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.subject-card h3 {
+    font-size: 18px;
+    margin-bottom: 13px;
+}
+
+.subject-card p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--muted);
+    min-height: 70px;
+}
+
+.subject-card button {
+    margin-top: 20px;
+    background: none;
+    border: none;
+    color: var(--primary-dark);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* =========================
+   EXAMINATION TYPES
+========================= */
+
+.exam-section {
+    background: white;
+}
+
+.exam-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 17px;
+}
+
+.exam-card {
+    background: var(--light);
+    border: 1px solid var(--border);
+    padding: 27px 15px;
+    border-radius: 12px;
+    text-align: center;
+    transition: .3s;
+}
+
+.exam-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+
+.exam-card .emoji {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.exam-card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.exam-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.feature-card {
+    background: white;
+    padding: 27px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    transition: .3s;
+}
+
+.feature-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+}
+
+.feature-card .emoji {
+    font-size: 29px;
+    margin-bottom: 17px;
+}
+
+.feature-card h3 {
+    margin-bottom: 12px;
+    font-size: 17px;
+}
+
+.feature-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* =========================
+   CALL TO ACTION
+========================= */
+
+.cta {
+    background: linear-gradient(120deg, #252525, #171717);
+    color: white;
+    text-align: center;
+    padding: 75px 7%;
+}
+
+.cta h2 {
+    font-size: 34px;
+    margin-bottom: 15px;
+}
+
+.cta h2 span {
+    color: var(--primary);
+}
+
+.cta p {
+    color: #C8C8C8;
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.7;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #111111;
+    color: white;
+    padding: 50px 7% 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-logo {
+    color: var(--primary);
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+footer h3 {
+    font-size: 16px;
+    margin-bottom: 17px;
+}
+
+footer p,
+footer a {
+    color: #AAAAAA;
+    font-size: 13px;
+    line-height: 2;
+    text-decoration: none;
+    display: block;
+}
+
+footer a:hover {
+    color: var(--primary);
+}
+
+.copyright {
+    border-top: 1px solid #FFFFFF20;
+    padding-top: 20px;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    line-height: 2;
+}
+
+/* =========================
+   LOGIN MODAL
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000000B8;
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-box {
+    background: white;
+    padding: 35px;
+    width: 100%;
+    max-width: 410px;
+    border-radius: 15px;
+    position: relative;
+    animation: appear .25s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-box h2 {
+    margin-bottom: 10px;
+}
+
+.modal-box p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 23px;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #DDD;
+    border-radius: 7px;
+    outline: none;
+}
+
+.modal-box input:focus {
+    border-color: var(--primary);
+}
+
+.modal-box .btn {
+    width: 100%;
+}
+
+.close {
+    position: absolute;
+    top: 13px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.message {
+    color: #B45309;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media(max-width: 1000px) {
+
+    .subject-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .exam-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(max-width: 750px) {
+
+    header {
+        padding: 15px 5%;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    nav {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 25px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        box-shadow: 0 10px 20px #00000015;
+    }
+
+    nav.active {
+        display: flex;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 70px 6%;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    section {
+        padding: 60px 6%;
+    }
+
+    .exam-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2,
+    .cta h2 {
+        font-size: 27px;
+    }
+}
+
+@media(max-width: 430px) {
+
+    .subject-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .exam-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+
+    .hero-card {
+        padding: 20px;
+    }
+
+    .modal-box {
+        padding: 27px 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<header>
+
+    <div class="logo">
+        Digi<span>Tech.</span>
+        <small>EXAMINATION PORTAL</small>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <nav id="navbar">
+
+        <a href="#home" onclick="closeMenu()">Home</a>
+        <a href="#subjects" onclick="closeMenu()">Subjects</a>
+        <a href="#exams" onclick="closeMenu()">Examinations</a>
+        <a href="#about" onclick="closeMenu()">About</a>
+
+        <button class="btn btn-outline"
+            onclick="openLogin('Student')">
+            Student Login
+        </button>
+
+        <button class="btn btn-primary"
+            onclick="openLogin('Admin')">
+            Admin Login
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- HERO SECTION -->
+
+<div class="hero" id="home">
+
+    <div>
+
+        <div class="hero-tag">
+            ✦ DIGITAL LEARNING & ASSESSMENT PLATFORM
+        </div>
+
+        <h1>
+            Learn Skills.<br>
+            Test Knowledge.<br>
+            <span>Build Your Future.</span>
+        </h1>
+
+        <p>
+            Welcome to DigiTech Examination Portal.
+            A centralized platform for Cyber Security,
+            Digital Skills, Coding and Humanities examinations.
+            Learn, practice and evaluate your skills.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="btn btn-primary"
+                onclick="scrollToSection('subjects')">
+                Explore Subjects →
+            </button>
+
+            <button class="btn btn-outline"
+                onclick="openLogin('Student')">
+                Student Login
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="hero-card">
+
+        <h3>📚 Examination Categories</h3>
+
+        <div class="hero-item">
+            <span class="emoji">🛡️</span>
+            <div>
+                <b>Cyber Security</b>
+                <small>Technology & Security</small>
+            </div>
+        </div>
+
+        <div class="hero-item">
+            <span class="emoji">🌐</span>
+            <div>
+                <b>Digital Skills</b>
+                <small>Computer & IT Skills</small>
+            </div>
+        </div>
+
+        <div class="hero-item">
+            <span class="emoji">💻</span>
+            <div>
+                <b>Coding – HTML</b>
+                <small>Programming & Development</small>
+            </div>
+        </div>
+
+        <div class="hero-item">
+            <span class="emoji">🎤</span>
+            <div>
+                <b>Humanities</b>
+                <small>Communication & Personality</small>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SUBJECT SECTION -->
+
+<section id="subjects">
+
+    <div class="section-heading">
+
+        <h2>Explore Our <span>Subjects</span></h2>
+
+        <p>
+            Choose your subject and develop your knowledge and skills.
+        </p>
+
+    </div>
+
+    <div class="subject-grid">
+
+        <div class="subject-card">
+
+            <div class="subject-icon">🛡️</div>
+
+            <h3>Cyber Security</h3>
+
+            <p>
+                Learn networking, cyber security fundamentals,
+                ethical hacking and digital forensics.
+            </p>
+
+            <button onclick="selectSubject('Cyber Security')">
+                Explore Subject →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">🌐</div>
+
+            <h3>Digital Skills</h3>
+
+            <p>
+                Learn computer fundamentals, MS Office,
+                internet and essential digital skills.
+            </p>
+
+            <button onclick="selectSubject('Digital Skills')">
+                Explore Subject →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">💻</div>
+
+            <h3>Coding – HTML</h3>
+
+            <p>
+                Learn HTML tags, webpage structure,
+                forms and basic web development.
+            </p>
+
+            <button onclick="selectSubject('Coding – HTML')">
+                Explore Subject →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">🎤</div>
+
+            <h3>Humanities</h3>
+
+            <p>
+                Develop communication, interview skills,
+                presentation and professional confidence.
+            </p>
+
+            <button onclick="selectSubject('Humanities')">
+                Explore Subject →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- EXAMINATION SECTION -->
+
+<section class="exam-section" id="exams">
+
+    <div class="section-heading">
+
+        <h2>Examination <span>Methods</span></h2>
+
+        <p>
+            Different assessment methods to evaluate
+            knowledge and practical skills.
+        </p>
+
+    </div>
+
+    <div class="exam-grid">
+
+        <div class="exam-card">
+            <div class="emoji">📝</div>
+            <h3>MCQ Test</h3>
+            <p>Multiple Choice Questions</p>
+        </div>
+
+        <div class="exam-card">
+            <div class="emoji">📄</div>
+            <h3>Written Exam</h3>
+            <p>Descriptive Answer Assessment</p>
+        </div>
+
+        <div class="exam-card">
+            <div class="emoji">🤝</div>
+            <h3>Interview</h3>
+            <p>Personal & Technical Interview</p>
+        </div>
+
+        <div class="exam-card">
+            <div class="emoji">📊</div>
+            <h3>Presentation</h3>
+            <p>Topic Based Presentation</p>
+        </div>
+
+        <div class="exam-card">
+            <div class="emoji">⚙️</div>
+            <h3>Practical</h3>
+            <p>Practical Skill Evaluation</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES SECTION -->
+
+<section id="about">
+
+    <div class="section-heading">
+
+        <h2>Why Choose <span>DigiTech?</span></h2>
+
+        <p>
+            A simple and organized platform for digital examinations.
+        </p>
+
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <div class="emoji">🎯</div>
+            <h3>Subject-wise Exams</h3>
+            <p>
+                Organized examinations for different
+                subjects and learning categories.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="emoji">📈</div>
+            <h3>Result Management</h3>
+            <p>
+                Students can view their examination
+                results and performance.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="emoji">🔐</div>
+            <h3>Admin Management</h3>
+            <p>
+                Centralized student, subject, examination
+                and result management.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="emoji">📱</div>
+            <h3>Mobile Friendly</h3>
+            <p>
+                Access the portal through desktop,
+                laptop, tablet and mobile devices.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="emoji">🆓</div>
+            <h3>Free Examinations</h3>
+            <p>
+                Examinations are free for registered students.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="emoji">🏆</div>
+            <h3>Certificates</h3>
+            <p>
+                Certificate management for eligible
+                students after assessment.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA SECTION -->
+
+<div class="cta">
+
+    <h2>
+        Start Your <span>Learning Journey</span>
+    </h2>
+
+    <p>
+        Explore subjects, improve your skills
+        and evaluate your knowledge with DigiTech.
+    </p>
+
+    <button class="btn btn-primary"
+        onclick="openLogin('Student')">
+        Student Login →
+    </button>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+
+            <div class="footer-logo">DigiTech.</div>
+
+            <p>
+                DigiTech Examination Portal is a digital
+                platform for subject-wise examinations,
+                skill assessment and student performance management.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <a href="#home">Home</a>
+            <a href="#subjects">Subjects</a>
+            <a href="#exams">Examinations</a>
+            <a href="#about">About Us</a>
+
+        </div>
+
+        <div>
+
+            <h3>Portal Access</h3>
+
+            <a href="#" onclick="openLogin('Student');return false;">
+                Student Login
+            </a>
+
+            <a href="#" onclick="openLogin('Admin');return false;">
+                Admin Login
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+
+        © 2026 DigiTech. All Rights Reserved.
+
+        <br>
+
+        Designed & Developed by DigiTech.
+
+    </div>
+
+</footer>
+
+
+<!-- LOGIN MODAL -->
+
+<div class="modal" id="loginModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeLogin()">×</button>
+
+        <h2 id="modalTitle">Student Login</h2>
+
+        <p>Enter your account details to continue.</p>
+
+        <form onsubmit="handleLogin(event)">
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Student ID / Admin ID"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit" class="btn btn-primary">
+                Login →
+            </button>
+
+        </form>
+
+        <div class="message" id="loginMessage"></div>
+
+    </div>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+// MOBILE MENU
+
+function toggleMenu() {
+
+    document.getElementById("navbar")
+    .classList.toggle("active");
+
+}
+
+function closeMenu() {
+
+    document.getElementById("navbar")
+    .classList.remove("active");
+
+}
+
+
+// SCROLL FUNCTION
+
+function scrollToSection(id) {
+
+    document.getElementById(id)
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+// LOGIN MODAL
+
+let selectedRole = "";
+
+function openLogin(role) {
+
+    selectedRole = role;
+
+    document.getElementById("modalTitle")
+    .innerText = role + " Login";
+
+    document.getElementById("loginMessage")
+    .innerText = "";
+
+    document.getElementById("loginModal")
+    .style.display = "flex";
+
+    closeMenu();
+
+}
+
+function closeLogin() {
+
+    document.getElementById("loginModal")
+    .style.display = "none";
+
+}
+
+
+// DEMO LOGIN
+
+// Firebase authentication will be connected
+// in the next development phase.
+
+function handleLogin(event) {
+
+    event.preventDefault();
+
+    document.getElementById("loginMessage")
+    .innerText =
+    selectedRole +
+    " login is not activated yet. Authentication will be connected in the next phase.";
+
+}
+
+
+// SUBJECT SELECTION
+
+function selectSubject(subject) {
+
+    alert(
+        subject +
+        " examinations will be available after student login and admin exam setup."
+    );
+
+}
+
+
+// CLOSE MODAL ON OUTSIDE CLICK
+
+window.addEventListener("click", function(event) {
+
+    const modal = document.getElementById("loginModal");
+
+    if (event.target === modal) {
+
+        closeLogin();
+
+    }
+
+});
+
+
+// ESCAPE KEY
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        closeLogin();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
