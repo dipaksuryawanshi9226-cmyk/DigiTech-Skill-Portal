@@ -14,103 +14,384 @@
   --light:#F7F6F3;
   --white:#FFFFFF;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:var(--light);color:#252525}
-button{cursor:pointer;border:0}
-.hidden{display:none!important}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body {
+  background:var(--light);
+  color:#252525;
+}
+
+button {
+  cursor:pointer;
+  border:0;
+}
+
+.hidden {
+  display:none!important;
+}
 
 /* LOGIN */
-.login-page{
-  min-height:100vh;display:flex;align-items:center;
-  justify-content:center;padding:20px;background:var(--dark)
+
+.login-page {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:var(--dark);
 }
-.login-card{
-  background:white;width:100%;max-width:410px;
-  padding:38px;border-radius:16px
+
+.login-card {
+  background:white;
+  width:100%;
+  max-width:410px;
+  padding:38px;
+  border-radius:16px;
 }
-.logo{font-size:27px;font-weight:800;color:var(--dark)}
-.logo span{color:var(--orange)}
-.login-card h2{margin:28px 0 8px}
-.login-card p{color:#777;font-size:14px;margin-bottom:25px}
-label{display:block;font-size:13px;font-weight:bold;margin:15px 0 7px}
-input{
-  width:100%;padding:13px;border:1px solid #ddd;
-  border-radius:7px;font-size:14px;outline:none
+
+.logo {
+  font-size:27px;
+  font-weight:800;
+  color:var(--dark);
 }
-input:focus{border-color:var(--orange)}
-.primary-btn{
-  background:var(--orange);color:#171717;
-  padding:13px 18px;border-radius:7px;font-weight:bold
+
+.logo span {
+  color:var(--orange);
 }
-.login-card .primary-btn{width:100%;margin-top:22px}
-.error{color:#d22;font-size:13px;margin-top:12px}
+
+.login-card h2 {
+  margin:28px 0 8px;
+}
+
+.login-card p {
+  color:#777;
+  font-size:14px;
+  margin-bottom:25px;
+}
+
+label {
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin:15px 0 7px;
+}
+
+input {
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus {
+  border-color:var(--orange);
+}
+
+.primary-btn {
+  background:var(--orange);
+  color:#171717;
+  padding:13px 18px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+.login-card .primary-btn {
+  width:100%;
+  margin-top:22px;
+}
+
+.error {
+  color:#d22;
+  font-size:13px;
+  margin-top:12px;
+}
 
 /* DASHBOARD */
-.layout{display:flex;min-height:100vh}
-.sidebar{
-  width:245px;background:var(--dark);color:white;
-  padding:25px 16px;flex-shrink:0
+
+.layout {
+  display:flex;
+  min-height:100vh;
 }
-.sidebar .logo{color:white;margin:0 10px 35px}
-.nav-title{color:#888;font-size:11px;margin:22px 12px 10px}
-.nav-btn{
-  width:100%;padding:13px 14px;background:transparent;
-  color:#ccc;text-align:left;border-radius:7px;margin:3px 0;
-  font-size:14px
+
+.sidebar {
+  width:245px;
+  background:var(--dark);
+  color:white;
+  padding:25px 16px;
+  flex-shrink:0;
 }
-.nav-btn:hover,.nav-btn.active{background:#333;color:var(--orange)}
-.main{flex:1;min-width:0}
-.topbar{
-  height:75px;background:white;display:flex;
-  align-items:center;justify-content:space-between;
-  padding:0 30px;border-bottom:1px solid #eee
+
+.sidebar .logo {
+  color:white;
+  margin:0 10px 35px;
 }
-.topbar h3{font-size:18px}
-.admin-label{font-size:13px;color:#777}
-.content{padding:30px}
-.welcome{margin-bottom:25px}
-.welcome h2{font-size:25px;margin-bottom:7px}
-.welcome p{color:#777;font-size:14px}
-.stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:18px;margin-bottom:28px
+
+.nav-title {
+  color:#888;
+  font-size:11px;
+  margin:22px 12px 10px;
 }
-.stat-card,.panel{
-  background:white;padding:22px;border-radius:12px;
-  border:1px solid #eee
+
+.nav-btn {
+  width:100%;
+  padding:13px 14px;
+  background:transparent;
+  color:#ccc;
+  text-align:left;
+  border-radius:7px;
+  margin:3px 0;
+  font-size:14px;
 }
-.stat-card p{font-size:13px;color:#777}
-.stat-card h2{font-size:30px;margin-top:12px}
-.stat-card .symbol{color:var(--orange);font-size:22px}
-.panel h3{margin-bottom:18px}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:620px}
-th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eee;font-size:13px}
-th{color:#777}
-.status{background:#e8f7ed;color:#168344;padding:5px 9px;border-radius:20px;font-size:11px}
-.section{display:none}
-.section.active{display:block}
-.section-heading{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;margin-bottom:20px
+
+.nav-btn:hover,
+.nav-btn.active {
+  background:#333;
+  color:var(--orange);
 }
-.section-heading h2{font-size:22px}
-.menu-toggle{display:none;background:transparent;font-size:23px}
-.logout{background:#333;color:white;padding:10px 13px;border-radius:6px}
-.empty{color:#888;font-size:14px;padding:12px 0}
-@media(max-width:800px){
-  .sidebar{width:210px}
-  .content{padding:20px}
-  .stats{grid-template-columns:1fr 1fr}
+
+.main {
+  flex:1;
+  min-width:0;
 }
-@media(max-width:600px){
-  .sidebar{display:none;position:fixed;z-index:5;height:100vh}
-  .sidebar.open{display:block}
-  .menu-toggle{display:block}
-  .topbar{padding:0 15px}
-  .content{padding:17px}
-  .stats{grid-template-columns:1fr}
-  .admin-label{display:none}
+
+.topbar {
+  height:75px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  border-bottom:1px solid #eee;
+}
+
+.topbar h3 {
+  font-size:18px;
+}
+
+.admin-label {
+  font-size:13px;
+  color:#777;
+}
+
+.content {
+  padding:30px;
+}
+
+.welcome {
+  margin-bottom:25px;
+}
+
+.welcome h2 {
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+.welcome p {
+  color:#777;
+  font-size:14px;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:28px;
+}
+
+.stat-card,
+.panel {
+  background:white;
+  padding:22px;
+  border-radius:12px;
+  border:1px solid #eee;
+}
+
+.stat-card p {
+  font-size:13px;
+  color:#777;
+}
+
+.stat-card h2 {
+  font-size:30px;
+  margin-top:12px;
+}
+
+.stat-card .symbol {
+  color:var(--orange);
+  font-size:22px;
+}
+
+.panel h3 {
+  margin-bottom:18px;
+}
+
+.table-wrap {
+  overflow-x:auto;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:620px;
+}
+
+th,td {
+  text-align:left;
+  padding:14px 10px;
+  border-bottom:1px solid #eee;
+  font-size:13px;
+}
+
+th {
+  color:#777;
+}
+
+.status {
+  background:#e8f7ed;
+  color:#168344;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+}
+
+.inactive-status {
+  background:#ffe8e8;
+  color:#c62828;
+}
+
+.section {
+  display:none;
+}
+
+.section.active {
+  display:block;
+}
+
+.section-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.section-heading h2 {
+  font-size:22px;
+}
+
+.menu-toggle {
+  display:none;
+  background:transparent;
+  font-size:23px;
+}
+
+.logout {
+  background:#333;
+  color:white;
+  padding:10px 13px;
+  border-radius:6px;
+}
+
+.empty {
+  color:#888;
+  font-size:14px;
+  padding:12px 0;
+}
+
+.action-btn {
+  padding:7px 10px;
+  border-radius:6px;
+  margin:3px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.edit-btn {
+  background:#fff0df;
+  color:#a84b00;
+}
+
+.delete-btn {
+  background:#ffe8e8;
+  color:#c62828;
+}
+
+.toggle-btn {
+  background:#eee;
+  color:#333;
+}
+
+.form-actions {
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.secondary-btn {
+  background:#eee;
+  padding:12px 18px;
+  border-radius:7px;
+}
+
+@media(max-width:800px) {
+  .sidebar {
+    width:210px;
+  }
+
+  .content {
+    padding:20px;
+  }
+
+  .stats {
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:600px) {
+  .sidebar {
+    display:none;
+    position:fixed;
+    z-index:5;
+    height:100vh;
+  }
+
+  .sidebar.open {
+    display:block;
+  }
+
+  .menu-toggle {
+    display:block;
+  }
+
+  .topbar {
+    padding:0 15px;
+  }
+
+  .content {
+    padding:17px;
+  }
+
+  .stats {
+    grid-template-columns:1fr;
+  }
+
+  .admin-label {
+    display:none;
+  }
+
+  .section-heading {
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 </style>
 </head>
@@ -118,13 +399,18 @@ th{color:#777}
 <body>
 
 <!-- ADMIN LOGIN -->
+
 <div class="login-page" id="loginPage">
+
   <div class="login-card">
+
     <div class="logo">Digi<span>Tech</span></div>
+
     <h2>Admin Login</h2>
     <p>Sign in to manage the Examination Portal.</p>
 
     <form id="loginForm">
+
       <label>Email Address</label>
       <input type="email" id="email"
         placeholder="Enter admin email" required>
@@ -138,51 +424,77 @@ th{color:#777}
       </button>
 
       <div class="error" id="error"></div>
+
     </form>
+
   </div>
 </div>
 
+
 <!-- ADMIN DASHBOARD -->
+
 <div class="layout hidden" id="dashboard">
 
   <aside class="sidebar" id="sidebar">
+
     <div class="logo">Digi<span>Tech</span></div>
 
     <div class="nav-title">MAIN MENU</div>
 
     <button class="nav-btn active"
-      onclick="showSection('overview',this)">▦ Dashboard</button>
+      onclick="showSection('overview',this)">
+      ▦ Dashboard
+    </button>
 
     <button class="nav-btn"
-      onclick="showSection('students',this)">♙ Students</button>
+      onclick="showSection('students',this)">
+      ♙ Students
+    </button>
 
     <button class="nav-btn"
-      onclick="showSection('subjects',this)">▤ Subjects</button>
+      onclick="showSection('subjects',this)">
+      ▤ Subjects
+    </button>
 
     <button class="nav-btn"
-      onclick="showSection('exams',this)">✎ Examinations</button>
+      onclick="showSection('exams',this)">
+      ✎ Examinations
+    </button>
 
     <button class="nav-btn"
-      onclick="showSection('results',this)">▥ Results</button>
+      onclick="showSection('results',this)">
+      ▥ Results
+    </button>
 
     <div class="nav-title">ACCOUNT</div>
 
-    <button class="nav-btn" onclick="logout()">↪ Logout</button>
+    <button class="nav-btn" onclick="logout()">
+      ↪ Logout
+    </button>
+
   </aside>
+
 
   <main class="main">
 
     <header class="topbar">
+
       <div style="display:flex;align-items:center;gap:12px">
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <h3>Admin Panel</h3>
       </div>
-      <div class="admin-label">Administrator | DigiTech</div>
+
+      <div class="admin-label">
+        Administrator | DigiTech
+      </div>
+
     </header>
+
 
     <div class="content">
 
       <!-- OVERVIEW -->
+
       <section class="section active" id="overview">
 
         <div class="welcome">
@@ -200,13 +512,13 @@ th{color:#777}
 
           <div class="stat-card">
             <p>Total Subjects</p>
-            <h2>4</h2>
+            <h2 id="subjectCount">0</h2>
             <span class="symbol">▤</span>
           </div>
 
           <div class="stat-card">
             <p>Total Examinations</p>
-            <h2>0</h2>
+            <h2 id="examCount">0</h2>
             <span class="symbol">✎</span>
           </div>
 
@@ -219,19 +531,24 @@ th{color:#777}
             Use the sidebar to manage students, subjects and examinations.
           </p>
         </div>
+
       </section>
 
+
       <!-- STUDENTS -->
+
       <section class="section" id="students">
 
         <div class="section-heading">
           <h2>Student Management</h2>
+
           <button class="primary-btn" onclick="showStudentForm()">
             + Add Student
           </button>
         </div>
 
         <div class="panel hidden" id="studentForm">
+
           <h3>Create Student Record</h3>
 
           <form id="addStudentForm">
@@ -248,23 +565,31 @@ th{color:#777}
             <input id="studentId" required
               placeholder="Enter student ID">
 
-            <br><br>
+            <div class="form-actions">
 
-            <button class="primary-btn" type="submit">
-              Save Student
-            </button>
+              <button class="primary-btn" type="submit">
+                Save Student
+              </button>
 
-            <button type="button" onclick="hideStudentForm()"
-              style="padding:12px">Cancel</button>
+              <button type="button" class="secondary-btn"
+                onclick="hideStudentForm()">
+                Cancel
+              </button>
+
+            </div>
 
           </form>
         </div>
 
+
         <div class="panel" style="margin-top:18px">
+
           <h3>Registered Students</h3>
 
           <div class="table-wrap">
+
             <table>
+
               <thead>
                 <tr>
                   <th>Name</th>
@@ -277,34 +602,99 @@ th{color:#777}
 
               <tbody id="studentTable">
                 <tr>
-                  <td colspan="5">No students added yet.</td>
+                  <td colspan="5">Loading students...</td>
                 </tr>
               </tbody>
+
             </table>
+
           </div>
         </div>
 
       </section>
 
+
       <!-- SUBJECTS -->
+
       <section class="section" id="subjects">
 
         <div class="section-heading">
-          <h2>Subjects</h2>
+
+          <h2>Subject Management</h2>
+
+          <button class="primary-btn" onclick="showSubjectForm()">
+            + Add Subject
+          </button>
+
         </div>
 
-        <div class="panel">
+
+        <div class="panel hidden" id="subjectForm">
+
+          <h3 id="subjectFormTitle">Add New Subject</h3>
+
+          <form id="addSubjectForm">
+
+            <label>Subject Name</label>
+            <input id="subjectName" required
+              placeholder="Enter subject name">
+
+            <label>Subject Description</label>
+            <input id="subjectDescription"
+              placeholder="Enter subject description">
+
+            <div class="form-actions">
+
+              <button class="primary-btn" type="submit">
+                Save Subject
+              </button>
+
+              <button type="button" class="secondary-btn"
+                onclick="hideSubjectForm()">
+                Cancel
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+        <div class="panel" style="margin-top:18px">
+
           <h3>Available Subjects</h3>
 
-          <p class="empty">1. Cyber Security</p>
-          <p class="empty">2. Digital Skills</p>
-          <p class="empty">3. Coding – HTML</p>
-          <p class="empty">4. Humanities & Personality Development</p>
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Subject Name</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="subjectTable">
+                <tr>
+                  <td colspan="4">Loading subjects...</td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
         </div>
 
       </section>
 
-      <!-- EXAMS -->
+
+      <!-- EXAMINATIONS -->
+
       <section class="section" id="exams">
 
         <div class="section-heading">
@@ -312,15 +702,20 @@ th{color:#777}
         </div>
 
         <div class="panel">
+
           <h3>Examination Management</h3>
+
           <p class="empty">
             Exam creation and publishing module will be added next.
           </p>
+
         </div>
 
       </section>
 
+
       <!-- RESULTS -->
+
       <section class="section" id="results">
 
         <div class="section-heading">
@@ -328,20 +723,27 @@ th{color:#777}
         </div>
 
         <div class="panel">
+
           <h3>Student Results</h3>
+
           <p class="empty">
             Student examination results will appear here after
             the exam module is connected.
           </p>
+
         </div>
 
       </section>
 
     </div>
+
   </main>
+
 </div>
 
-<!-- FIREBASE + JAVASCRIPT -->
+
+<!-- FIREBASE JAVASCRIPT -->
+
 <script type="module">
 
 import {
@@ -362,6 +764,7 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  updateDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
@@ -385,7 +788,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 
-/* ADMIN EMAIL */
+/* ADMIN DETAILS */
 
 const ADMIN_EMAIL = "digitechecosystem@gmail.com";
 const ADMIN_UID = "Pzdm5hd10gQFPtlv6YZVUdyW2wq1";
@@ -399,15 +802,27 @@ const errorBox = document.getElementById("error");
 const loginButton = document.getElementById("loginButton");
 
 
-/* AUTHENTICATION SESSION CHECK */
+/* COLLECTIONS */
+
+const studentCollection = collection(db, "students");
+const subjectCollection = collection(db, "subjects");
+
+
+/* AUTHENTICATION */
 
 onAuthStateChanged(auth, async (user) => {
 
-  if (user && user.email === ADMIN_EMAIL && user.uid === ADMIN_UID) {
+  if (
+    user &&
+    user.email === ADMIN_EMAIL &&
+    user.uid === ADMIN_UID
+  ) {
 
     loginPage.classList.add("hidden");
     dashboard.classList.remove("hidden");
+
     await loadStudents();
+    await loadSubjects();
 
   } else {
 
@@ -416,6 +831,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (user) {
       await signOut(auth);
+      errorBox.textContent = "You are not authorized as Admin.";
     }
 
   }
@@ -425,7 +841,8 @@ onAuthStateChanged(auth, async (user) => {
 
 /* ADMIN LOGIN */
 
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
+document.getElementById("loginForm")
+.addEventListener("submit", async (e) => {
 
   e.preventDefault();
 
@@ -444,17 +861,21 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       password
     );
 
-    if (result.user.email !== ADMIN_EMAIL || result.user.uid !== ADMIN_UID) {
+    if (
+      result.user.email !== ADMIN_EMAIL ||
+      result.user.uid !== ADMIN_UID
+    ) {
 
       await signOut(auth);
 
-      errorBox.textContent = "You are not authorized as Admin.";
+      errorBox.textContent =
+        "You are not authorized as Admin.";
 
     }
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Login error:", error);
 
     errorBox.textContent =
       "Login failed. Please check your email and password.";
@@ -504,99 +925,121 @@ window.showSection = function(id, button) {
 
 
 window.toggleMenu = function() {
-
   document.getElementById("sidebar").classList.toggle("open");
-
 };
 
 
 /* STUDENT FORM */
 
 window.showStudentForm = function() {
-
   document.getElementById("studentForm").classList.remove("hidden");
-
 };
 
 
 window.hideStudentForm = function() {
-
   document.getElementById("studentForm").classList.add("hidden");
-
 };
 
 
-/* FIRESTORE STUDENT MANAGEMENT */
+/* STUDENT MANAGEMENT */
 
-const studentCollection = collection(db, "students");
 const studentTable = document.getElementById("studentTable");
 const studentCount = document.getElementById("studentCount");
 
+
 async function loadStudents() {
-  studentTable.innerHTML = '<tr><td colspan="5">Loading students...</td></tr>';
+
+  studentTable.innerHTML =
+    '<tr><td colspan="5">Loading students...</td></tr>';
 
   try {
+
     const snapshot = await getDocs(studentCollection);
+
     const students = snapshot.docs.map(studentDoc => ({
       firestoreId: studentDoc.id,
       ...studentDoc.data()
     }));
 
     renderStudents(students);
+
   } catch (error) {
+
     console.error("Load students error:", error);
+
     studentTable.innerHTML =
-      '<tr><td colspan="5">Unable to load students. Check Firestore rules and connection.</td></tr>';
+      '<tr><td colspan="5">Unable to load students. Check Firestore Rules.</td></tr>';
+
   }
+
 }
 
+
 function renderStudents(students) {
+
   studentCount.textContent = students.length;
   studentTable.innerHTML = "";
 
   if (students.length === 0) {
+
     studentTable.innerHTML =
       '<tr><td colspan="5">No students added yet.</td></tr>';
+
     return;
   }
 
   students.forEach(student => {
+
     const row = document.createElement("tr");
 
     [student.name || "", student.email || "", student.studentId || ""]
       .forEach(value => {
+
         const cell = document.createElement("td");
         cell.textContent = value;
         row.appendChild(cell);
+
       });
 
     const statusCell = document.createElement("td");
+
     const badge = document.createElement("span");
     badge.className = "status";
     badge.textContent = student.status || "Active";
+
     statusCell.appendChild(badge);
     row.appendChild(statusCell);
 
     const actionCell = document.createElement("td");
+
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
     deleteButton.textContent = "Delete";
-    deleteButton.style.cssText =
-      "background:#fff0df;color:#a84b00;padding:7px 10px;border-radius:6px;font-weight:bold";
+    deleteButton.className = "action-btn delete-btn";
+
     deleteButton.addEventListener("click", () => {
       deleteStudent(student.firestoreId);
     });
+
     actionCell.appendChild(deleteButton);
     row.appendChild(actionCell);
 
     studentTable.appendChild(row);
+
   });
+
 }
 
-document.getElementById("addStudentForm").addEventListener("submit", async function(e) {
+
+/* ADD STUDENT */
+
+document.getElementById("addStudentForm")
+.addEventListener("submit", async function(e) {
+
   e.preventDefault();
 
   const saveButton = this.querySelector('button[type="submit"]');
+
   saveButton.disabled = true;
   saveButton.textContent = "Saving...";
 
@@ -610,36 +1053,372 @@ document.getElementById("addStudentForm").addEventListener("submit", async funct
   };
 
   try {
+
     await addDoc(studentCollection, student);
+
     this.reset();
     window.hideStudentForm();
+
     await loadStudents();
+
     alert("Student record saved successfully!");
+
   } catch (error) {
+
     console.error("Save student error:", error);
-    alert("Student could not be saved. Please check Firestore Rules and try again.");
+
+    alert("Student could not be saved. Check Firestore Rules.");
+
   } finally {
+
     saveButton.disabled = false;
     saveButton.textContent = "Save Student";
+
   }
+
 });
 
+
+/* DELETE STUDENT RECORD */
+
 async function deleteStudent(studentDocumentId) {
-  const confirmed = confirm("Are you sure you want to delete this student record?");
+
+  const confirmed = confirm(
+    "Are you sure you want to delete this student record?"
+  );
+
   if (!confirmed) return;
 
   try {
+
     await deleteDoc(doc(db, "students", studentDocumentId));
+
     await loadStudents();
+
     alert("Student record deleted.");
+
   } catch (error) {
+
     console.error("Delete student error:", error);
-    alert("Could not delete student record. Please try again.");
+
+    alert("Could not delete student record.");
+
   }
+
 }
 
-/* Load count and student records from Firestore after admin login.
-   Student profiles created here do not create Firebase Auth accounts. */
+
+/* SUBJECT MANAGEMENT */
+
+const subjectTable = document.getElementById("subjectTable");
+const subjectCount = document.getElementById("subjectCount");
+
+let editingSubjectId = null;
+
+
+/* SHOW SUBJECT FORM */
+
+window.showSubjectForm = function() {
+
+  editingSubjectId = null;
+
+  document.getElementById("addSubjectForm").reset();
+
+  document.getElementById("subjectFormTitle").textContent =
+    "Add New Subject";
+
+  document.getElementById("subjectForm")
+    .classList.remove("hidden");
+
+};
+
+
+/* HIDE SUBJECT FORM */
+
+window.hideSubjectForm = function() {
+
+  document.getElementById("subjectForm")
+    .classList.add("hidden");
+
+  editingSubjectId = null;
+
+};
+
+
+/* LOAD SUBJECTS */
+
+async function loadSubjects() {
+
+  subjectTable.innerHTML =
+    '<tr><td colspan="4">Loading subjects...</td></tr>';
+
+  try {
+
+    const snapshot = await getDocs(subjectCollection);
+
+    const subjects = snapshot.docs.map(subjectDoc => ({
+      id: subjectDoc.id,
+      ...subjectDoc.data()
+    }));
+
+    renderSubjects(subjects);
+
+  } catch (error) {
+
+    console.error("Subject loading error:", error);
+
+    subjectTable.innerHTML =
+      '<tr><td colspan="4">Unable to load subjects. Check Firestore Rules.</td></tr>';
+
+  }
+
+}
+
+
+/* DISPLAY SUBJECTS */
+
+function renderSubjects(subjects) {
+
+  subjectCount.textContent = subjects.length;
+  subjectTable.innerHTML = "";
+
+  if (subjects.length === 0) {
+
+    subjectTable.innerHTML =
+      '<tr><td colspan="4">No subjects added yet.</td></tr>';
+
+    return;
+  }
+
+  subjects.forEach(subject => {
+
+    const row = document.createElement("tr");
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = subject.name || "";
+
+    const descriptionCell = document.createElement("td");
+    descriptionCell.textContent = subject.description || "-";
+
+    const statusCell = document.createElement("td");
+
+    const statusBadge = document.createElement("span");
+    statusBadge.className = "status";
+    statusBadge.textContent = subject.status || "Active";
+
+    if (subject.status === "Inactive") {
+      statusBadge.classList.add("inactive-status");
+    }
+
+    statusCell.appendChild(statusBadge);
+
+    const actionCell = document.createElement("td");
+
+    /* EDIT BUTTON */
+
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.className = "action-btn edit-btn";
+
+    editButton.addEventListener("click", () => {
+      window.editSubject(
+        subject.id,
+        subject.name,
+        subject.description
+      );
+    });
+
+    /* STATUS BUTTON */
+
+    const statusButton = document.createElement("button");
+
+    statusButton.textContent =
+      subject.status === "Inactive" ? "Activate" : "Deactivate";
+
+    statusButton.className = "action-btn toggle-btn";
+
+    statusButton.addEventListener("click", () => {
+      window.toggleSubjectStatus(
+        subject.id,
+        subject.status || "Active"
+      );
+    });
+
+    /* DELETE BUTTON */
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.className = "action-btn delete-btn";
+
+    deleteButton.addEventListener("click", () => {
+      window.deleteSubject(subject.id);
+    });
+
+    actionCell.append(
+      editButton,
+      statusButton,
+      deleteButton
+    );
+
+    row.append(
+      nameCell,
+      descriptionCell,
+      statusCell,
+      actionCell
+    );
+
+    subjectTable.appendChild(row);
+
+  });
+
+}
+
+
+/* ADD OR UPDATE SUBJECT */
+
+document.getElementById("addSubjectForm")
+.addEventListener("submit", async function(e) {
+
+  e.preventDefault();
+
+  const saveButton = this.querySelector('button[type="submit"]');
+
+  saveButton.disabled = true;
+  saveButton.textContent = "Saving...";
+
+  const subject = {
+    name: document.getElementById("subjectName").value.trim(),
+    description: document.getElementById("subjectDescription").value.trim()
+  };
+
+  if (!subject.name) {
+    alert("Please enter subject name.");
+    saveButton.disabled = false;
+    saveButton.textContent = "Save Subject";
+    return;
+  }
+
+  try {
+
+    if (editingSubjectId) {
+
+      await updateDoc(
+        doc(db, "subjects", editingSubjectId),
+        {
+          ...subject,
+          updatedAt: serverTimestamp()
+        }
+      );
+
+      alert("Subject updated successfully!");
+
+    } else {
+
+      await addDoc(subjectCollection, {
+        ...subject,
+        status: "Active",
+        createdAt: serverTimestamp()
+      });
+
+      alert("Subject added successfully!");
+
+    }
+
+    this.reset();
+    window.hideSubjectForm();
+
+    await loadSubjects();
+
+  } catch (error) {
+
+    console.error("Subject save error:", error);
+
+    alert("Subject could not be saved. Check Firestore Rules.");
+
+  } finally {
+
+    saveButton.disabled = false;
+    saveButton.textContent = "Save Subject";
+
+  }
+
+});
+
+
+/* EDIT SUBJECT */
+
+window.editSubject = function(id, name, description) {
+
+  editingSubjectId = id;
+
+  document.getElementById("subjectName").value = name || "";
+
+  document.getElementById("subjectDescription").value =
+    description || "";
+
+  document.getElementById("subjectFormTitle").textContent =
+    "Edit Subject";
+
+  document.getElementById("subjectForm")
+    .classList.remove("hidden");
+
+};
+
+
+/* ACTIVATE / DEACTIVATE SUBJECT */
+
+window.toggleSubjectStatus = async function(id, currentStatus) {
+
+  const newStatus =
+    currentStatus === "Active" ? "Inactive" : "Active";
+
+  try {
+
+    await updateDoc(doc(db, "subjects", id), {
+      status: newStatus,
+      updatedAt: serverTimestamp()
+    });
+
+    await loadSubjects();
+
+  } catch (error) {
+
+    console.error("Status update error:", error);
+
+    alert("Unable to update subject status.");
+
+  }
+
+};
+
+
+/* DELETE SUBJECT */
+
+window.deleteSubject = async function(id) {
+
+  const confirmed = confirm(
+    "Are you sure you want to delete this subject?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+
+    await deleteDoc(doc(db, "subjects", id));
+
+    await loadSubjects();
+
+    alert("Subject deleted successfully!");
+
+  } catch (error) {
+
+    console.error("Delete subject error:", error);
+
+    alert("Unable to delete subject.");
+
+  }
+
+};
 
 </script>
 
