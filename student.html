@@ -423,7 +423,7 @@ async function loadPublishedExams() {
       meta.className = "exam-meta";
 
       const duration = document.createElement("span");
-      duration.textContent = "Duration: " + (exam.duration ?? "—") + " minutes";
+      duration.textContent = "Duration: " + (exam.durationMinutes ?? exam.duration ?? "—") + " minutes";
 
       const questions = document.createElement("span");
       questions.textContent = "Questions: " + (exam.questionCount ?? "Not specified");
@@ -527,7 +527,7 @@ async function startExam(examId, exam) {
     return;
   }
 
-  const duration = Number(exam.duration);
+  const duration = Number(exam.durationMinutes ?? exam.duration);
 
   if (!Number.isFinite(duration) || duration <= 0) {
     alert("Ya examination cha duration Admin ne set kelela nahi.");
