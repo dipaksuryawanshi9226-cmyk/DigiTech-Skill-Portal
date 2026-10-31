@@ -6,82 +6,142 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#171717">
 <title>Student Portal | DigiTech</title>
+
 <style>
-:root{--orange:#FF8A24;--dark:#171717;--dark2:#252525;--page:#F7F6F3;--text:#252525;--muted:#77736e;--light:#FFF0DF;--border:#e9e5df;--green:#16834a;--red:#c0392b}
+:root{
+  --orange:#FF8A24;--dark:#171717;--dark2:#252525;
+  --page:#F7F6F3;--text:#252525;--muted:#77736e;
+  --light:#FFF0DF;--border:#e9e5df;
+  --green:#16834a;--red:#c0392b;
+}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--text);min-height:100vh}
-button,input{font:inherit}.hidden{display:none!important}
+button,input{font:inherit}
+.hidden{display:none!important}
 header{background:var(--dark);color:white;padding:16px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:12px;background:var(--orange);color:var(--dark);display:grid;place-items:center;font-size:21px;font-weight:900}
-.brand-name{font-size:17px;font-weight:800}.brand-sub{font-size:11px;color:#c9c4bd;margin-top:3px}.top-label{font-size:13px;color:#d8d3cc}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:42px;height:42px;border-radius:12px;background:var(--orange);color:var(--dark);display:grid;place-items:center;font-size:21px;font-weight:900}
+.brand-name{font-size:17px;font-weight:800}
+.brand-sub{font-size:11px;color:#c9c4bd;margin-top:3px}
+.top-label{font-size:13px;color:#d8d3cc}
 .wrap{width:min(1120px,92%);margin:38px auto}
 .login-shell{max-width:470px;margin:52px auto;background:white;border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 16px 45px #17171712}
-.login-head{background:var(--dark2);padding:30px;color:white}.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
-.login-head h1{margin:10px 0 7px;font-size:27px}.login-head p{margin:0;color:#d4d0ca;line-height:1.6;font-size:13px}
-.login-form{padding:28px 30px 30px}.field{margin-bottom:18px}label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.login-head{background:var(--dark2);padding:30px;color:white}
+.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+.login-head h1{margin:10px 0 7px;font-size:27px}
+.login-head p{margin:0;color:#d4d0ca;line-height:1.6;font-size:13px}
+.login-form{padding:28px 30px 30px}
+.field{margin-bottom:18px}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
 input{width:100%;border:1px solid var(--border);border-radius:10px;padding:13px 14px;outline:none}
 input:focus{border-color:var(--orange);box-shadow:0 0 0 3px #ff8a2422}
 .primary{width:100%;border:0;border-radius:10px;padding:14px;background:var(--orange);color:var(--dark);font-weight:800;cursor:pointer}
-.primary:disabled{opacity:.65;cursor:wait}.message{min-height:20px;margin:12px 0 0;font-size:13px;line-height:1.5}
-.error{color:var(--red)}.success{color:var(--green)}.login-note{color:var(--muted);font-size:12px;line-height:1.6;margin-top:20px}
+.primary:disabled{opacity:.65;cursor:wait}
+.message{min-height:20px;margin:12px 0 0;font-size:13px;line-height:1.5}
+.error{color:var(--red)}
+.success{color:var(--green)}
+.login-note{color:var(--muted);font-size:12px;line-height:1.6;margin-top:20px}
 .dash-head{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:25px;flex-wrap:wrap}
 .kicker{color:#a45a12;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
-.dash-head h1{margin:7px 0 5px;font-size:clamp(25px,4vw,34px)}.dash-head p{margin:0;color:var(--muted);font-size:14px}
+.dash-head h1{margin:7px 0 5px;font-size:clamp(25px,4vw,34px)}
+.dash-head p{margin:0;color:var(--muted);font-size:14px}
 .logout{border:1px solid #ded8d0;background:white;border-radius:10px;padding:11px 17px;font-weight:700;cursor:pointer}
 .profile{background:var(--dark);color:white;border-radius:18px;padding:25px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:20px;margin-bottom:25px;box-shadow:0 16px 45px #17171712}
-.profile-main{display:flex;align-items:center;gap:15px}.avatar{width:55px;height:55px;flex:0 0 55px;border-radius:16px;display:grid;place-items:center;background:var(--orange);color:var(--dark);font-size:22px;font-weight:900}
-.profile-main h2{font-size:19px;margin:0 0 5px}.profile-main p{color:#c9c4bd;margin:0;font-size:12px;overflow-wrap:anywhere}
-.profile-item{border-left:1px solid #454545;padding-left:20px;align-self:center}.profile-item>span{display:block;color:#c9c4bd;font-size:11px;margin-bottom:7px}
-.profile-item strong{font-size:15px;overflow-wrap:anywhere}.status{display:inline-block;color:#8ce0ad;background:#23a45b29;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800}
-.section-title{font-size:18px;margin:28px 0 14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.profile-main{display:flex;align-items:center;gap:15px}
+.avatar{width:55px;height:55px;flex:0 0 55px;border-radius:16px;display:grid;place-items:center;background:var(--orange);color:var(--dark);font-size:22px;font-weight:900}
+.profile-main h2{font-size:19px;margin:0 0 5px}
+.profile-main p{color:#c9c4bd;margin:0;font-size:12px;overflow-wrap:anywhere}
+.profile-item{border-left:1px solid #454545;padding-left:20px;align-self:center}
+.profile-item>span{display:block;color:#c9c4bd;font-size:11px;margin-bottom:7px}
+.profile-item strong{font-size:15px;overflow-wrap:anywhere}
+.status{display:inline-block;color:#8ce0ad;background:#23a45b29;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.section-title{font-size:18px;margin:28px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
 .card{background:white;border:1px solid var(--border);border-radius:16px;padding:22px;min-height:155px}
 .ico{width:42px;height:42px;display:grid;place-items:center;background:var(--light);border-radius:12px;font-size:20px;margin-bottom:14px}
-.card h3{margin:0 0 7px;font-size:16px}.card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.card h3{margin:0 0 7px;font-size:16px}
+.card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
 .soon{display:inline-block;margin-top:12px;font-size:10px;font-weight:800;letter-spacing:.7px;color:#a45a12;background:var(--light);padding:5px 8px;border-radius:6px}
-.exam-list{display:grid;gap:12px;margin-top:16px}.exam-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px}
-.exam-item h3{font-size:16px;margin:0 0 8px}.exam-subject{font-size:13px;color:var(--muted);margin:0 0 13px}
-.exam-meta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.exam-meta span{background:var(--light);color:#75400f;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
+.exam-list{display:grid;gap:12px;margin-top:16px}
+.exam-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px}
+.exam-item h3{font-size:16px;margin:0 0 8px}
+.exam-subject{font-size:13px;color:var(--muted);margin:0 0 13px}
+.exam-meta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.exam-meta span{background:var(--light);color:#75400f;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
 .exam-status{display:inline-block;color:var(--green);background:#e7f5ec;padding:5px 9px;border-radius:7px;font-size:10px;font-weight:800;margin-bottom:10px}
-.exam-info{font-size:13px;color:var(--muted);line-height:1.6}.empty-exams{background:white;border:1px dashed #d8d0c7;border-radius:14px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
+.exam-info{font-size:13px;color:var(--muted);line-height:1.6}
+.empty-exams{background:white;border:1px dashed #d8d0c7;border-radius:14px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
 .notice{margin-top:22px;padding:15px 17px;border-radius:12px;background:var(--light);color:#75400f;font-size:12px;line-height:1.6}
 footer{text-align:center;color:#938d85;font-size:11px;padding:25px 10px 35px}
 .start-exam{border:0;border-radius:9px;background:var(--orange);color:var(--dark);padding:11px 18px;font-size:12px;font-weight:800;cursor:pointer}
 .start-exam:disabled{opacity:.5;cursor:not-allowed}
-.resume-exam{background:var(--dark);color:white}.completed-exam{background:#e7f5ec;color:var(--green);cursor:not-allowed}
+.resume-exam{background:var(--dark);color:white}
+.completed-exam{background:#e7f5ec;color:var(--green);cursor:not-allowed}
 .exam-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:20px}
-.exam-top h1{font-size:25px;margin:6px 0}.timer{background:var(--dark);color:white;padding:13px 18px;border-radius:12px;font-size:20px;font-weight:900;min-width:125px;text-align:center}
-.timer.warning{background:#b72d20}.exam-instructions{background:var(--light);color:#75400f;padding:14px 16px;border-radius:12px;font-size:12px;line-height:1.6;margin-bottom:20px}
+.exam-top h1{font-size:25px;margin:6px 0}
+.timer{background:var(--dark);color:white;padding:13px 18px;border-radius:12px;font-size:20px;font-weight:900;min-width:125px;text-align:center}
+.timer.warning{background:#b72d20}
+.exam-instructions{background:var(--light);color:#75400f;padding:14px 16px;border-radius:12px;font-size:12px;line-height:1.6;margin-bottom:20px}
 .question-card{background:white;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:15px}
 .question-number{color:#a45a12;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px}
 .question-text{font-size:16px;font-weight:700;line-height:1.6;margin-bottom:16px;white-space:pre-wrap}
 .option{display:flex;align-items:flex-start;gap:11px;padding:12px;border:1px solid var(--border);border-radius:10px;margin:9px 0;cursor:pointer;font-size:14px;line-height:1.5}
-.option:hover{border-color:var(--orange);background:#fffaf4}.option input{width:17px;height:17px;flex:0 0 17px;margin:1px 0 0;accent-color:var(--orange)}
+.option:hover{border-color:var(--orange);background:#fffaf4}
+.option input{width:17px;height:17px;flex:0 0 17px;margin:1px 0 0;accent-color:var(--orange)}
 .option.selected{border-color:var(--orange);background:#fff5e9}
 .exam-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
-.exam-bottom p{font-size:12px;color:var(--muted)}.submit-exam{border:0;border-radius:10px;background:var(--dark);color:white;padding:14px 22px;font-weight:800;cursor:pointer}
-.submit-exam:disabled{opacity:.5;cursor:wait}.cancel-exam{border:1px solid var(--border);background:white;border-radius:10px;padding:12px 17px;font-weight:700;cursor:pointer}
+.exam-bottom p{font-size:12px;color:var(--muted)}
+.submit-exam{border:0;border-radius:10px;background:var(--dark);color:white;padding:14px 22px;font-weight:800;cursor:pointer}
+.submit-exam:disabled{opacity:.5;cursor:wait}
 .confirm-card,.submitted-card{max-width:550px;margin:50px auto;background:white;border:1px solid var(--border);border-radius:20px;padding:35px;text-align:center}
-.submitted-card h1{margin:12px 0;font-size:25px}.submitted-card p{color:var(--muted);font-size:14px;line-height:1.7}
+.submitted-card h1{margin:12px 0;font-size:25px}
+.submitted-card p{color:var(--muted);font-size:14px;line-height:1.7}
 .submitted-icon{width:65px;height:65px;border-radius:50%;background:#e7f5ec;color:var(--green);display:grid;place-items:center;font-size:32px;margin:0 auto 18px}
 .submitted-card .primary{margin-top:15px}
 .exam-exit{border:1px solid #ded8d0;background:white;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;margin-bottom:15px}
-@media(max-width:700px){header{padding:14px 4%}.top-label{display:none}.wrap{margin:25px auto}.profile{grid-template-columns:1fr;gap:18px}.profile-item{border-left:0;border-top:1px solid #454545;padding:15px 0 0}.grid{grid-template-columns:1fr}}
-@media(max-width:420px){.login-head,.login-form{padding:23px 20px}.question-card{padding:15px}}
+@media(max-width:700px){
+  header{padding:14px 4%}.top-label{display:none}.wrap{margin:25px auto}
+  .profile{grid-template-columns:1fr;gap:18px}
+  .profile-item{border-left:0;border-top:1px solid #454545;padding:15px 0 0}
+  .grid{grid-template-columns:1fr}
+}
+@media(max-width:420px){
+  .login-head,.login-form{padding:23px 20px}
+  .question-card{padding:15px}
+}
 </style>
 </head>
+
 <body>
 <header>
-  <div class="brand"><div class="mark">D</div><div><div class="brand-name">DigiTech</div><div class="brand-sub">Examination Portal</div></div></div>
+  <div class="brand">
+    <div class="mark">D</div>
+    <div>
+      <div class="brand-name">DigiTech</div>
+      <div class="brand-sub">Examination Portal</div>
+    </div>
+  </div>
   <div class="top-label">Student Learning & Assessment Portal</div>
 </header>
 
 <main>
+
 <section id="loginView" class="wrap">
   <div class="login-shell">
-    <div class="login-head"><div class="eyebrow">Student Access</div><h1>Welcome Back</h1><p>Login using the email address and password provided by your administrator.</p></div>
+    <div class="login-head">
+      <div class="eyebrow">Student Access</div>
+      <h1>Welcome Back</h1>
+      <p>Login using the email address and password provided by your administrator.</p>
+    </div>
     <form id="loginForm" class="login-form">
-      <div class="field"><label for="email">Student Email</label><input id="email" type="email" placeholder="Enter your registered email" autocomplete="username" required></div>
-      <div class="field"><label for="password">Password</label><input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required></div>
+      <div class="field">
+        <label for="email">Student Email</label>
+        <input id="email" type="email" placeholder="Enter your registered email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+      </div>
       <button id="loginButton" class="primary" type="submit">Login to Student Portal</button>
       <p id="loginMessage" class="message" role="status"></p>
       <p class="login-note">Login details are provided by DigiTech Admin. If you cannot access your account, contact your administrator.</p>
@@ -90,297 +150,954 @@ footer{text-align:center;color:#938d85;font-size:11px;padding:25px 10px 35px}
 </section>
 
 <section id="dashboardView" class="wrap hidden">
-  <div class="dash-head"><div><div class="kicker">Student Dashboard</div><h1 id="welcomeTitle">Welcome, Student</h1><p>Your examination and learning information in one place.</p></div><button id="logoutButton" class="logout" type="button">Logout</button></div>
-  <div class="profile">
-    <div class="profile-main"><div class="avatar" id="studentInitial">S</div><div><h2 id="studentName">Student Name</h2><p id="studentEmail">student@example.com</p></div></div>
-    <div class="profile-item"><span>STUDENT ID</span><strong id="studentId">—</strong></div>
-    <div class="profile-item"><span>ACCOUNT STATUS</span><strong><span class="status" id="studentStatus">Active</span></strong></div>
+  <div class="dash-head">
+    <div>
+      <div class="kicker">Student Dashboard</div>
+      <h1 id="welcomeTitle">Welcome, Student</h1>
+      <p>Your examination and learning information in one place.</p>
+    </div>
+    <button id="logoutButton" class="logout" type="button">Logout</button>
   </div>
+
+  <div class="profile">
+    <div class="profile-main">
+      <div class="avatar" id="studentInitial">S</div>
+      <div>
+        <h2 id="studentName">Student Name</h2>
+        <p id="studentEmail">student@example.com</p>
+      </div>
+    </div>
+    <div class="profile-item">
+      <span>STUDENT ID</span>
+      <strong id="studentId">—</strong>
+    </div>
+    <div class="profile-item">
+      <span>ACCOUNT STATUS</span>
+      <strong><span class="status" id="studentStatus">Active</span></strong>
+    </div>
+  </div>
+
   <h2 class="section-title">My Portal</h2>
   <div class="grid">
-    <article class="card"><div class="ico">📝</div><h3>Examinations</h3><p>Your published examinations are listed below. Start an exam when you are ready.</p><span class="soon">PUBLISHED EXAMS</span></article>
-    <article class="card"><div class="ico">🏆</div><h3>My Results</h3><p>Results are managed by DigiTech Admin.</p><span class="soon">ADMIN MANAGED</span></article>
+    <article class="card">
+      <div class="ico">📝</div>
+      <h3>Examinations</h3>
+      <p>Your published examinations are listed below. Start an exam when you are ready.</p>
+      <span class="soon">PUBLISHED EXAMS</span>
+    </article>
+    <article class="card">
+      <div class="ico">🏆</div>
+      <h3>My Results</h3>
+      <p>Results are managed by DigiTech Admin.</p>
+      <span class="soon">ADMIN MANAGED</span>
+    </article>
   </div>
+
   <h2 class="section-title">Available Examinations</h2>
   <div id="examMessage" class="exam-info">Loading examinations...</div>
   <div id="examList" class="exam-list"></div>
-  <div class="notice"><strong>Important:</strong> Your exam timer continues even if you exit the examination. Resume before the time expires.</div>
+
+  <div class="notice">
+    <strong>Important:</strong> Your exam timer continues even if you exit the examination. Resume before the time expires.
+  </div>
 </section>
 
 <section id="examView" class="wrap hidden">
   <button id="endExamButton" class="exam-exit" type="button">← End Exam & Exit</button>
+
   <div class="exam-top">
-    <div><div class="kicker">Online Examination</div><h1 id="activeExamTitle">Examination</h1><p id="activeExamSubject" class="exam-info"></p></div>
-    <div><div class="timer" id="examTimer">00:00</div><div style="font-size:10px;text-align:center;color:#777;margin-top:5px">TIME REMAINING</div></div>
+    <div>
+      <div class="kicker">Online Examination</div>
+      <h1 id="activeExamTitle">Examination</h1>
+      <p id="activeExamSubject" class="exam-info"></p>
+    </div>
+    <div>
+      <div class="timer" id="examTimer">00:00</div>
+      <div style="font-size:10px;text-align:center;color:#777;margin-top:5px">TIME REMAINING</div>
+    </div>
   </div>
-  <div class="exam-instructions"><strong>Instructions:</strong> Select one option for each question. Your answers are saved automatically. The exam will be submitted automatically when the timer reaches zero.</div>
+
+  <div class="exam-instructions">
+    <strong>Instructions:</strong> Select one option for each question. Your answers are saved automatically. The exam will be submitted automatically when the timer reaches zero.
+  </div>
+
   <div id="questionContainer"></div>
-  <div class="exam-bottom"><p id="answerProgress">Answered: 0</p><button id="submitExamButton" class="submit-exam" type="button">Submit Examination</button></div>
+
+  <div class="exam-bottom">
+    <p id="answerProgress">Answered: 0</p>
+    <button id="submitExamButton" class="submit-exam" type="button">Submit Examination</button>
+  </div>
   <p id="examError" class="message error"></p>
 </section>
 
 <section id="submittedView" class="wrap hidden">
   <div class="submitted-card">
-    <div class="submitted-icon">✓</div><div class="kicker">Submission Complete</div>
+    <div class="submitted-icon">✓</div>
+    <div class="kicker">Submission Complete</div>
     <h1>Exam Submitted Successfully</h1>
     <p>Your examination response has been submitted successfully.</p>
     <p><strong>Result will be announced soon.</strong></p>
     <button id="backDashboardButton" class="primary" type="button">Back to Dashboard</button>
   </div>
 </section>
+
 </main>
+
 <footer>© 2026 DigiTech Ecosystem. All rights reserved.</footer>
 
 <script type="module">
+
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
-import {getFirestore,collection,query,where,limit,getDocs,updateDoc,doc,setDoc,serverTimestamp,getDoc,deleteDoc} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
-const firebaseConfig={
-  apiKey:"AIzaSyCRKMuzKEShSTmg4luQMRg_youeuIUo9nU",
-  authDomain:"digiteh-skill-portal.firebaseapp.com",
-  projectId:"digiteh-skill-portal",
-  storageBucket:"digiteh-skill-portal.firebasestorage.app",
-  messagingSenderId:"951572143715",
-  appId:"1:951572143715:web:d595f1fc4ae87090c4a256"
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  limit,
+  getDocs,
+  updateDoc,
+  doc,
+  setDoc,
+  serverTimestamp,
+  getDoc,
+  deleteDoc
+} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCRKMuzKEShSTmg4luQMRg_youeuIUo9nU",
+  authDomain: "digiteh-skill-portal.firebaseapp.com",
+  projectId: "digiteh-skill-portal",
+  storageBucket: "digiteh-skill-portal.firebasestorage.app",
+  messagingSenderId: "951572143715",
+  appId: "1:951572143715:web:d595f1fc4ae87090c4a256"
 };
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 
-const $=id=>document.getElementById(id);
-const loginView=$("loginView"),dashboardView=$("dashboardView"),examView=$("examView"),submittedView=$("submittedView");
-let currentStudent=null,currentExam=null,currentQuestions=[],selectedAnswers={},timerInterval=null,timeRemaining=0,isSubmitting=false,progressRef=null,startedAtMs=0,saveQueue=Promise.resolve(),leavingExam=false;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-function showOnly(section){[loginView,dashboardView,examView,submittedView].forEach(v=>v.classList.add("hidden"));section.classList.remove("hidden")}
-function showLogin(message="",isError=true){showOnly(loginView);$("loginMessage").textContent=message;$("loginMessage").className="message"+(message?(isError?" error":" success"):"")}
-function showDashboard(){showOnly(dashboardView)}
-function attemptRef(examId){return doc(db,"examAttempts",examId+"_"+currentStudent.uid)}
-function progressDocRef(examId){return doc(db,"examProgress",examId+"_"+currentStudent.uid)}
 
-function authError(error){
-  const c=error?.code||"";
-  if(["auth/invalid-credential","auth/wrong-password","auth/user-not-found"].includes(c))return "Email kiwa password chukicha aahe. Punha check kara.";
-  if(c==="auth/too-many-requests")return "Khup login attempts zale. Thodya velane punha prayatna kara.";
-  if(c==="auth/network-request-failed")return "Internet connection check kara.";
-  if(c==="auth/invalid-email")return "Valid email address enter kara.";
+/* GLOBAL VARIABLES */
+
+const $ = id => document.getElementById(id);
+
+const loginView = $("loginView");
+const dashboardView = $("dashboardView");
+const examView = $("examView");
+const submittedView = $("submittedView");
+
+let currentStudent = null;
+let currentExam = null;
+let currentQuestions = [];
+let selectedAnswers = {};
+
+let timerInterval = null;
+let timeRemaining = 0;
+let isSubmitting = false;
+let progressRef = null;
+let startedAtMs = 0;
+let saveQueue = Promise.resolve();
+let examLoadGeneration = 0;
+
+
+/* BASIC FUNCTIONS */
+
+function showOnly(section) {
+  [loginView, dashboardView, examView, submittedView]
+    .forEach(v => v.classList.add("hidden"));
+
+  section.classList.remove("hidden");
+}
+
+function showLogin(message = "", isError = true) {
+  showOnly(loginView);
+  $("loginMessage").textContent = message;
+  $("loginMessage").className =
+    "message " + (message ? (isError ? "error" : "success") : "");
+}
+
+function showDashboard() {
+  showOnly(dashboardView);
+}
+
+function attemptRef(examId) {
+  return doc(db, "examAttempts", examId + "_" + currentStudent.uid);
+}
+
+function progressDocRef(examId) {
+  return doc(db, "examProgress", examId + "_" + currentStudent.uid);
+}
+
+function errorText(error) {
+  console.error(error);
+
+  if (error?.code === "permission-denied") {
+    return "Firestore permission denied. Rules ani student UID check kara.";
+  }
+
+  if (error?.code === "unavailable" ||
+      error?.code === "network-request-failed") {
+    return "Internet connection check kara ani punha prayatna kara.";
+  }
+
+  return error?.message || "Unknown Firebase error.";
+}
+
+function authError(error) {
+  const code = error?.code || "";
+
+  if (["auth/invalid-credential","auth/wrong-password","auth/user-not-found"].includes(code)) {
+    return "Email kiwa password chukicha aahe. Punha check kara.";
+  }
+
+  if (code === "auth/too-many-requests") {
+    return "Khup login attempts zale. Thodya velane punha prayatna kara.";
+  }
+
+  if (code === "auth/network-request-failed") {
+    return "Internet connection check kara.";
+  }
+
+  if (code === "auth/invalid-email") {
+    return "Valid email address enter kara.";
+  }
+
   return "Login hou shakla nahi. Details check kara kiwa Admin shi sampark kara.";
 }
 
-/* Load exams, existing progress and submitted status */
-async function loadPublishedExams(){
-  $("examList").replaceChildren();$("examMessage").textContent="Loading examinations...";
-  try{
-    const snap=await getDocs(query(collection(db,"exams"),where("status","==","Published")));
-    if(snap.empty){$("examMessage").textContent="Currently no published examinations are available.";return}
-    $("examMessage").textContent=snap.size+" published examination(s) available.";
-    for(const examDoc of snap.docs){
-      const exam=examDoc.data(),id=examDoc.id;
-      const [attemptSnap,progressSnap]=await Promise.all([getDoc(attemptRef(id)),getDoc(progressDocRef(id))]);
-      const item=document.createElement("article");item.className="exam-item";
-      const status=document.createElement("span");status.className="exam-status";
-      status.textContent=attemptSnap.exists()?"SUBMITTED":progressSnap.exists()?"IN PROGRESS":"PUBLISHED";
-      const title=document.createElement("h3");title.textContent=exam.title||"Untitled Examination";
-      const subject=document.createElement("p");subject.className="exam-subject";subject.textContent="Subject: "+(exam.subjectName||exam.subject||"Not specified");
-      const meta=document.createElement("div");meta.className="exam-meta";
-      const duration=document.createElement("span");duration.textContent="Duration: "+(exam.durationMinutes??exam.duration??"—")+" minutes";
-      const questions=document.createElement("span");questions.textContent="Questions: "+(exam.questionCount??"Not specified");
-      meta.append(duration,questions);
-      const btn=document.createElement("button");btn.type="button";btn.className="start-exam";
-      if(attemptSnap.exists()){btn.textContent="Already Submitted";btn.classList.add("completed-exam");btn.disabled=true}
-      else if(progressSnap.exists()){btn.textContent="Resume Exam";btn.classList.add("resume-exam");btn.addEventListener("click",()=>openExam(id,exam,true))}
-      else{btn.textContent="Start Exam";btn.addEventListener("click",()=>openExam(id,exam,false))}
-      item.append(status,title,subject,meta,btn);$("examList").appendChild(item);
+
+/* LOAD PUBLISHED EXAMS */
+
+async function loadPublishedExams() {
+  $("examList").replaceChildren();
+  $("examMessage").textContent = "Loading examinations...";
+
+  try {
+    const examsQuery = query(
+      collection(db, "exams"),
+      where("status", "==", "Published")
+    );
+
+    const snap = await getDocs(examsQuery);
+
+    if (snap.empty) {
+      $("examMessage").textContent =
+        "Currently no published examinations are available.";
+      return;
     }
-  }catch(e){console.error(e);$("examMessage").textContent="Examinations load hou shakle nahi. Firestore Rules ani internet check kara."}
-}
 
-/* Student profile */
-async function loadStudentProfile(user){
-  if(!user.email)throw new Error("Firebase account email sapadla nahi.");
-  const email=user.email.trim().toLowerCase();
-  const snap=await getDocs(query(collection(db,"students"),where("email","==",email),where("uid","in",["",user.uid]),limit(1)));
-  if(snap.empty){await signOut(auth);showLogin("Student profile sapadla nahi kiwa dusrya account shi link aahe.");return}
-  const studentDoc=snap.docs[0],student=studentDoc.data();
-  if(!student.uid){await updateDoc(studentDoc.ref,{uid:user.uid});student.uid=user.uid}
-  if(student.uid!==user.uid){await signOut(auth);showLogin("Ha student profile dusrya account shi already link aahe.");return}
-  if(!student.status||student.status.toLowerCase()!=="active"){await signOut(auth);showLogin("Tumche account active nahi. DigiTech Admin shi sampark kara.");return}
-  currentStudent={uid:user.uid,email:student.email||user.email||"",name:student.name||"Student",studentId:String(student.studentId||studentDoc.id)};
-  const name=currentStudent.name;
-  $("welcomeTitle").textContent="Welcome, "+name.split(" ")[0];$("studentName").textContent=name;$("studentEmail").textContent=currentStudent.email;$("studentId").textContent=currentStudent.studentId;$("studentStatus").textContent=student.status;$("studentInitial").textContent=name.trim().charAt(0).toUpperCase()||"S";
-  showDashboard();await loadPublishedExams();
-}
+    $("examMessage").textContent =
+      snap.size + " published examination(s) available.";
 
-/* Start or resume */
-async function openExam(examId,exam,resume){
-  if(!currentStudent||!auth.currentUser){alert("Please login again.");return}
-  const duration=Number(exam.durationMinutes??exam.duration);
-  if(!Number.isFinite(duration)||duration<=0){alert("Exam duration Admin ne set kelela nahi.");return}
-  try{
-    const aRef=attemptRef(examId),pRef=progressDocRef(examId);
-    const [attemptSnap,progressSnap]=await Promise.all([getDoc(aRef),getDoc(pRef)]);
-    if(attemptSnap.exists()){alert("Ha exam already submit zala aahe.");await loadPublishedExams();return}
-    const qSnap=await getDocs(query(collection(db,"examQuestions"),where("examId","==",examId)));
-    if(qSnap.empty){alert("Ya examination madhye questions available nahit.");return}
-    currentQuestions=qSnap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>Number(a.order||0)-Number(b.order||0));
-    currentExam={id:examId,title:exam.title||"Examination",subjectName:exam.subjectName||exam.subject||"Subject",duration};
-    progressRef=pRef;isSubmitting=false;saveQueue=Promise.resolve();selectedAnswers={};
-    const durationSeconds=Math.floor(duration*60);
-    if(progressSnap.exists()){
-      const data=progressSnap.data();
-      selectedAnswers=data.answers||{};
-      startedAtMs=data.startedAt?.toMillis?.();
-      if(!startedAtMs)throw new Error("Saved exam start time missing. Contact Admin.");
-      if(Number(data.durationSeconds)!==durationSeconds)throw new Error("Exam duration changed after exam started. Contact Admin.");
-    }else{
-      startedAtMs=Date.now();
-      await setDoc(pRef,{studentUid:currentStudent.uid,examId,durationSeconds,answers:{},startedAt:serverTimestamp(),updatedAt:serverTimestamp()});
-      const created=await getDoc(pRef);
-      startedAtMs=created.data()?.startedAt?.toMillis?.()||startedAtMs;
+    for (const examDoc of snap.docs) {
+      const exam = examDoc.data();
+      const examId = examDoc.id;
+
+      const [attemptSnap, progressSnap] = await Promise.all([
+        getDoc(attemptRef(examId)),
+        getDoc(progressDocRef(examId))
+      ]);
+
+      const item = document.createElement("article");
+      item.className = "exam-item";
+
+      const status = document.createElement("span");
+      status.className = "exam-status";
+
+      const title = document.createElement("h3");
+      title.textContent = exam.title || "Untitled Examination";
+
+      const subject = document.createElement("p");
+      subject.className = "exam-subject";
+      subject.textContent =
+        "Subject: " + (exam.subjectName || exam.subject || "Not specified");
+
+      const meta = document.createElement("div");
+      meta.className = "exam-meta";
+
+      const duration = document.createElement("span");
+      duration.textContent =
+        "Duration: " +
+        (exam.durationMinutes ?? exam.duration ?? "—") +
+        " minutes";
+
+      const questions = document.createElement("span");
+      questions.textContent =
+        "Questions: " + (exam.questionCount ?? "Not specified");
+
+      meta.append(duration, questions);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "start-exam";
+
+      if (attemptSnap.exists()) {
+        status.textContent = "SUBMITTED";
+        btn.textContent = "Already Submitted";
+        btn.classList.add("completed-exam");
+        btn.disabled = true;
+
+      } else if (progressSnap.exists()) {
+        status.textContent = "IN PROGRESS";
+        btn.textContent = "Resume Exam";
+        btn.classList.add("resume-exam");
+
+        btn.addEventListener("click", () => {
+          openExam(examId, exam);
+        });
+
+      } else {
+        status.textContent = "PUBLISHED";
+        btn.textContent = "Start Exam";
+
+        btn.addEventListener("click", () => {
+          openExam(examId, exam);
+        });
+      }
+
+      item.append(status, title, subject, meta, btn);
+      $("examList").appendChild(item);
     }
-    $("activeExamTitle").textContent=currentExam.title;$("activeExamSubject").textContent="Subject: "+currentExam.subjectName;
-    $("examError").textContent="";$("submitExamButton").disabled=false;$("submitExamButton").textContent="Submit Examination";
-    renderQuestions();showOnly(examView);pushExamHistory();
-    updateRemainingTime();
-    if(timeRemaining<=0){await submitExam(true);return}
-    startTimer();
-  }catch(e){console.error("Open exam error:",e);alert("Exam open hou shakla nahi: "+(e.message||"Firestore Rules ani internet check kara."))}
+
+  } catch (error) {
+    console.error("Load published exams error:", error);
+
+    $("examMessage").textContent =
+      "Examinations load hou shakle nahi: " + errorText(error);
+  }
 }
 
-/* Render questions */
-function renderQuestions(){
-  const container=$("questionContainer");container.replaceChildren();
-  currentQuestions.forEach((q,index)=>{
-    const card=document.createElement("article");card.className="question-card";
-    const number=document.createElement("div");number.className="question-number";number.textContent="QUESTION "+(index+1);
-    const question=document.createElement("div");question.className="question-text";question.textContent=q.questionText||"Question";
-    card.append(number,question);
-    ["A","B","C","D"].forEach(key=>{
-      const value=q.options?.[key];if(value===undefined||value===null||value==="")return;
-      const label=document.createElement("label");label.className="option";
-      const radio=document.createElement("input");radio.type="radio";radio.name="question_"+q.id;radio.value=key;radio.checked=selectedAnswers[q.id]===key;
-      const text=document.createElement("span");text.textContent=key+". "+value;
-      if(radio.checked)label.classList.add("selected");
-      radio.addEventListener("change",()=>{
-        selectedAnswers[q.id]=key;card.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));label.classList.add("selected");updateAnswerProgress();queueAnswerSave();
-      });
-      label.append(radio,text);card.appendChild(label);
+
+/* STUDENT PROFILE */
+
+async function loadStudentProfile(user) {
+  if (!user.email) {
+    throw new Error("Firebase account email sapadla nahi.");
+  }
+
+  const email = user.email.trim().toLowerCase();
+
+  const studentQuery = query(
+    collection(db, "students"),
+    where("email", "==", email),
+    where("uid", "in", ["", user.uid]),
+    limit(1)
+  );
+
+  const snap = await getDocs(studentQuery);
+
+  if (snap.empty) {
+    await signOut(auth);
+    showLogin("Student profile sapadla nahi kiwa dusrya account shi link aahe.");
+    return;
+  }
+
+  const studentDoc = snap.docs[0];
+  const student = studentDoc.data();
+
+  if (!student.uid) {
+    await updateDoc(studentDoc.ref, {
+      uid: user.uid
     });
+    student.uid = user.uid;
+  }
+
+  if (student.uid !== user.uid) {
+    await signOut(auth);
+    showLogin("Ha student profile dusrya account shi already link aahe.");
+    return;
+  }
+
+  if (!student.status ||
+      student.status.toLowerCase() !== "active") {
+    await signOut(auth);
+    showLogin("Tumche account active nahi. DigiTech Admin shi sampark kara.");
+    return;
+  }
+
+  currentStudent = {
+    uid: user.uid,
+    email: student.email || user.email || "",
+    name: student.name || "Student",
+    studentId: String(student.studentId || studentDoc.id)
+  };
+
+  const name = currentStudent.name;
+
+  $("welcomeTitle").textContent =
+    "Welcome, " + name.split(" ")[0];
+
+  $("studentName").textContent = name;
+  $("studentEmail").textContent = currentStudent.email;
+  $("studentId").textContent = currentStudent.studentId;
+  $("studentStatus").textContent = student.status;
+  $("studentInitial").textContent =
+    name.trim().charAt(0).toUpperCase() || "S";
+
+  showDashboard();
+  await loadPublishedExams();
+}
+
+
+/* OPEN / RESUME EXAM */
+
+async function openExam(examId, exam) {
+  if (!currentStudent || !auth.currentUser) {
+    alert("Please login again.");
+    return;
+  }
+
+  const duration = Number(
+    exam.durationMinutes ?? exam.duration
+  );
+
+  if (!Number.isFinite(duration) || duration <= 0) {
+    alert("Exam duration Admin ne set kelela nahi.");
+    return;
+  }
+
+  const generation = ++examLoadGeneration;
+
+  try {
+    const aRef = attemptRef(examId);
+    const pRef = progressDocRef(examId);
+
+    const [attemptSnap, progressSnap] = await Promise.all([
+      getDoc(aRef),
+      getDoc(pRef)
+    ]);
+
+    if (generation !== examLoadGeneration) return;
+
+    if (attemptSnap.exists()) {
+      alert("Ha exam already submit zala aahe.");
+      await loadPublishedExams();
+      return;
+    }
+
+    const questionsQuery = query(
+      collection(db, "examQuestions"),
+      where("examId", "==", examId)
+    );
+
+    const qSnap = await getDocs(questionsQuery);
+
+    if (qSnap.empty) {
+      alert("Ya examination madhye questions available nahit.");
+      return;
+    }
+
+    currentQuestions = qSnap.docs
+      .map(d => ({id: d.id, ...d.data()}))
+      .sort((a,b) => Number(a.order || 0) - Number(b.order || 0));
+
+    currentExam = {
+      id: examId,
+      title: exam.title || "Examination",
+      subjectName: exam.subjectName || exam.subject || "Subject",
+      duration
+    };
+
+    progressRef = pRef;
+    isSubmitting = false;
+    saveQueue = Promise.resolve();
+    selectedAnswers = {};
+
+    const durationSeconds = Math.floor(duration * 60);
+
+    if (progressSnap.exists()) {
+      const data = progressSnap.data();
+
+      if (data.studentUid !== currentStudent.uid) {
+        throw new Error("Exam progress ownership mismatch.");
+      }
+
+      selectedAnswers = data.answers || {};
+      startedAtMs = data.startedAt?.toMillis?.();
+
+      if (!startedAtMs) {
+        throw new Error("Saved exam start time missing. Contact Admin.");
+      }
+
+      if (Number(data.durationSeconds) !== durationSeconds) {
+        throw new Error("Exam duration changed after exam started. Contact Admin.");
+      }
+
+    } else {
+      await setDoc(pRef, {
+        studentUid: currentStudent.uid,
+        examId,
+        durationSeconds,
+        answers: {},
+        startedAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      });
+
+      const created = await getDoc(pRef);
+
+      if (!created.exists()) {
+        throw new Error("Exam progress create zala nahi.");
+      }
+
+      startedAtMs = created.data().startedAt?.toMillis?.();
+
+      if (!startedAtMs) {
+        throw new Error("Exam start time load zala nahi.");
+      }
+    }
+
+    $("activeExamTitle").textContent = currentExam.title;
+    $("activeExamSubject").textContent =
+      "Subject: " + currentExam.subjectName;
+
+    $("examError").textContent = "";
+    $("submitExamButton").disabled = false;
+    $("submitExamButton").textContent = "Submit Examination";
+
+    renderQuestions();
+    showOnly(examView);
+
+    history.pushState({examActive:true}, "", "#exam");
+
+    updateRemainingTime();
+
+    if (timeRemaining <= 0) {
+      await submitExam(true);
+      return;
+    }
+
+    startTimer();
+
+  } catch (error) {
+    console.error("Open exam error:", error);
+
+    currentExam = null;
+    currentQuestions = [];
+    selectedAnswers = {};
+    progressRef = null;
+
+    alert("Exam open hou shakla nahi: " + errorText(error));
+  }
+}
+
+
+/* RENDER QUESTIONS */
+
+function renderQuestions() {
+  const container = $("questionContainer");
+  container.replaceChildren();
+
+  currentQuestions.forEach((q, index) => {
+    const card = document.createElement("article");
+    card.className = "question-card";
+
+    const number = document.createElement("div");
+    number.className = "question-number";
+    number.textContent = "QUESTION " + (index + 1);
+
+    const question = document.createElement("div");
+    question.className = "question-text";
+    question.textContent = q.questionText || "Question";
+
+    card.append(number, question);
+
+    ["A","B","C","D"].forEach(key => {
+      const value = q.options?.[key];
+
+      if (value === undefined || value === null || value === "") {
+        return;
+      }
+
+      const label = document.createElement("label");
+      label.className = "option";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "question_" + q.id;
+      radio.value = key;
+      radio.checked = selectedAnswers[q.id] === key;
+
+      const optionText = document.createElement("span");
+      optionText.textContent = key + ". " + value;
+
+      if (radio.checked) {
+        label.classList.add("selected");
+      }
+
+      radio.addEventListener("change", () => {
+        if (isSubmitting) return;
+
+        selectedAnswers[q.id] = key;
+
+        card.querySelectorAll(".option").forEach(option => {
+          option.classList.remove("selected");
+        });
+
+        label.classList.add("selected");
+
+        updateAnswerProgress();
+        queueAnswerSave();
+      });
+
+      label.append(radio, optionText);
+      card.appendChild(label);
+    });
+
     container.appendChild(card);
-  });updateAnswerProgress();
-}
-function updateAnswerProgress(){$("answerProgress").textContent="Answered: "+Object.keys(selectedAnswers).length+" / "+currentQuestions.length}
-
-/* Save selected answers to Firestore */
-function queueAnswerSave(){
-  if(!progressRef||isSubmitting)return;
-  const answers={...selectedAnswers};
-  saveQueue=saveQueue.then(()=>updateDoc(progressRef,{answers,updatedAt:serverTimestamp()})).catch(e=>{
-    console.error("Answer save error:",e);$("examError").textContent="Answer save hot nahiye. Internet connection check kara.";
   });
+
+  updateAnswerProgress();
 }
 
-/* Timer uses original start timestamp; leaving page does not pause it */
-function updateRemainingTime(){
-  const total=Math.floor(currentExam.duration*60);
-  const elapsed=Math.floor((Date.now()-startedAtMs)/1000);
-  timeRemaining=Math.max(0,total-elapsed);
+function updateAnswerProgress() {
+  $("answerProgress").textContent =
+    "Answered: " +
+    Object.keys(selectedAnswers).length +
+    " / " +
+    currentQuestions.length;
+}
+
+
+/* SAVE ANSWERS */
+
+function queueAnswerSave() {
+  if (!progressRef || isSubmitting) return;
+
+  const answers = {...selectedAnswers};
+  const ref = progressRef;
+
+  $("examError").textContent = "";
+
+  saveQueue = saveQueue
+    .catch(() => {})
+    .then(() => updateDoc(ref, {
+      answers,
+      updatedAt: serverTimestamp()
+    }))
+    .catch(error => {
+      console.error("Answer save error:", error);
+
+      $("examError").textContent =
+        "Answer save hou shakla nahi: " + errorText(error);
+
+      throw error;
+    });
+}
+
+
+/* TIMER */
+
+function updateRemainingTime() {
+  if (!currentExam || !startedAtMs) return;
+
+  const total = Math.floor(currentExam.duration * 60);
+  const elapsed = Math.floor((Date.now() - startedAtMs) / 1000);
+
+  timeRemaining = Math.max(0, total - elapsed);
+
   updateTimerDisplay();
 }
-function updateTimerDisplay(){
-  const m=Math.floor(timeRemaining/60),s=timeRemaining%60;
-  $("examTimer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-  $("examTimer").classList.toggle("warning",timeRemaining<=60);
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(timeRemaining / 60);
+  const seconds = timeRemaining % 60;
+
+  $("examTimer").textContent =
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(seconds).padStart(2, "0");
+
+  $("examTimer").classList.toggle(
+    "warning",
+    timeRemaining <= 60
+  );
 }
-function startTimer(){
+
+function startTimer() {
   clearInterval(timerInterval);
-  timerInterval=setInterval(async()=>{
-    if(isSubmitting)return;
+
+  timerInterval = setInterval(async () => {
+    if (isSubmitting || !currentExam) return;
+
     updateRemainingTime();
-    if(timeRemaining<=0){clearInterval(timerInterval);await submitExam(true)}
-  },1000);
+
+    if (timeRemaining <= 0) {
+      clearInterval(timerInterval);
+      await submitExam(true);
+    }
+  }, 1000);
 }
 
-/* Submit once */
-async function submitExam(auto=false){
-  if(isSubmitting||!currentExam||!currentStudent)return;
-  if(!auto&&!confirm("Tumhala examination submit karaychi aahe ka? Submit kelyanantar answers change karta yenar nahit."))return;
-  isSubmitting=true;clearInterval(timerInterval);
-  $("submitExamButton").disabled=true;$("submitExamButton").textContent="Submitting...";
-  try{
+
+/* SUBMIT EXAM */
+
+async function submitExam(auto = false) {
+  if (isSubmitting || !currentExam || !currentStudent) return;
+
+  if (!auto && !confirm(
+    "Tumhala examination submit karaychi aahe ka? Submit kelyanantar answers change karta yenar nahit."
+  )) {
+    return;
+  }
+
+  isSubmitting = true;
+  clearInterval(timerInterval);
+
+  $("submitExamButton").disabled = true;
+  $("submitExamButton").textContent = "Submitting...";
+
+  try {
     await saveQueue;
-    const answers={};currentQuestions.forEach(q=>{if(selectedAnswers[q.id])answers[q.id]=selectedAnswers[q.id]});
-    const attemptData={
-      studentUid:currentStudent.uid,studentEmail:currentStudent.email,studentId:currentStudent.studentId,
-      studentName:currentStudent.name,examId:currentExam.id,examTitle:currentExam.title,
-      answers,status:"Submitted",submittedAt:serverTimestamp()
+
+    const answers = {};
+
+    currentQuestions.forEach(q => {
+      if (selectedAnswers[q.id]) {
+        answers[q.id] = selectedAnswers[q.id];
+      }
+    });
+
+    const attemptData = {
+      studentUid: currentStudent.uid,
+      studentEmail: currentStudent.email,
+      studentId: currentStudent.studentId,
+      studentName: currentStudent.name,
+      examId: currentExam.id,
+      examTitle: currentExam.title,
+      answers,
+      status: "Submitted",
+      submittedAt: serverTimestamp()
     };
-    await setDoc(attemptRef(currentExam.id),attemptData);
-    try{await deleteDoc(progressRef)}catch(cleanupError){console.warn("Progress cleanup:",cleanupError)}
+
+    await setDoc(
+      attemptRef(currentExam.id),
+      attemptData
+    );
+
+    try {
+      await deleteDoc(progressRef);
+    } catch (cleanupError) {
+      console.warn("Progress cleanup error:", cleanupError);
+    }
+
+    currentExam = null;
+    currentQuestions = [];
+    selectedAnswers = {};
+    progressRef = null;
+
     showOnly(submittedView);
-    history.pushState({examSubmitted:true},"","#submitted");
-  }catch(e){
-    console.error("Submission error:",e);isSubmitting=false;
-    $("submitExamButton").disabled=false;$("submitExamButton").textContent="Submit Examination";
-    $("examError").textContent=e.code==="permission-denied"?"Submission permission denied. Firestore Rules check kara.":"Submission hou shakle nahi. Internet check karun punha prayatna kara.";
+
+    history.pushState(
+      {examSubmitted:true},
+      "",
+      "#submitted"
+    );
+
+  } catch (error) {
+    console.error("Submission error:", error);
+
+    isSubmitting = false;
+
+    $("submitExamButton").disabled = false;
+    $("submitExamButton").textContent = "Submit Examination";
+
+    $("examError").textContent =
+      "Submission hou shakle nahi: " + errorText(error);
   }
 }
 
-/* End Exam & Exit: save answers, but do not submit or pause timer */
-async function exitExam(){
-  if(!currentExam||isSubmitting)return;
-  if(!confirm("Exam madhun baher padayche aahe ka? Timer chalu rahil. Tumhi nantar Resume Exam karu shakta."))return;
-  try{
+
+/* EXIT EXAM WITHOUT SUBMITTING */
+
+async function exitExam() {
+  if (!currentExam || isSubmitting) return;
+
+  const confirmed = confirm(
+    "Exam madhun baher padayche aahe ka? Timer chalu rahil. Tumhi nantar Resume Exam karu shakta."
+  );
+
+  if (!confirmed) return;
+
+  try {
     await saveQueue;
-    clearInterval(timerInterval);leavingExam=true;currentExam=null;currentQuestions=[];selectedAnswers={};progressRef=null;
-    showDashboard();await loadPublishedExams();
-  }catch(e){console.error(e);alert("Progress save hot nahiye. Internet check kara.");}
+
+    clearInterval(timerInterval);
+
+    currentExam = null;
+    currentQuestions = [];
+    selectedAnswers = {};
+    progressRef = null;
+
+    showDashboard();
+    await loadPublishedExams();
+
+  } catch (error) {
+    console.error("Exit save error:", error);
+
+    alert(
+      "Progress save hot nahiye: " + errorText(error)
+    );
+  }
 }
-$("endExamButton").addEventListener("click",exitExam);
-$("submitExamButton").addEventListener("click",()=>submitExam(false));
-$("backDashboardButton").addEventListener("click",async()=>{
-  currentExam=null;currentQuestions=[];selectedAnswers={};progressRef=null;isSubmitting=false;
-  showDashboard();await loadPublishedExams();
+
+$("endExamButton").addEventListener("click", exitExam);
+
+$("submitExamButton").addEventListener("click", () => {
+  submitExam(false);
 });
 
-/* Browser Back: ask before leaving exam */
-function pushExamHistory(){history.pushState({examActive:true},"","#exam")}
-window.addEventListener("popstate",async()=>{
-  if(!examView.classList.contains("hidden")&&currentExam&&!isSubmitting){
-    const leave=confirm("Exam madhun baher padayche aahe ka? Timer chalu rahil. Resume Exam ne parat yeu shakta.");
-    if(leave){await exitExamFromBack()}
-    else{history.pushState({examActive:true},"","#exam")}
+
+/* BACK TO DASHBOARD AFTER SUBMISSION */
+
+$("backDashboardButton").addEventListener("click", async () => {
+  currentExam = null;
+  currentQuestions = [];
+  selectedAnswers = {};
+  progressRef = null;
+  isSubmitting = false;
+
+  showDashboard();
+  await loadPublishedExams();
+});
+
+
+/* BROWSER BACK BUTTON */
+
+window.addEventListener("popstate", async () => {
+  if (
+    !examView.classList.contains("hidden") &&
+    currentExam &&
+    !isSubmitting
+  ) {
+    const leave = confirm(
+      "Exam madhun baher padayche aahe ka? Timer chalu rahil. Resume Exam ne parat yeu shakta."
+    );
+
+    if (leave) {
+      try {
+        await saveQueue;
+
+        clearInterval(timerInterval);
+
+        currentExam = null;
+        currentQuestions = [];
+        selectedAnswers = {};
+        progressRef = null;
+
+        showDashboard();
+        await loadPublishedExams();
+
+      } catch (error) {
+        alert("Progress save hot nahiye: " + errorText(error));
+        history.pushState({examActive:true}, "", "#exam");
+      }
+
+    } else {
+      history.pushState({examActive:true}, "", "#exam");
+    }
   }
 });
-async function exitExamFromBack(){
-  try{
-    await saveQueue;clearInterval(timerInterval);currentExam=null;currentQuestions=[];selectedAnswers={};progressRef=null;
-    showDashboard();await loadPublishedExams();
-  }catch(e){alert("Progress save hot nahiye. Internet check kara.");history.pushState({examActive:true},"","#exam")}
-}
 
-/* Login */
-$("loginForm").addEventListener("submit",async event=>{
-  event.preventDefault();$("loginButton").disabled=true;$("loginButton").textContent="Signing in...";$("loginMessage").textContent="";
-  try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}
-  catch(e){showLogin(authError(e))}
-  finally{$("loginButton").disabled=false;$("loginButton").textContent="Login to Student Portal"}
+
+/* LOGIN */
+
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  $("loginButton").disabled = true;
+  $("loginButton").textContent = "Signing in...";
+  $("loginMessage").textContent = "";
+
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      $("email").value.trim(),
+      $("password").value
+    );
+
+  } catch (error) {
+    showLogin(authError(error));
+
+  } finally {
+    $("loginButton").disabled = false;
+    $("loginButton").textContent = "Login to Student Portal";
+  }
 });
 
-/* Logout */
-$("logoutButton").addEventListener("click",async()=>{
-  if(currentExam&&!confirm("Logout kelyas exam timer chalu rahil. Nantar login karun Resume karu shakta. Logout karayche?"))return;
-  try{
-    if(currentExam)await saveQueue;
-    clearInterval(timerInterval);currentExam=null;currentQuestions=[];selectedAnswers={};progressRef=null;currentStudent=null;
-    await signOut(auth);showLogin("Tumhi successfully logout zala aahat.",false);
-  }catch(e){console.error(e);alert("Logout hou shakla nahi. Punha prayatna kara.")}
+
+/* LOGOUT */
+
+$("logoutButton").addEventListener("click", async () => {
+  if (
+    currentExam &&
+    !confirm(
+      "Logout kelyas exam timer chalu rahil. Nantar login karun Resume karu shakta. Logout karayche?"
+    )
+  ) {
+    return;
+  }
+
+  try {
+    if (currentExam) {
+      await saveQueue;
+    }
+
+    clearInterval(timerInterval);
+
+    currentExam = null;
+    currentQuestions = [];
+    selectedAnswers = {};
+    progressRef = null;
+    currentStudent = null;
+
+    await signOut(auth);
+
+    showLogin("Tumhi successfully logout zala aahat.", false);
+
+  } catch (error) {
+    console.error("Logout error:", error);
+    alert("Logout hou shakla nahi: " + errorText(error));
+  }
 });
 
-/* Restore login state */
-onAuthStateChanged(auth,async user=>{
-  if(!user){currentStudent=null;clearInterval(timerInterval);showLogin();return}
-  try{await loadStudentProfile(user)}
-  catch(e){console.error("Student profile error:",e);if(auth.currentUser)await signOut(auth);showLogin("Student profile load hot nahi. Email, Firestore Rules ani UID link check kara.")}
+
+/* RESTORE LOGIN STATE */
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    currentStudent = null;
+    clearInterval(timerInterval);
+    showLogin();
+    return;
+  }
+
+  try {
+    await loadStudentProfile(user);
+
+  } catch (error) {
+    console.error("Student profile error:", error);
+
+    if (auth.currentUser) {
+      await signOut(auth);
+    }
+
+    showLogin(
+      "Student profile load hot nahi: " + errorText(error)
+    );
+  }
 });
+
 </script>
 </body>
 </html>
