@@ -67,13 +67,39 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px #ff8a2422}
 .exam-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px}
 .exam-item h3{font-size:16px;margin:0 0 8px}
 .exam-subject{font-size:13px;color:var(--muted);margin:0 0 13px}
-.exam-meta{display:flex;gap:9px;flex-wrap:wrap}
+.exam-meta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
 .exam-meta span{background:var(--light);color:#75400f;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
 .exam-status{display:inline-block;color:var(--green);background:#e7f5ec;padding:5px 9px;border-radius:7px;font-size:10px;font-weight:800;margin-bottom:10px}
 .exam-info{font-size:13px;color:var(--muted);line-height:1.6}
 .empty-exams{background:white;border:1px dashed #d8d0c7;border-radius:14px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
 .notice{margin-top:22px;padding:15px 17px;border-radius:12px;background:var(--light);color:#75400f;font-size:12px;line-height:1.6}
 footer{text-align:center;color:#938d85;font-size:11px;padding:25px 10px 35px}
+
+.start-exam{border:0;border-radius:9px;background:var(--orange);color:var(--dark);padding:11px 18px;font-size:12px;font-weight:800;cursor:pointer}
+.start-exam:disabled{opacity:.5;cursor:not-allowed}
+
+.exam-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+.exam-top h1{font-size:25px;margin:6px 0}
+.timer{background:var(--dark);color:white;padding:13px 18px;border-radius:12px;font-size:20px;font-weight:900;min-width:125px;text-align:center}
+.timer.warning{background:#b72d20}
+.exam-instructions{background:var(--light);color:#75400f;padding:14px 16px;border-radius:12px;font-size:12px;line-height:1.6;margin-bottom:20px}
+.question-card{background:white;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:15px}
+.question-number{color:#a45a12;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px}
+.question-text{font-size:16px;font-weight:700;line-height:1.6;margin-bottom:16px;white-space:pre-wrap}
+.option{display:flex;align-items:flex-start;gap:11px;padding:12px;border:1px solid var(--border);border-radius:10px;margin:9px 0;cursor:pointer;font-size:14px;line-height:1.5}
+.option:hover{border-color:var(--orange);background:#fffaf4}
+.option input{width:17px;height:17px;flex:0 0 17px;margin:1px 0 0;accent-color:var(--orange)}
+.option.selected{border-color:var(--orange);background:#fff5e9}
+.exam-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.exam-bottom p{font-size:12px;color:var(--muted)}
+.submit-exam{border:0;border-radius:10px;background:var(--dark);color:white;padding:14px 22px;font-weight:800;cursor:pointer}
+.submit-exam:disabled{opacity:.5;cursor:wait}
+.cancel-exam{border:1px solid var(--border);background:white;border-radius:10px;padding:12px 17px;font-weight:700;cursor:pointer}
+.confirm-card,.submitted-card{max-width:550px;margin:50px auto;background:white;border:1px solid var(--border);border-radius:20px;padding:35px;text-align:center}
+.confirm-card h2,.submitted-card h1{margin:12px 0;font-size:25px}
+.confirm-card p,.submitted-card p{color:var(--muted);font-size:14px;line-height:1.7}
+.submitted-icon{width:65px;height:65px;border-radius:50%;background:#e7f5ec;color:var(--green);display:grid;place-items:center;font-size:32px;margin:0 auto 18px}
+.submitted-card .primary{margin-top:15px}
 
 @media(max-width:700px){
 header{padding:14px 4%}
@@ -85,6 +111,7 @@ header{padding:14px 4%}
 }
 @media(max-width:420px){
 .login-head,.login-form{padding:23px 20px}
+.question-card{padding:15px}
 }
 </style>
 </head>
@@ -167,21 +194,19 @@ header{padding:14px 4%}
   <h2 class="section-title">My Portal</h2>
 
   <div class="grid">
-
     <article class="card">
       <div class="ico">📝</div>
       <h3>Examinations</h3>
-      <p>Your published examinations are listed below.</p>
+      <p>Your published examinations are listed below. Start an exam when you are ready.</p>
       <span class="soon">PUBLISHED EXAMS</span>
     </article>
 
     <article class="card">
       <div class="ico">🏆</div>
       <h3>My Results</h3>
-      <p>View your examination scores and result history in this section.</p>
-      <span class="soon">COMING SOON</span>
+      <p>Results are managed by DigiTech Admin.</p>
+      <span class="soon">ADMIN MANAGED</span>
     </article>
-
   </div>
 
   <h2 class="section-title">Available Examinations</h2>
@@ -190,10 +215,49 @@ header{padding:14px 4%}
   <div id="examList" class="exam-list"></div>
 
   <div class="notice">
-    <strong>Important:</strong> Keep your login password private. DigiTech Admin will provide updates about examinations and results.
+    <strong>Important:</strong> Keep your login password private. Do not refresh or close the browser during an examination.
   </div>
 
 </section>
+
+<!-- EXAM SCREEN -->
+<section id="examView" class="wrap hidden">
+  <div class="exam-top">
+    <div>
+      <div class="kicker">Online Examination</div>
+      <h1 id="activeExamTitle">Examination</h1>
+      <p id="activeExamSubject" class="exam-info"></p>
+    </div>
+    <div>
+      <div class="timer" id="examTimer">00:00</div>
+      <div style="font-size:10px;text-align:center;color:#777;margin-top:5px">TIME REMAINING</div>
+    </div>
+  </div>
+
+  <div class="exam-instructions">
+    <strong>Instructions:</strong> Select one option for each question. Your answers will be submitted automatically when the timer reaches zero. You cannot change answers after submission.
+  </div>
+
+  <div id="questionContainer"></div>
+
+  <div class="exam-bottom">
+    <p id="answerProgress">Answered: 0</p>
+    <button id="submitExamButton" class="submit-exam" type="button">Submit Examination</button>
+  </div>
+  <p id="examError" class="message error"></p>
+</section>
+
+<!-- SUBMISSION SUCCESS SCREEN -->
+<section id="submittedView" class="wrap hidden">
+  <div class="submitted-card">
+    <div class="submitted-icon">✓</div>
+    <div class="kicker">Submission Complete</div>
+    <h1>Exam Submitted Successfully</h1>
+    <p>Your examination response has been submitted successfully.</p>
+    <button id="backDashboardButton" class="primary" type="button">Back to Dashboard</button>
+  </div>
+</section>
+
 </main>
 
 <footer>© 2026 DigiTech Ecosystem. All rights reserved.</footer>
@@ -216,7 +280,10 @@ import {
   where,
   limit,
   getDocs,
-  updateDoc
+  updateDoc,
+  doc,
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
 
@@ -243,6 +310,9 @@ const db = getFirestore(app);
 
 const loginView = document.getElementById("loginView");
 const dashboardView = document.getElementById("dashboardView");
+const examView = document.getElementById("examView");
+const submittedView = document.getElementById("submittedView");
+
 const loginForm = document.getElementById("loginForm");
 const loginButton = document.getElementById("loginButton");
 const loginMessage = document.getElementById("loginMessage");
@@ -250,36 +320,39 @@ const loginMessage = document.getElementById("loginMessage");
 const examList = document.getElementById("examList");
 const examMessage = document.getElementById("examMessage");
 
+let currentStudent = null;
+let currentExam = null;
+let currentQuestions = [];
+let selectedAnswers = {};
+let timerInterval = null;
+let timeRemaining = 0;
+let isSubmitting = false;
 
-/* SHOW LOGIN */
 
-function showLogin(message = "", isError = true) {
+/* SCREEN MANAGEMENT */
 
-  loginView.classList.remove("hidden");
-  dashboardView.classList.add("hidden");
-
-  loginMessage.textContent = message;
-
-  loginMessage.className =
-    "message" + (message ? (isError ? " error" : " success") : "");
-
+function showOnly(section) {
+  [loginView, dashboardView, examView, submittedView].forEach(view => {
+    view.classList.add("hidden");
+  });
+  section.classList.remove("hidden");
 }
 
-
-/* SHOW DASHBOARD */
+function showLogin(message = "", isError = true) {
+  showOnly(loginView);
+  loginMessage.textContent = message;
+  loginMessage.className =
+    "message" + (message ? (isError ? " error" : " success") : "");
+}
 
 function showDashboard() {
-
-  loginView.classList.add("hidden");
-  dashboardView.classList.remove("hidden");
-
+  showOnly(dashboardView);
 }
 
 
 /* AUTHENTICATION ERROR */
 
 function authError(error) {
-
   const code = error?.code || "";
 
   if ([
@@ -303,19 +376,16 @@ function authError(error) {
   }
 
   return "Login hou shakla nahi. Details check kara kiwa Admin shi sampark kara.";
-
 }
 
 
 /* LOAD PUBLISHED EXAMINATIONS */
 
 async function loadPublishedExams() {
-
   examList.replaceChildren();
   examMessage.textContent = "Loading examinations...";
 
   try {
-
     const examQuery = query(
       collection(db, "exams"),
       where("status", "==", "Published")
@@ -324,17 +394,14 @@ async function loadPublishedExams() {
     const snapshot = await getDocs(examQuery);
 
     if (snapshot.empty) {
-
       examMessage.textContent = "Currently no published examinations are available.";
       return;
-
     }
 
     examMessage.textContent =
       snapshot.size + " published examination(s) available.";
 
     snapshot.forEach((examDoc) => {
-
       const exam = examDoc.data();
 
       const item = document.createElement("article");
@@ -349,45 +416,44 @@ async function loadPublishedExams() {
 
       const subject = document.createElement("p");
       subject.className = "exam-subject";
-      subject.textContent = "Subject: " + (exam.subject || "Not specified");
+      subject.textContent =
+        "Subject: " + (exam.subjectName || exam.subject || "Not specified");
 
       const meta = document.createElement("div");
       meta.className = "exam-meta";
 
       const duration = document.createElement("span");
-      duration.textContent =
-        "Duration: " + (exam.duration ?? "—") + " minutes";
+      duration.textContent = "Duration: " + (exam.duration ?? "—") + " minutes";
 
       const questions = document.createElement("span");
-      questions.textContent =
-        "Questions: " + (exam.questionCount ?? "Not specified");
+      questions.textContent = "Questions: " + (exam.questionCount ?? "Not specified");
 
       meta.append(duration, questions);
 
-      item.append(status, title, subject, meta);
+      const startButton = document.createElement("button");
+      startButton.className = "start-exam";
+      startButton.type = "button";
+      startButton.textContent = "Start Exam";
 
+      startButton.addEventListener("click", () => {
+        startExam(examDoc.id, exam);
+      });
+
+      item.append(status, title, subject, meta, startButton);
       examList.appendChild(item);
-
     });
 
-  }
-
-  catch (error) {
-
+  } catch (error) {
     console.error("Published exams error:", error);
-
     examMessage.textContent =
       "Examinations load hou shakle nahi. Firestore Rules ani internet connection check kara.";
-
   }
-
 }
 
 
-/* STUDENT PROFILE + AUTOMATIC UID LINKING */
+/* LOAD STUDENT PROFILE + UID LINKING */
 
 async function loadStudentProfile(user) {
-
   if (!user.email) {
     throw new Error("Firebase account email sapadla nahi.");
   }
@@ -404,103 +470,346 @@ async function loadStudentProfile(user) {
   const snapshot = await getDocs(studentQuery);
 
   if (snapshot.empty) {
-
     await signOut(auth);
-
-    showLogin(
-      "Student profile sapadla nahi kiwa dusrya account shi link aahe. Admin shi sampark kara."
-    );
-
+    showLogin("Student profile sapadla nahi kiwa dusrya account shi link aahe. Admin shi sampark kara.");
     return;
-
   }
 
   const studentDoc = snapshot.docs[0];
   const student = studentDoc.data();
 
-
-  /* FIRST LOGIN: LINK UID */
-
   if (!student.uid) {
-
-    await updateDoc(studentDoc.ref, {
-      uid: user.uid
-    });
-
+    await updateDoc(studentDoc.ref, { uid: user.uid });
     student.uid = user.uid;
-
   }
-
-
-  /* VERIFY UID */
 
   if (student.uid !== user.uid) {
-
     await signOut(auth);
-
-    showLogin(
-      "Ha student profile dusrya account shi already link aahe."
-    );
-
+    showLogin("Ha student profile dusrya account shi already link aahe.");
     return;
-
   }
 
-
-  /* CHECK STATUS */
-
-  if (
-    !student.status ||
-    student.status.toLowerCase() !== "active"
-  ) {
-
+  if (!student.status || student.status.toLowerCase() !== "active") {
     await signOut(auth);
-
-    showLogin(
-      "Tumche account active nahi. DigiTech Admin shi sampark kara."
-    );
-
+    showLogin("Tumche account active nahi. DigiTech Admin shi sampark kara.");
     return;
-
   }
 
+  currentStudent = {
+    uid: user.uid,
+    email: student.email || user.email || "",
+    name: student.name || "Student",
+    studentId: String(student.studentId || studentDoc.id)
+  };
 
-  /* DISPLAY PROFILE */
-
-  const name = student.name || "Student";
+  const name = currentStudent.name;
 
   document.getElementById("welcomeTitle").textContent =
     "Welcome, " + name.split(" ")[0];
 
-  document.getElementById("studentName").textContent =
-    name;
-
-  document.getElementById("studentEmail").textContent =
-    student.email || user.email || "";
-
-  document.getElementById("studentId").textContent =
-    student.studentId || "Not assigned";
-
-  document.getElementById("studentStatus").textContent =
-    student.status;
-
+  document.getElementById("studentName").textContent = name;
+  document.getElementById("studentEmail").textContent = currentStudent.email;
+  document.getElementById("studentId").textContent = currentStudent.studentId;
+  document.getElementById("studentStatus").textContent = student.status;
   document.getElementById("studentInitial").textContent =
     name.trim().charAt(0).toUpperCase() || "S";
 
+  showDashboard();
+  await loadPublishedExams();
+}
+
+
+/* START EXAM */
+
+async function startExam(examId, exam) {
+  if (!currentStudent || !auth.currentUser) {
+    alert("Please login again.");
+    return;
+  }
+
+  const duration = Number(exam.duration);
+
+  if (!Number.isFinite(duration) || duration <= 0) {
+    alert("Ya examination cha duration Admin ne set kelela nahi.");
+    return;
+  }
+
+  const button = [...document.querySelectorAll(".start-exam")]
+    .find(btn => btn.closest(".exam-item")?.querySelector("h3")?.textContent === exam.title);
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Loading...";
+  }
+
+  try {
+    // Check whether this student has already submitted this exam.
+    const attemptId = examId + "_" + currentStudent.uid;
+
+    const questionsQuery = query(
+      collection(db, "examQuestions"),
+      where("examId", "==", examId)
+    );
+
+    const questionSnapshot = await getDocs(questionsQuery);
+
+    if (questionSnapshot.empty) {
+      alert("Ya examination madhye questions available nahit. Admin shi sampark kara.");
+      return;
+    }
+
+    currentQuestions = questionSnapshot.docs.map(questionDoc => ({
+      id: questionDoc.id,
+      ...questionDoc.data()
+    }));
+
+    currentQuestions.sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+
+    currentExam = {
+      id: examId,
+      title: exam.title || "Examination",
+      subjectName: exam.subjectName || exam.subject || "Subject",
+      duration
+    };
+
+    selectedAnswers = {};
+    isSubmitting = false;
+
+    document.getElementById("activeExamTitle").textContent = currentExam.title;
+    document.getElementById("activeExamSubject").textContent =
+      "Subject: " + currentExam.subjectName;
+
+    document.getElementById("examError").textContent = "";
+    document.getElementById("submitExamButton").disabled = false;
+
+    renderQuestions();
+
+    timeRemaining = Math.floor(duration * 60);
+    updateTimerDisplay();
+
+    showOnly(examView);
+    startTimer();
+
+  } catch (error) {
+    console.error("Start exam error:", error);
+
+    alert(
+      "Exam start hou shakla nahi. Questions read permission ani Published status check kara."
+    );
+
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Start Exam";
+    }
+  }
+}
+
+
+/* DISPLAY QUESTIONS */
+
+function renderQuestions() {
+  const container = document.getElementById("questionContainer");
+  container.replaceChildren();
+
+  currentQuestions.forEach((question, index) => {
+    const card = document.createElement("article");
+    card.className = "question-card";
+
+    const number = document.createElement("div");
+    number.className = "question-number";
+    number.textContent = "QUESTION " + (index + 1);
+
+    const questionText = document.createElement("div");
+    questionText.className = "question-text";
+    questionText.textContent = question.questionText || "Question";
+
+    card.append(number, questionText);
+
+    const options = question.options || {};
+
+    ["A", "B", "C", "D"].forEach(optionKey => {
+      const optionValue = options[optionKey];
+
+      if (optionValue === undefined || optionValue === null || optionValue === "") {
+        return;
+      }
+
+      const label = document.createElement("label");
+      label.className = "option";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "question_" + question.id;
+      radio.value = optionKey;
+      radio.checked = selectedAnswers[question.id] === optionKey;
+
+      const text = document.createElement("span");
+      text.textContent = optionKey + ". " + optionValue;
+
+      if (radio.checked) label.classList.add("selected");
+
+      radio.addEventListener("change", () => {
+        selectedAnswers[question.id] = optionKey;
+
+        card.querySelectorAll(".option").forEach(item => {
+          item.classList.remove("selected");
+        });
+
+        label.classList.add("selected");
+        updateAnswerProgress();
+      });
+
+      label.append(radio, text);
+      card.appendChild(label);
+    });
+
+    container.appendChild(card);
+  });
+
+  updateAnswerProgress();
+}
+
+
+/* ANSWER PROGRESS */
+
+function updateAnswerProgress() {
+  const answered = Object.keys(selectedAnswers).length;
+
+  document.getElementById("answerProgress").textContent =
+    "Answered: " + answered + " / " + currentQuestions.length;
+}
+
+
+/* TIMER */
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(timeRemaining / 60);
+  const seconds = timeRemaining % 60;
+
+  const display =
+    String(minutes).padStart(2, "0") + ":" +
+    String(seconds).padStart(2, "0");
+
+  const timer = document.getElementById("examTimer");
+  timer.textContent = display;
+
+  if (timeRemaining <= 60) {
+    timer.classList.add("warning");
+  } else {
+    timer.classList.remove("warning");
+  }
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    if (isSubmitting) return;
+
+    timeRemaining--;
+    updateTimerDisplay();
+
+    if (timeRemaining <= 0) {
+      clearInterval(timerInterval);
+      submitExam(true);
+    }
+  }, 1000);
+}
+
+
+/* SUBMIT EXAM */
+
+async function submitExam(autoSubmit = false) {
+  if (isSubmitting || !currentExam || !currentStudent) return;
+
+  const confirmed = autoSubmit
+    ? true
+    : confirm("Tumhala examination submit karaychi aahe ka? Submit kelyanantar answers change karta yenar nahit.");
+
+  if (!confirmed) return;
+
+  isSubmitting = true;
+  clearInterval(timerInterval);
+
+  const submitButton = document.getElementById("submitExamButton");
+  submitButton.disabled = true;
+  submitButton.textContent = "Submitting...";
+
+  try {
+    const attemptId = currentExam.id + "_" + currentStudent.uid;
+
+    // Only selected answers are submitted. Correct answers and marks
+    // are never downloaded or sent to the student portal.
+    const answers = {};
+
+    currentQuestions.forEach(question => {
+      if (selectedAnswers[question.id]) {
+        answers[question.id] = selectedAnswers[question.id];
+      }
+    });
+
+    const attemptData = {
+      studentUid: currentStudent.uid,
+      studentEmail: currentStudent.email,
+      studentId: currentStudent.studentId,
+      studentName: currentStudent.name,
+      examId: currentExam.id,
+      examTitle: currentExam.title,
+      answers,
+      status: "Submitted",
+      submittedAt: serverTimestamp()
+    };
+
+    await setDoc(doc(db, "examAttempts", attemptId), attemptData);
+
+    // Student sees only successful submission.
+    showOnly(submittedView);
+
+  } catch (error) {
+    console.error("Exam submission error:", error);
+
+    isSubmitting = false;
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Examination";
+
+    let message = "Submission hou shakle nahi. Internet connection check kara.";
+
+    if (error.code === "permission-denied") {
+      message = "Submission permission denied. Firestore Rules check kara. Ha exam aadhi submit zala asnyachi shakyata aahe.";
+    } else if (error.code === "already-exists") {
+      message = "Ha exam aadhi submit zala aahe.";
+    }
+
+    document.getElementById("examError").textContent = message;
+  }
+}
+
+
+/* SUBMIT BUTTON */
+
+document.getElementById("submitExamButton").addEventListener("click", () => {
+  submitExam(false);
+});
+
+
+/* BACK TO DASHBOARD */
+
+document.getElementById("backDashboardButton").addEventListener("click", async () => {
+  clearInterval(timerInterval);
+  currentExam = null;
+  currentQuestions = [];
+  selectedAnswers = {};
+  isSubmitting = false;
 
   showDashboard();
-
-  /* LOAD EXAMS ONLY AFTER STUDENT PROFILE VERIFICATION */
-
   await loadPublishedExams();
-
-}
+});
 
 
 /* STUDENT LOGIN */
 
 loginForm.addEventListener("submit", async (event) => {
-
   event.preventDefault();
 
   const email = document.getElementById("email").value.trim();
@@ -511,73 +820,45 @@ loginForm.addEventListener("submit", async (event) => {
   loginMessage.textContent = "";
 
   try {
-
     await signInWithEmailAndPassword(auth, email, password);
-
-  }
-
-  catch (error) {
-
+  } catch (error) {
     showLogin(authError(error));
-
-  }
-
-  finally {
-
+  } finally {
     loginButton.disabled = false;
     loginButton.textContent = "Login to Student Portal";
-
   }
-
 });
 
 
 /* STUDENT LOGOUT */
 
 document.getElementById("logoutButton").addEventListener("click", async () => {
-
   try {
-
+    clearInterval(timerInterval);
     await signOut(auth);
-
-    showLogin(
-      "Tumhi successfully logout zala aahat.",
-      false
-    );
-
-  }
-
-  catch (error) {
-
+    currentStudent = null;
+    currentExam = null;
+    showLogin("Tumhi successfully logout zala aahat.", false);
+  } catch (error) {
     console.error("Logout error:", error);
-
     alert("Logout hou shakla nahi. Punha prayatna kara.");
-
   }
-
 });
 
 
 /* AUTHENTICATION STATE */
 
 onAuthStateChanged(auth, async (user) => {
-
   if (!user) {
-
+    currentStudent = null;
+    clearInterval(timerInterval);
     showLogin();
-
     return;
-
   }
 
   try {
-
     await loadStudentProfile(user);
-
-  }
-
-  catch (error) {
-
+  } catch (error) {
     console.error("Student profile error:", error);
 
     if (auth.currentUser) {
@@ -587,9 +868,7 @@ onAuthStateChanged(auth, async (user) => {
     showLogin(
       "Student profile load hot nahi. Email, Firestore Rules ani UID link check kara."
     );
-
   }
-
 });
 
 </script>
