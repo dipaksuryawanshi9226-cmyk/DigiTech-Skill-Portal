@@ -51,9 +51,9 @@ input:focus,select:focus{border-color:var(--orange)}
 .panel h3{margin-bottom:18px}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:620px}
-th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eee;font-size:13px}
+th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eee;font-size:13px;vertical-align:top}
 th{color:#777}
-.status{background:#e8f7ed;color:#168344;padding:5px 9px;border-radius:20px;font-size:11px}
+.status{background:#e8f7ed;color:#168344;padding:5px 9px;border-radius:20px;font-size:11px;white-space:nowrap}
 .inactive-status{background:#ffe8e8;color:#c62828}
 .section{display:none}
 .section.active{display:block}
@@ -72,10 +72,20 @@ th{color:#777}
 .notice{padding:12px;background:#fff4e8;border-radius:7px;margin:12px 0;font-size:13px;color:#75400c}
 .preview-table{margin-top:15px}
 .preview-table table{min-width:850px}
+.result-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.result-stat{background:#fff8f0;padding:17px;border-radius:9px;border:1px solid #ffe2c4}
+.result-stat p{font-size:12px;color:#777}
+.result-stat h2{font-size:24px;margin-top:8px}
+.result-question{min-width:250px;max-width:420px;white-space:normal;line-height:1.5}
+.answer-cell{min-width:170px;white-space:normal;line-height:1.5}
+.correct-text{color:#168344;font-weight:bold}
+.wrong-text{color:#c62828;font-weight:bold}
+.unanswered-text{color:#777;font-weight:bold}
 @media(max-width:800px){
 .sidebar{width:210px}
 .content{padding:20px}
 .stats{grid-template-columns:1fr 1fr}
+.result-stats{grid-template-columns:1fr 1fr}
 }
 @media(max-width:600px){
 .sidebar{display:none;position:fixed;z-index:5;height:100vh}
@@ -86,6 +96,7 @@ th{color:#777}
 .stats{grid-template-columns:1fr}
 .admin-label{display:none}
 .section-heading{align-items:flex-start;flex-direction:column}
+.result-stats{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -310,10 +321,84 @@ th{color:#777}
 
       <!-- RESULTS -->
       <section class="section" id="results">
-        <div class="section-heading"><h2>Examination Results</h2></div>
+
+        <div class="section-heading">
+          <h2>Examination Results</h2>
+          <button class="primary-btn" id="refreshResultsBtn">↻ Refresh Results</button>
+        </div>
+
         <div class="panel">
-          <h3>Student Results</h3>
-          <p class="empty">Results module will be connected separately.</p>
+          <h3>Submitted Student Results</h3>
+          <p class="exam-status">Only submitted examinations are displayed. Marks are calculated using the answer key.</p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student ID</th>
+                  <th>Exam</th>
+                  <th>Submitted At</th>
+                  <th>Marks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTable">
+                <tr><td colspan="6">Click Results to load records.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RESULT DETAILS -->
+        <div class="panel hidden" id="resultDetails">
+
+          <div class="section-heading">
+            <h2 id="resultStudentTitle">Student Result</h2>
+            <button class="secondary-btn" onclick="closeResultDetails()">Close Details</button>
+          </div>
+
+          <div class="result-stats">
+            <div class="result-stat">
+              <p>Obtained Marks</p>
+              <h2 id="obtainedMarks">0/0</h2>
+            </div>
+            <div class="result-stat">
+              <p>Correct Answers</p>
+              <h2 id="correctCount">0</h2>
+            </div>
+            <div class="result-stat">
+              <p>Wrong Answers</p>
+              <h2 id="wrongCount">0</h2>
+            </div>
+            <div class="result-stat">
+              <p>Unanswered</p>
+              <h2 id="unansweredCount">0</h2>
+            </div>
+          </div>
+
+          <div class="notice" id="resultSummary"></div>
+
+          <div class="panel">
+            <h3>Question-wise Answer Analysis</h3>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Question</th>
+                    <th>Student Answer</th>
+                    <th>Correct Answer</th>
+                    <th>Marks</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="resultQuestionTable"></tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -331,7 +416,7 @@ import {
 
 import {
   getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
-  updateDoc, serverTimestamp, writeBatch
+  updateDoc, serverTimestamp, writeBatch, query, where
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
 /* FIREBASE CONFIG */
@@ -420,6 +505,10 @@ window.showSection = function(id,button){
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   button.classList.add("active");
   document.getElementById("sidebar").classList.remove("open");
+
+  if(id === "results"){
+    loadResults();
+  }
 };
 
 window.toggleMenu = function(){
@@ -996,7 +1085,7 @@ document.getElementById("importExcelBtn").addEventListener("click",async()=>{
         questionText:q.questionText,
         options:q.options,
         marks:q.marks,
-        order:index+1,
+        order:(Number(activeExam.questionCount)||0)+index+1,
         createdAt:serverTimestamp()
       });
 
@@ -1040,6 +1129,432 @@ document.getElementById("importExcelBtn").addEventListener("click",async()=>{
   }
 });
 
+
+/* =========================================
+   RESULTS MANAGEMENT
+========================================= */
+
+const resultsTable = document.getElementById("resultsTable");
+
+function formatDate(timestamp){
+
+  if(!timestamp) return "-";
+
+  try{
+    const date = timestamp.toDate
+      ? timestamp.toDate()
+      : new Date(timestamp);
+
+    if(isNaN(date.getTime())) return "-";
+
+    return date.toLocaleString("en-IN",{
+      day:"2-digit",
+      month:"short",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+  }catch(error){
+    return "-";
+  }
+}
+
+function formatMarks(value){
+
+  const number = Number(value)||0;
+
+  return Number.isInteger(number)
+    ? String(number)
+    : number.toFixed(2);
+}
+
+
+/* LOAD ALL SUBMITTED RESULTS */
+
+async function loadResults(){
+
+  if(!isAdmin()){
+    alert("Admin access required.");
+    return;
+  }
+
+  resultsTable.innerHTML =
+    "<tr><td colspan='6'>Loading submitted results...</td></tr>";
+
+  document.getElementById("resultDetails").classList.add("hidden");
+
+  try{
+
+    const snapshot = await getDocs(
+      collection(db,"examAttempts")
+    );
+
+    const attempts = [];
+
+    snapshot.forEach(d=>{
+
+      const data = d.data();
+
+      if(data.status === "Submitted"){
+        attempts.push({
+          id:d.id,
+          ...data
+        });
+      }
+
+    });
+
+    attempts.sort((a,b)=>{
+
+      const timeA = a.submittedAt?.toMillis?.() || 0;
+      const timeB = b.submittedAt?.toMillis?.() || 0;
+
+      return timeB-timeA;
+
+    });
+
+    resultsTable.innerHTML = "";
+
+    if(!attempts.length){
+
+      resultsTable.innerHTML =
+        "<tr><td colspan='6'>No submitted examinations found.</td></tr>";
+
+      return;
+    }
+
+    for(const attempt of attempts){
+
+      const row = document.createElement("tr");
+
+      const values = [
+        attempt.studentName || "-",
+        attempt.studentId || "-",
+        attempt.examTitle || "-",
+        formatDate(attempt.submittedAt)
+      ];
+
+      values.forEach(value=>{
+
+        const td = document.createElement("td");
+        td.textContent = value;
+        row.appendChild(td);
+
+      });
+
+      const marksCell = document.createElement("td");
+      marksCell.textContent = "Open View List";
+      row.appendChild(marksCell);
+
+      const actionCell = document.createElement("td");
+
+      const viewButton = document.createElement("button");
+
+      viewButton.className = "action-btn edit-btn";
+      viewButton.textContent = "View List";
+
+      viewButton.onclick = async ()=>{
+
+        await viewStudentResult(attempt,marksCell);
+
+      };
+
+      actionCell.appendChild(viewButton);
+      row.appendChild(actionCell);
+
+      resultsTable.appendChild(row);
+
+    }
+
+  }catch(error){
+
+    console.error("Results loading error:",error);
+
+    resultsTable.innerHTML =
+      "<tr><td colspan='6'>Unable to load results. Check Firestore Rules and Admin permissions.</td></tr>";
+
+  }
+
+}
+
+
+/* VIEW ONE STUDENT RESULT */
+
+async function viewStudentResult(attempt,marksCell){
+
+  if(!isAdmin()){
+    alert("Admin access required.");
+    return;
+  }
+
+  const details = document.getElementById("resultDetails");
+
+  details.classList.remove("hidden");
+
+  document.getElementById("resultStudentTitle").textContent =
+    (attempt.studentName || "Student")+
+    " - "+
+    (attempt.examTitle || "Examination");
+
+  const questionTable =
+    document.getElementById("resultQuestionTable");
+
+  questionTable.innerHTML =
+    "<tr><td colspan='6'>Calculating result...</td></tr>";
+
+  try{
+
+    const questionQuery = query(
+      collection(db,"examQuestions"),
+      where("examId","==",attempt.examId)
+    );
+
+    const keyQuery = query(
+      collection(db,"examKeys"),
+      where("examId","==",attempt.examId)
+    );
+
+    const [questionSnapshot,keySnapshot] = await Promise.all([
+
+      getDocs(questionQuery),
+      getDocs(keyQuery)
+
+    ]);
+
+    const answerKeys = {};
+
+    keySnapshot.forEach(d=>{
+
+      const key = d.data();
+
+      answerKeys[key.questionId] =
+        String(key.correctOption || "").toUpperCase();
+
+    });
+
+    const questions = [];
+
+    questionSnapshot.forEach(d=>{
+
+      questions.push({
+        id:d.id,
+        ...d.data()
+      });
+
+    });
+
+    questions.sort((a,b)=>
+      (Number(a.order)||0)-(Number(b.order)||0)
+    );
+
+    if(!questions.length){
+
+      questionTable.innerHTML =
+        "<tr><td colspan='6'>No questions found for this examination.</td></tr>";
+
+      return;
+    }
+
+    const studentAnswers = attempt.answers || {};
+
+    let totalMarks = 0;
+    let obtainedMarks = 0;
+
+    let correct = 0;
+    let wrong = 0;
+    let unanswered = 0;
+    let missingKeys = 0;
+
+    questionTable.innerHTML = "";
+
+    questions.forEach((question,index)=>{
+
+      const marks = Number(question.marks)||0;
+
+      totalMarks += marks;
+
+      const studentAnswer =
+        String(studentAnswers[question.id] || "").toUpperCase();
+
+      const correctAnswer =
+        answerKeys[question.id] || "";
+
+      let status = "";
+      let statusClass = "";
+
+      let awardedMarks = 0;
+
+      if(!studentAnswer){
+
+        status = "Unanswered";
+        statusClass = "unanswered-text";
+        unanswered++;
+
+      }else if(!correctAnswer){
+
+        status = "Key Missing";
+        statusClass = "unanswered-text";
+        missingKeys++;
+
+      }else if(studentAnswer === correctAnswer){
+
+        status = "Correct";
+        statusClass = "correct-text";
+
+        correct++;
+        awardedMarks = marks;
+        obtainedMarks += marks;
+
+      }else{
+
+        status = "Wrong";
+        statusClass = "wrong-text";
+
+        wrong++;
+
+      }
+
+      const row = document.createElement("tr");
+
+      const numberCell = document.createElement("td");
+      numberCell.textContent = index+1;
+
+      const questionCell = document.createElement("td");
+      questionCell.className = "result-question";
+      questionCell.textContent = question.questionText || "-";
+
+      const studentCell = document.createElement("td");
+      studentCell.className = "answer-cell";
+
+      if(studentAnswer){
+
+        const optionText =
+          question.options?.[studentAnswer] || "";
+
+        studentCell.textContent =
+          studentAnswer + " - " + optionText;
+
+      }else{
+
+        studentCell.textContent = "Not Answered";
+
+      }
+
+      const correctCell = document.createElement("td");
+      correctCell.className = "answer-cell";
+
+      if(correctAnswer){
+
+        correctCell.textContent =
+          correctAnswer + " - " +
+          (question.options?.[correctAnswer] || "");
+
+      }else{
+
+        correctCell.textContent = "Answer Key Missing";
+
+      }
+
+      const marksCellQuestion = document.createElement("td");
+
+      marksCellQuestion.textContent =
+        formatMarks(awardedMarks)+
+        " / "+
+        formatMarks(marks);
+
+      const statusCell = document.createElement("td");
+
+      const statusText = document.createElement("span");
+      statusText.className = statusClass;
+      statusText.textContent = status;
+
+      statusCell.appendChild(statusText);
+
+      row.append(
+        numberCell,
+        questionCell,
+        studentCell,
+        correctCell,
+        marksCellQuestion,
+        statusCell
+      );
+
+      questionTable.appendChild(row);
+
+    });
+
+
+    /* UPDATE SUMMARY */
+
+    document.getElementById("obtainedMarks").textContent =
+      formatMarks(obtainedMarks)+
+      " / "+
+      formatMarks(totalMarks);
+
+    document.getElementById("correctCount").textContent =
+      correct;
+
+    document.getElementById("wrongCount").textContent =
+      wrong;
+
+    document.getElementById("unansweredCount").textContent =
+      unanswered;
+
+    document.getElementById("resultSummary").textContent =
+      "Total Questions: "+questions.length+
+      " | Correct: "+correct+
+      " | Wrong: "+wrong+
+      " | Unanswered: "+unanswered+
+      " | Missing Answer Keys: "+missingKeys+
+      " | Submitted: "+formatDate(attempt.submittedAt);
+
+
+    /* SHOW MARKS IN MAIN RESULT TABLE */
+
+    if(marksCell){
+
+      marksCell.textContent =
+        formatMarks(obtainedMarks)+
+        " / "+
+        formatMarks(totalMarks);
+
+    }
+
+    details.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+  }catch(error){
+
+    console.error("Result calculation error:",error);
+
+    questionTable.innerHTML =
+      "<tr><td colspan='6'>Unable to calculate result. Please check Admin Firestore permissions.</td></tr>";
+
+  }
+
+}
+
+
+/* CLOSE RESULT DETAILS */
+
+window.closeResultDetails = function(){
+
+  document.getElementById("resultDetails")
+    .classList.add("hidden");
+
+};
+
+
+/* REFRESH RESULTS */
+
+document.getElementById("refreshResultsBtn")
+  .addEventListener("click",loadResults);
+
+
 </script>
+
 </body>
 </html>
