@@ -3,1020 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DigiTech Admin Portal</title>
+<title>DigiTech | Admin Portal</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
 :root {
   --orange:#FF8A24;
   --dark:#171717;
-  --dark2:#252525;
-  --bg:#F7F6F3;
-  --white:#FFFFFF;
+  --light:#F7F6F3;
 }
-
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:var(--light);color:#252525}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--dark)}
+.login-card{background:white;width:100%;max-width:410px;padding:38px;border-radius:16px}
+.logo{font-size:27px;font-weight:800;color:var(--dark)}
+.logo span{color:var(--orange)}
+.login-card h2{margin:28px 0 8px}
+.login-card p{color:#777;font-size:14px;margin-bottom:25px}
+label{display:block;font-size:13px;font-weight:bold;margin:15px 0 7px}
+input,select{width:100%;padding:13px;border:1px solid #ddd;border-radius:7px;font-size:14px;outline:none;background:white}
+input:focus,select:focus{border-color:var(--orange)}
+.primary-btn{background:var(--orange);color:#171717;padding:13px 18px;border-radius:7px;font-weight:bold}
+.login-card .primary-btn{width:100%;margin-top:22px}
+.error{color:#d22;font-size:13px;margin-top:12px}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;background:var(--dark);color:white;padding:25px 16px;flex-shrink:0}
+.sidebar .logo{color:white;margin:0 10px 35px}
+.nav-title{color:#888;font-size:11px;margin:22px 12px 10px}
+.nav-btn{width:100%;padding:13px 14px;background:transparent;color:#ccc;text-align:left;border-radius:7px;margin:3px 0;font-size:14px}
+.nav-btn:hover,.nav-btn.active{background:#333;color:var(--orange)}
+.main{flex:1;min-width:0}
+.topbar{height:75px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid #eee}
+.topbar h3{font-size:18px}
+.admin-label{font-size:13px;color:#777}
+.content{padding:30px}
+.welcome{margin-bottom:25px}
+.welcome h2{font-size:25px;margin-bottom:7px}
+.welcome p{color:#777;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}
+.stat-card,.panel{background:white;padding:22px;border-radius:12px;border:1px solid #eee;margin-bottom:18px}
+.stat-card p{font-size:13px;color:#777}
+.stat-card h2{font-size:30px;margin-top:12px}
+.stat-card .symbol{color:var(--orange);font-size:22px}
+.panel h3{margin-bottom:18px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eee;font-size:13px}
+th{color:#777}
+.status{background:#e8f7ed;color:#168344;padding:5px 9px;border-radius:20px;font-size:11px}
+.inactive-status{background:#ffe8e8;color:#c62828}
+.section{display:none}
+.section.active{display:block}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.section-heading h2{font-size:22px}
+.menu-toggle{display:none;background:transparent;font-size:23px}
+.logout{background:#333;color:white;padding:10px 13px;border-radius:6px}
+.empty{color:#888;font-size:14px;padding:12px 0}
+.action-btn{padding:7px 10px;border-radius:6px;margin:3px;font-size:12px;font-weight:bold}
+.edit-btn{background:#fff0df;color:#a84b00}
+.delete-btn{background:#ffe8e8;color:#c62828}
+.toggle-btn{background:#eee;color:#333}
+.form-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.secondary-btn{background:#eee;padding:12px 18px;border-radius:7px}
+.exam-status{font-size:12px;color:#555;margin-top:8px}
+.notice{padding:12px;background:#fff4e8;border-radius:7px;margin:12px 0;font-size:13px;color:#75400c}
+.preview-table{margin-top:15px}
+.preview-table table{min-width:850px}
+@media(max-width:800px){
+.sidebar{width:210px}
+.content{padding:20px}
+.stats{grid-template-columns:1fr 1fr}
 }
-
-body {
-  background:var(--bg);
-  color:#252525;
-}
-
-.hidden { display:none !important; }
-
-button { cursor:pointer; border:0; }
-
-input,select,textarea {
-  width:100%;
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:7px;
-  font-size:14px;
-  outline:none;
-  background:white;
-}
-
-input:focus,select:focus,textarea:focus {
-  border-color:var(--orange);
-}
-
-textarea {
-  min-height:90px;
-  resize:vertical;
-}
-
-label {
-  display:block;
-  font-size:13px;
-  font-weight:bold;
-  margin:15px 0 7px;
-}
-
-.primary-btn {
-  background:var(--orange);
-  color:#171717;
-  padding:12px 18px;
-  border-radius:7px;
-  font-weight:bold;
-}
-
-.secondary-btn {
-  background:#eee;
-  padding:12px 18px;
-  border-radius:7px;
-}
-
-.action-btn {
-  padding:7px 10px;
-  border-radius:6px;
-  margin:3px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.edit-btn {
-  background:#fff0df;
-  color:#a84b00;
-}
-
-.delete-btn {
-  background:#ffe8e8;
-  color:#c62828;
-}
-
-.toggle-btn {
-  background:#eee;
-  color:#333;
-}
-
-.login-page {
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:var(--dark);
-}
-
-.login-card {
-  background:white;
-  width:100%;
-  max-width:410px;
-  padding:38px;
-  border-radius:16px;
-}
-
-.logo {
-  font-size:27px;
-  font-weight:800;
-  color:var(--dark);
-}
-
-.logo span { color:var(--orange); }
-
-.login-card h2 {
-  margin:28px 0 8px;
-}
-
-.login-card p {
-  color:#777;
-  font-size:14px;
-  margin-bottom:25px;
-}
-
-.login-card .primary-btn {
-  width:100%;
-  margin-top:22px;
-}
-
-.error {
-  color:#d22;
-  font-size:13px;
-  margin-top:12px;
-}
-
-.layout {
-  display:flex;
-  min-height:100vh;
-}
-
-.sidebar {
-  width:245px;
-  background:var(--dark);
-  color:white;
-  padding:25px 16px;
-  flex-shrink:0;
-}
-
-.sidebar .logo {
-  color:white;
-  margin:0 10px 35px;
-}
-
-.nav-title {
-  color:#888;
-  font-size:11px;
-  margin:22px 12px 10px;
-}
-
-.nav-btn {
-  width:100%;
-  padding:13px 14px;
-  background:transparent;
-  color:#ccc;
-  text-align:left;
-  border-radius:7px;
-  margin:3px 0;
-  font-size:14px;
-}
-
-.nav-btn:hover,
-.nav-btn.active {
-  background:#333;
-  color:var(--orange);
-}
-
-.main {
-  flex:1;
-  min-width:0;
-}
-
-.topbar {
-  height:75px;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 30px;
-  border-bottom:1px solid #eee;
-}
-
-.content { padding:30px; }
-
-.admin-label {
-  font-size:13px;
-  color:#777;
-}
-
-.welcome { margin-bottom:25px; }
-.welcome h2 { font-size:25px; margin-bottom:7px; }
-.welcome p { color:#777; font-size:14px; }
-
-.stats {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-  margin-bottom:28px;
-}
-
-.stat-card,.panel {
-  background:white;
-  padding:22px;
-  border-radius:12px;
-  border:1px solid #eee;
-}
-
-.stat-card p {
-  font-size:13px;
-  color:#777;
-}
-
-.stat-card h2 {
-  font-size:30px;
-  margin-top:12px;
-}
-
-.stat-card .symbol {
-  color:var(--orange);
-  font-size:22px;
-}
-
-.panel h3 { margin-bottom:18px; }
-
-.table-wrap { overflow-x:auto; }
-
-table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:620px;
-}
-
-th,td {
-  text-align:left;
-  padding:14px 10px;
-  border-bottom:1px solid #eee;
-  font-size:13px;
-}
-
-th { color:#777; }
-
-.status {
-  background:#e8f7ed;
-  color:#168344;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  white-space:nowrap;
-}
-
-.inactive-status,.draft-status {
-  background:#fff0df;
-  color:#a84b00;
-}
-
-.section { display:none; }
-.section.active { display:block; }
-
-.section-heading {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:20px;
-}
-
-.section-heading h2 { font-size:22px; }
-
-.form-actions {
-  margin-top:20px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.form-grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:0 16px;
-}
-
-.form-grid .full { grid-column:1/-1; }
-
-.empty {
-  color:#888;
-  font-size:14px;
-  padding:12px 0;
-}
-
-.notice {
-  padding:12px 14px;
-  background:#fff0df;
-  border-radius:8px;
-  color:#75400d;
-  font-size:13px;
-  line-height:1.5;
-  margin-bottom:16px;
-}
-
-.help-text {
-  font-size:12px;
-  color:#777;
-  margin-top:6px;
-  line-height:1.5;
-}
-
-.question-card {
-  border:1px solid #eee;
-  border-radius:10px;
-  padding:16px;
-  margin:12px 0;
-  background:white;
-}
-
-.question-card h4 { margin-bottom:10px; }
-
-.question-options {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  font-size:13px;
-  color:#555;
-}
-
-.question-options span {
-  padding:8px;
-  background:#f7f6f3;
-  border-radius:6px;
-}
-
-.menu-toggle {
-  display:none;
-  background:transparent;
-  font-size:23px;
-}
-
-@media(max-width:800px) {
-  .sidebar { width:210px; }
-  .content { padding:20px; }
-  .stats { grid-template-columns:1fr 1fr; }
-}
-
-@media(max-width:600px) {
-  .sidebar {
-    display:none;
-    position:fixed;
-    z-index:5;
-    height:100vh;
-  }
-
-  .sidebar.open { display:block; }
-  .menu-toggle { display:block; }
-  .topbar { padding:0 15px; }
-  .content { padding:17px; }
-  .stats { grid-template-columns:1fr; }
-  .admin-label { display:none; }
-  .section-heading { align-items:flex-start; flex-direction:column; }
-  .form-grid { grid-template-columns:1fr; }
-  .form-grid .full { grid-column:auto; }
-  .login-card { padding:26px; }
+@media(max-width:600px){
+.sidebar{display:none;position:fixed;z-index:5;height:100vh}
+.sidebar.open{display:block}
+.menu-toggle{display:block}
+.topbar{padding:0 15px}
+.content{padding:17px}
+.stats{grid-template-columns:1fr}
+.admin-label{display:none}
+.section-heading{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ADMIN LOGIN -->
-
+<!-- LOGIN -->
 <div class="login-page" id="loginPage">
-
   <div class="login-card">
-
     <div class="logo">Digi<span>Tech</span></div>
-
     <h2>Admin Login</h2>
     <p>Sign in to manage the Examination Portal.</p>
 
     <form id="loginForm">
-
       <label>Email Address</label>
-      <input type="email" id="email" required>
+      <input type="email" id="email" placeholder="Enter admin email" required>
 
       <label>Password</label>
-      <input type="password" id="password" required>
+      <input type="password" id="password" placeholder="Enter password" required>
 
-      <button class="primary-btn" id="loginButton">
-        Login to Dashboard
-      </button>
-
+      <button class="primary-btn" id="loginButton" type="submit">Login to Dashboard</button>
       <div class="error" id="error"></div>
-
     </form>
-
   </div>
-
 </div>
 
-
-<!-- ADMIN DASHBOARD -->
-
+<!-- DASHBOARD -->
 <div class="layout hidden" id="dashboard">
 
   <aside class="sidebar" id="sidebar">
-
     <div class="logo">Digi<span>Tech</span></div>
-
     <div class="nav-title">MAIN MENU</div>
 
-    <button class="nav-btn active" onclick="showSection('overview',this)">
-      ▦ Dashboard
-    </button>
-
-    <button class="nav-btn" onclick="showSection('students',this)">
-      ♙ Students
-    </button>
-
-    <button class="nav-btn" onclick="showSection('subjects',this)">
-      ▤ Subjects
-    </button>
-
-    <button class="nav-btn" onclick="showSection('exams',this)">
-      ✎ Examinations
-    </button>
-
-    <button class="nav-btn" onclick="showSection('results',this)">
-      ▥ Results
-    </button>
+    <button class="nav-btn active" onclick="showSection('overview',this)">▦ Dashboard</button>
+    <button class="nav-btn" onclick="showSection('students',this)">♙ Students</button>
+    <button class="nav-btn" onclick="showSection('subjects',this)">▤ Subjects</button>
+    <button class="nav-btn" onclick="showSection('exams',this)">✎ Examinations</button>
+    <button class="nav-btn" onclick="showSection('results',this)">▥ Results</button>
 
     <div class="nav-title">ACCOUNT</div>
-
-    <button class="nav-btn" onclick="logout()">
-      ↪ Logout
-    </button>
-
+    <button class="nav-btn" onclick="logout()">↪ Logout</button>
   </aside>
 
-
   <main class="main">
-
     <header class="topbar">
-
       <div style="display:flex;align-items:center;gap:12px">
-
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-
         <h3>Admin Panel</h3>
-
       </div>
-
-      <div class="admin-label">
-        Administrator | DigiTech
-      </div>
-
+      <div class="admin-label">Administrator | DigiTech</div>
     </header>
-
 
     <div class="content">
 
-
-      <!-- DASHBOARD -->
-
+      <!-- OVERVIEW -->
       <section class="section active" id="overview">
-
         <div class="welcome">
           <h2>Welcome, Admin!</h2>
-          <p>Manage your DigiTech Examination Portal.</p>
+          <p>Manage your DigiTech Examination Portal from here.</p>
         </div>
 
         <div class="stats">
-
           <div class="stat-card">
-            <p>Total Students</p>
-            <h2 id="studentCount">0</h2>
+            <p>Total Students</p><h2 id="studentCount">0</h2>
             <span class="symbol">♙</span>
           </div>
-
           <div class="stat-card">
-            <p>Total Subjects</p>
-            <h2 id="subjectCount">0</h2>
+            <p>Total Subjects</p><h2 id="subjectCount">0</h2>
             <span class="symbol">▤</span>
           </div>
-
           <div class="stat-card">
-            <p>Total Examinations</p>
-            <h2 id="examCount">0</h2>
+            <p>Total Examinations</p><h2 id="examCount">0</h2>
             <span class="symbol">✎</span>
           </div>
-
         </div>
 
         <div class="panel">
           <h3>Portal Overview</h3>
-          <p class="empty">
-            Welcome to your administration dashboard.
-          </p>
+          <p class="empty">Use the sidebar to manage students, subjects and examinations.</p>
         </div>
-
       </section>
 
-
       <!-- STUDENTS -->
-
       <section class="section" id="students">
-
         <div class="section-heading">
-
           <h2>Student Management</h2>
-
-          <button class="primary-btn" onclick="showStudentForm()">
-            + Add Student
-          </button>
-
+          <button class="primary-btn" onclick="showStudentForm()">+ Add Student</button>
         </div>
 
         <div class="panel hidden" id="studentForm">
-
           <h3>Create Student Record</h3>
-
           <form id="addStudentForm">
-
             <label>Student Full Name</label>
-            <input id="studentName" required>
+            <input id="studentName" required placeholder="Enter student name">
 
             <label>Student Email</label>
-            <input id="studentEmail" type="email" required>
+            <input id="studentEmail" type="email" required placeholder="Enter student email">
 
             <label>Student ID</label>
-            <input id="studentId" required>
+            <input id="studentId" required placeholder="Enter student ID">
 
             <div class="form-actions">
-
-              <button class="primary-btn" type="submit">
-                Save Student
-              </button>
-
-              <button type="button" class="secondary-btn" onclick="hideStudentForm()">
-                Cancel
-              </button>
-
+              <button class="primary-btn" type="submit">Save Student</button>
+              <button type="button" class="secondary-btn" onclick="hideStudentForm()">Cancel</button>
             </div>
-
           </form>
-
-        </div>
-
-
-        <div class="panel" style="margin-top:18px">
-
-          <h3>Registered Students</h3>
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Student ID</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody id="studentTable">
-                <tr><td colspan="5">Loading students...</td></tr>
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- SUBJECTS -->
-
-      <section class="section" id="subjects">
-
-        <div class="section-heading">
-
-          <h2>Subject Management</h2>
-
-          <button class="primary-btn" onclick="showSubjectForm()">
-            + Add Subject
-          </button>
-
-        </div>
-
-        <div class="panel hidden" id="subjectForm">
-
-          <h3 id="subjectFormTitle">Add New Subject</h3>
-
-          <form id="addSubjectForm">
-
-            <label>Subject Name</label>
-            <input id="subjectName" required>
-
-            <label>Subject Description</label>
-            <input id="subjectDescription">
-
-            <div class="form-actions">
-
-              <button class="primary-btn" type="submit">
-                Save Subject
-              </button>
-
-              <button type="button" class="secondary-btn" onclick="hideSubjectForm()">
-                Cancel
-              </button>
-
-            </div>
-
-          </form>
-
-        </div>
-
-
-        <div class="panel" style="margin-top:18px">
-
-          <h3>Available Subjects</h3>
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-                <tr>
-                  <th>Subject Name</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody id="subjectTable">
-                <tr><td colspan="4">Loading subjects...</td></tr>
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- EXAMINATIONS -->
-
-      <section class="section" id="exams">
-
-        <div class="section-heading">
-
-          <h2>Examination Management</h2>
-
-          <button class="primary-btn" id="newExamButton">
-            + Create Examination
-          </button>
-
-        </div>
-
-
-        <div class="notice">
-          Create exam details first and save as Draft.
-          Then add MCQ questions. Publish only after checking
-          all questions and schedule.
-        </div>
-
-
-        <!-- EXAM FORM -->
-
-        <div class="panel hidden" id="examFormPanel">
-
-          <h3 id="examFormTitle">Create New Examination</h3>
-
-          <form id="examForm">
-
-            <div class="form-grid">
-
-              <div class="full">
-
-                <label>Examination Title</label>
-
-                <input
-                  id="examTitle"
-                  required
-                  maxlength="100"
-                  placeholder="Example: Cyber Security - Unit Test 1"
-                >
-
-              </div>
-
-
-              <div>
-
-                <label>Subject</label>
-
-                <select id="examSubject" required>
-                  <option value="">Select subject</option>
-                </select>
-
-              </div>
-
-
-              <div>
-
-                <label>Duration (Minutes)</label>
-
-                <input
-                  type="number"
-                  id="examDuration"
-                  min="1"
-                  max="300"
-                  required
-                  value="30"
-                >
-
-              </div>
-
-
-              <div>
-
-                <label>Start Date & Time</label>
-
-                <input
-                  type="datetime-local"
-                  id="examStart"
-                  required
-                >
-
-              </div>
-
-
-              <div>
-
-                <label>End Date & Time (Deadline)</label>
-
-                <input
-                  type="datetime-local"
-                  id="examEnd"
-                  required
-                >
-
-              </div>
-
-
-              <div class="full">
-
-                <label>Exam Instructions (English)</label>
-
-                <textarea
-                  id="examInstructions"
-                  required
-                  placeholder="Enter examination instructions..."
-                ></textarea>
-
-              </div>
-
-            </div>
-
-
-            <p class="help-text">
-              The exam is scheduled between the start and end time.
-              Duration controls the attempt timer. Server-side timing
-              and student access will be implemented separately.
-            </p>
-
-
-            <div class="form-actions">
-
-              <button class="primary-btn" type="submit" id="saveExamButton">
-                Save as Draft
-              </button>
-
-              <button type="button" class="secondary-btn" id="cancelExamButton">
-                Cancel
-              </button>
-
-            </div>
-
-          </form>
-
-        </div>
-
-
-        <!-- QUESTION MANAGER -->
-
-        <div class="panel hidden" id="questionPanel" style="margin-top:18px">
-
-          <div class="section-heading">
-
-            <h3 id="questionPanelTitle">Add MCQ Questions</h3>
-
-            <button class="secondary-btn" id="closeQuestionPanel">
-              Close
-            </button>
-
-          </div>
-
-          <div class="notice" id="questionExamSummary"></div>
-
-
-          <form id="questionForm">
-
-            <label>Question</label>
-
-            <textarea
-              id="questionText"
-              required
-              placeholder="Type your question here..."
-            ></textarea>
-
-
-            <div class="form-grid">
-
-              <div>
-                <label>Option A</label>
-                <input id="optionA" required>
-              </div>
-
-              <div>
-                <label>Option B</label>
-                <input id="optionB" required>
-              </div>
-
-              <div>
-                <label>Option C</label>
-                <input id="optionC" required>
-              </div>
-
-              <div>
-                <label>Option D</label>
-                <input id="optionD" required>
-              </div>
-
-              <div>
-
-                <label>Correct Answer</label>
-
-                <select id="correctOption" required>
-                  <option value="">Select correct option</option>
-                  <option value="A">Option A</option>
-                  <option value="B">Option B</option>
-                  <option value="C">Option C</option>
-                  <option value="D">Option D</option>
-                </select>
-
-              </div>
-
-              <div>
-
-                <label>Marks</label>
-
-                <input
-                  type="number"
-                  id="questionMarks"
-                  min="1"
-                  max="100"
-                  value="1"
-                  required
-                >
-
-              </div>
-
-            </div>
-
-
-            <div class="form-actions">
-
-              <button class="primary-btn" type="submit" id="saveQuestionButton">
-                Add Question
-              </button>
-
-              <button type="button" class="secondary-btn" id="resetQuestionButton">
-                Clear
-              </button>
-
-            </div>
-
-          </form>
-
-
-          <div style="margin-top:22px">
-
-            <h3>
-              Questions Added:
-              <span id="questionCount">0</span>
-            </h3>
-
-            <div id="questionList"></div>
-
-          </div>
-
-
-          <div class="form-actions">
-
-            <button class="primary-btn" id="publishExamButton">
-              Publish Examination
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- EXAM LIST -->
-
-        <div class="panel" style="margin-top:18px">
-
-          <h3>Examination List</h3>
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>Exam Title</th>
-                  <th>Subject</th>
-                  <th>Duration</th>
-                  <th>Schedule</th>
-                  <th>Questions</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-
-              </thead>
-
-              <tbody id="examTable">
-                <tr><td colspan="7">Loading examinations...</td></tr>
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- RESULTS -->
-
-      <section class="section" id="results">
-
-        <div class="section-heading">
-          <h2>Examination Results</h2>
         </div>
 
         <div class="panel">
-
-          <h3>Student Results</h3>
-
-          <p class="empty">
-            Student examination results will appear here
-            after the student exam module is connected.
-          </p>
-
+          <h3>Registered Students</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Student ID</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="studentTable"><tr><td colspan="5">Loading students...</td></tr></tbody>
+            </table>
+          </div>
         </div>
-
       </section>
 
+      <!-- SUBJECTS -->
+      <section class="section" id="subjects">
+        <div class="section-heading">
+          <h2>Subject Management</h2>
+          <button class="primary-btn" onclick="showSubjectForm()">+ Add Subject</button>
+        </div>
+
+        <div class="panel hidden" id="subjectForm">
+          <h3 id="subjectFormTitle">Add New Subject</h3>
+          <form id="addSubjectForm">
+            <label>Subject Name</label>
+            <input id="subjectName" required placeholder="Enter subject name">
+
+            <label>Subject Description</label>
+            <input id="subjectDescription" placeholder="Enter subject description">
+
+            <div class="form-actions">
+              <button class="primary-btn" type="submit">Save Subject</button>
+              <button type="button" class="secondary-btn" onclick="hideSubjectForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h3>Available Subjects</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Subject Name</th><th>Description</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="subjectTable"><tr><td colspan="4">Loading subjects...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXAMINATIONS -->
+      <section class="section" id="exams">
+        <div class="section-heading">
+          <h2>Examination Management</h2>
+          <button class="primary-btn" onclick="showExamForm()">+ Create Exam</button>
+        </div>
+
+        <div class="panel hidden" id="examForm">
+          <h3>Create New Examination</h3>
+
+          <form id="addExamForm">
+            <label>Examination Title</label>
+            <input id="examTitle" required placeholder="Example: Cyber Security Unit Test">
+
+            <label>Select Subject</label>
+            <select id="examSubject" required>
+              <option value="">Select Subject</option>
+            </select>
+
+            <label>Duration (Minutes)</label>
+            <input type="number" id="examDuration" min="1" value="30" required>
+
+            <div class="form-actions">
+              <button class="primary-btn" type="submit">Create Examination</button>
+              <button class="secondary-btn" type="button" onclick="hideExamForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h3>Available Examinations</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Exam Title</th><th>Subject</th><th>Duration</th><th>Questions</th><th>Status</th><th>Action</th></tr>
+              </thead>
+              <tbody id="examTable"><tr><td colspan="6">Loading examinations...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- QUESTION MANAGER -->
+        <div class="panel hidden" id="questionManager">
+          <h3 id="questionExamTitle">Question Manager</h3>
+          <p id="questionExamSummary" class="exam-status"></p>
+
+          <div class="notice">
+            Excel file madhun questions upload kara. Correct Answer column madhye A, B, C kiwa D asel.
+          </div>
+
+          <label>Select Excel File (.xlsx / .xls)</label>
+          <input type="file" id="excelFile" accept=".xlsx,.xls">
+
+          <div class="form-actions">
+            <button class="primary-btn" type="button" id="previewExcelBtn">Preview Excel</button>
+            <button class="secondary-btn" type="button" id="clearExcelBtn">Clear</button>
+          </div>
+
+          <div id="excelMessage" class="notice hidden"></div>
+
+          <div id="excelPreview" class="preview-table"></div>
+
+          <div class="form-actions">
+            <button class="primary-btn hidden" type="button" id="importExcelBtn">Import Questions to Firebase</button>
+            <button class="secondary-btn" type="button" onclick="closeQuestionManager()">Close</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="section" id="results">
+        <div class="section-heading"><h2>Examination Results</h2></div>
+        <div class="panel">
+          <h3>Student Results</h3>
+          <p class="empty">Results module will be connected separately.</p>
+        </div>
+      </section>
 
     </div>
-
   </main>
-
 </div>
-
 
 <script type="module">
 
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 
 import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
+  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  updateDoc,
-  serverTimestamp,
-  Timestamp,
-  query,
-  where
+  getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
+  updateDoc, serverTimestamp, writeBatch
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
-
 /* FIREBASE CONFIG */
-
 const firebaseConfig = {
   apiKey: "AIzaSyCRKMuzKEShSTmg4luQMRg_youeuIUo9nU",
   authDomain: "digiteh-skill-portal.firebaseapp.com",
@@ -1026,1448 +344,702 @@ const firebaseConfig = {
   appId: "1:951572143715:web:d595f1fc4ae87090c4a256"
 };
 
-
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
-
 const ADMIN_EMAIL = "digitechecosystem@gmail.com";
-
 const ADMIN_UID = "Pzdm5hd10gQFPtlv6YZVUdyW2wq1";
 
-
 const studentCollection = collection(db,"students");
-
 const subjectCollection = collection(db,"subjects");
-
 const examCollection = collection(db,"exams");
 
+const loginPage = document.getElementById("loginPage");
+const dashboard = document.getElementById("dashboard");
+const errorBox = document.getElementById("error");
+const loginButton = document.getElementById("loginButton");
 
 let editingSubjectId = null;
+let activeExam = null;
+let pendingExcelQuestions = [];
 
-let currentExamId = null;
-
-let currentExamData = null;
-
-let currentQuestions = [];
-
-
-const $ = id => document.getElementById(id);
-
-
-function safeCell(value) {
-
-  const td = document.createElement("td");
-
-  td.textContent = value ?? "";
-
-  return td;
-
+function isAdmin(){
+  const user = auth.currentUser;
+  return !!user && user.email === ADMIN_EMAIL && user.uid === ADMIN_UID;
 }
 
-
-function formatDate(value) {
-
-  if (!value) return "-";
-
-  const date = value.toDate
-    ? value.toDate()
-    : new Date(value);
-
-  return date.toLocaleString();
-
-}
-
-
-function toLocalDateTime(value) {
-
-  const date = value.toDate
-    ? value.toDate()
-    : new Date(value);
-
-  const offset = date.getTimezoneOffset() * 60000;
-
-  return new Date(
-    date.getTime() - offset
-  ).toISOString().slice(0,16);
-
-}
-
-
-/* AUTHENTICATION */
-
+/* AUTH */
 onAuthStateChanged(auth, async user => {
-
-  if (
-    user &&
-    user.email === ADMIN_EMAIL &&
-    user.uid === ADMIN_UID
-  ) {
-
-    $("loginPage").classList.add("hidden");
-
-    $("dashboard").classList.remove("hidden");
-
-    await Promise.all([
-      loadStudents(),
-      loadSubjects(),
-      loadExams()
-    ]);
-
-  } else {
-
-    $("loginPage").classList.remove("hidden");
-
-    $("dashboard").classList.add("hidden");
-
-    if (user) {
-
-      await signOut(auth);
-
-      $("error").textContent =
-        "You are not authorized as Admin.";
-
-    }
-
+  if(user && user.email === ADMIN_EMAIL && user.uid === ADMIN_UID){
+    loginPage.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    await loadStudents();
+    await loadSubjects();
+    await loadExams();
+  }else{
+    loginPage.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+    if(user) await signOut(auth);
   }
-
 });
 
-
-$("loginForm").addEventListener("submit", async e => {
-
+document.getElementById("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();
+  loginButton.disabled = true;
+  loginButton.textContent = "Please wait...";
+  errorBox.textContent = "";
 
-  const button = $("loginButton");
-
-  $("error").textContent = "";
-
-  button.disabled = true;
-
-  button.textContent = "Please wait...";
-
-  try {
-
+  try{
     const result = await signInWithEmailAndPassword(
       auth,
-      $("email").value.trim(),
-      $("password").value
+      document.getElementById("email").value.trim(),
+      document.getElementById("password").value
     );
 
-    if (
-      result.user.email !== ADMIN_EMAIL ||
-      result.user.uid !== ADMIN_UID
-    ) {
-
+    if(result.user.email !== ADMIN_EMAIL || result.user.uid !== ADMIN_UID){
       await signOut(auth);
-
-      $("error").textContent =
-        "You are not authorized as Admin.";
-
+      errorBox.textContent = "You are not authorized as Admin.";
     }
-
-  } catch(error) {
-
+  }catch(error){
     console.error(error);
-
-    $("error").textContent =
-      "Login failed. Check your email and password.";
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent = "Login to Dashboard";
-
+    errorBox.textContent = "Login failed. Please check your email and password.";
+  }finally{
+    loginButton.disabled = false;
+    loginButton.textContent = "Login to Dashboard";
   }
-
 });
 
-
-window.logout = () => signOut(auth);
-
-
-window.toggleMenu = () => {
-  $("sidebar").classList.toggle("open");
+window.logout = async function(){
+  await signOut(auth);
 };
 
-
-window.showSection = (id,button) => {
-
-  document.querySelectorAll(".section")
-    .forEach(s => s.classList.remove("active"));
-
-  $(id).classList.add("active");
-
-  document.querySelectorAll(".nav-btn")
-    .forEach(b => b.classList.remove("active"));
-
+window.showSection = function(id,button){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   button.classList.add("active");
-
-  $("sidebar").classList.remove("open");
-
-  if (id === "exams") loadExams();
-
+  document.getElementById("sidebar").classList.remove("open");
 };
 
-
-/* STUDENT MANAGEMENT */
-
-window.showStudentForm = () => {
-  $("studentForm").classList.remove("hidden");
+window.toggleMenu = function(){
+  document.getElementById("sidebar").classList.toggle("open");
 };
 
-window.hideStudentForm = () => {
-  $("studentForm").classList.add("hidden");
-};
+/* STUDENTS */
+window.showStudentForm = ()=>document.getElementById("studentForm").classList.remove("hidden");
+window.hideStudentForm = ()=>document.getElementById("studentForm").classList.add("hidden");
 
+const studentTable = document.getElementById("studentTable");
+const studentCount = document.getElementById("studentCount");
 
-async function loadStudents() {
+async function loadStudents(){
+  studentTable.innerHTML = "<tr><td colspan='5'>Loading...</td></tr>";
+  try{
+    const snap = await getDocs(studentCollection);
+    studentCount.textContent = snap.size;
+    studentTable.innerHTML = "";
 
-  $("studentTable").innerHTML =
-    '<tr><td colspan="5">Loading students...</td></tr>';
-
-  try {
-
-    const snapshot = await getDocs(studentCollection);
-
-    $("studentCount").textContent = snapshot.size;
-
-    $("studentTable").replaceChildren();
-
-    if (snapshot.empty) {
-
-      $("studentTable").innerHTML =
-        '<tr><td colspan="5">No students added yet.</td></tr>';
-
+    if(snap.empty){
+      studentTable.innerHTML = "<tr><td colspan='5'>No students added yet.</td></tr>";
       return;
-
     }
 
-    snapshot.forEach(studentDoc => {
-
-      const student = studentDoc.data();
-
+    snap.forEach(studentDoc=>{
+      const s = studentDoc.data();
       const row = document.createElement("tr");
 
-      row.append(
-        safeCell(student.name),
-        safeCell(student.email),
-        safeCell(student.studentId)
-      );
-
-      const statusCell = safeCell("");
-
-      const badge = document.createElement("span");
-
-      badge.className = "status";
-
-      badge.textContent = student.status || "Active";
-
-      statusCell.append(badge);
-
-      row.append(statusCell);
-
-      const actionCell = safeCell("");
-
-      const deleteButton = document.createElement("button");
-
-      deleteButton.className = "action-btn delete-btn";
-
-      deleteButton.textContent = "Delete";
-
-      deleteButton.onclick = () => deleteStudent(studentDoc.id);
-
-      actionCell.append(deleteButton);
-
-      row.append(actionCell);
-
-      $("studentTable").append(row);
-
-    });
-
-  } catch(error) {
-
-    console.error(error);
-
-    $("studentTable").innerHTML =
-      '<tr><td colspan="5">Unable to load students.</td></tr>';
-
-  }
-
-}
-
-
-$("addStudentForm").addEventListener("submit", async function(e) {
-
-  e.preventDefault();
-
-  const button = this.querySelector('button[type="submit"]');
-
-  button.disabled = true;
-
-  button.textContent = "Saving...";
-
-  try {
-
-    await addDoc(studentCollection, {
-
-      name: $("studentName").value.trim(),
-
-      email: $("studentEmail").value.trim(),
-
-      studentId: $("studentId").value.trim(),
-
-      uid: "",
-
-      status: "Active",
-
-      createdAt: serverTimestamp()
-
-    });
-
-    this.reset();
-
-    window.hideStudentForm();
-
-    await loadStudents();
-
-    alert("Student record saved successfully!");
-
-  } catch(error) {
-
-    console.error(error);
-
-    alert("Student could not be saved. Check Firestore Rules.");
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent = "Save Student";
-
-  }
-
-});
-
-
-async function deleteStudent(id) {
-
-  if (!confirm("Delete this student record?")) return;
-
-  try {
-
-    await deleteDoc(doc(db,"students",id));
-
-    await loadStudents();
-
-  } catch(error) {
-
-    console.error(error);
-
-    alert("Could not delete student record.");
-
-  }
-
-}
-
-
-/* SUBJECT MANAGEMENT */
-
-window.showSubjectForm = () => {
-
-  editingSubjectId = null;
-
-  $("addSubjectForm").reset();
-
-  $("subjectFormTitle").textContent = "Add New Subject";
-
-  $("subjectForm").classList.remove("hidden");
-
-};
-
-
-window.hideSubjectForm = () => {
-
-  $("subjectForm").classList.add("hidden");
-
-  editingSubjectId = null;
-
-};
-
-
-async function loadSubjects() {
-
-  $("subjectTable").innerHTML =
-    '<tr><td colspan="4">Loading subjects...</td></tr>';
-
-  try {
-
-    const snapshot = await getDocs(subjectCollection);
-
-    $("subjectCount").textContent = snapshot.size;
-
-    const subjects = snapshot.docs.map(d => ({
-      id:d.id,
-      ...d.data()
-    }));
-
-    renderSubjects(subjects);
-
-    populateSubjectSelect(subjects);
-
-  } catch(error) {
-
-    console.error(error);
-
-    $("subjectTable").innerHTML =
-      '<tr><td colspan="4">Unable to load subjects.</td></tr>';
-
-  }
-
-}
-
-
-function populateSubjectSelect(subjects) {
-
-  const select = $("examSubject");
-
-  const previous = select.value;
-
-  select.replaceChildren(
-    new Option("Select subject","")
-  );
-
-  subjects
-    .filter(s => (s.status || "Active") === "Active")
-    .forEach(s => {
-      select.add(new Option(s.name,s.id));
-    });
-
-  if (subjects.some(s => s.id === previous)) {
-    select.value = previous;
-  }
-
-}
-
-
-function renderSubjects(subjects) {
-
-  $("subjectTable").replaceChildren();
-
-  if (!subjects.length) {
-
-    $("subjectTable").innerHTML =
-      '<tr><td colspan="4">No subjects added yet.</td></tr>';
-
-    return;
-
-  }
-
-  subjects.forEach(subject => {
-
-    const row = document.createElement("tr");
-
-    row.append(
-      safeCell(subject.name),
-      safeCell(subject.description || "-")
-    );
-
-    const statusCell = safeCell("");
-
-    const badge = document.createElement("span");
-
-    badge.className = "status";
-
-    badge.textContent = subject.status || "Active";
-
-    if (subject.status === "Inactive") {
-      badge.classList.add("inactive-status");
-    }
-
-    statusCell.append(badge);
-
-    row.append(statusCell);
-
-    const actions = safeCell("");
-
-    const edit = document.createElement("button");
-
-    edit.className = "action-btn edit-btn";
-
-    edit.textContent = "Edit";
-
-    edit.onclick = () => window.editSubject(
-      subject.id,
-      subject.name,
-      subject.description
-    );
-
-    const toggle = document.createElement("button");
-
-    toggle.className = "action-btn toggle-btn";
-
-    toggle.textContent =
-      subject.status === "Inactive"
-        ? "Activate"
-        : "Deactivate";
-
-    toggle.onclick = () => window.toggleSubjectStatus(
-      subject.id,
-      subject.status || "Active"
-    );
-
-    const del = document.createElement("button");
-
-    del.className = "action-btn delete-btn";
-
-    del.textContent = "Delete";
-
-    del.onclick = () => window.deleteSubject(subject.id);
-
-    actions.append(edit,toggle,del);
-
-    row.append(actions);
-
-    $("subjectTable").append(row);
-
-  });
-
-}
-
-
-$("addSubjectForm").addEventListener("submit",async function(e) {
-
-  e.preventDefault();
-
-  const button = this.querySelector('button[type="submit"]');
-
-  button.disabled = true;
-
-  button.textContent = "Saving...";
-
-  const subject = {
-
-    name: $("subjectName").value.trim(),
-
-    description: $("subjectDescription").value.trim()
-
-  };
-
-  try {
-
-    if (editingSubjectId) {
-
-      await updateDoc(
-        doc(db,"subjects",editingSubjectId),
-        {
-          ...subject,
-          updatedAt:serverTimestamp()
-        }
-      );
-
-    } else {
-
-      await addDoc(subjectCollection, {
-
-        ...subject,
-
-        status:"Active",
-
-        createdAt:serverTimestamp()
-
+      [s.name || "",s.email || "",s.studentId || ""].forEach(value=>{
+        const td = document.createElement("td");
+        td.textContent = value;
+        row.appendChild(td);
       });
 
-    }
+      const status = document.createElement("td");
+      const badge = document.createElement("span");
+      badge.className = "status";
+      badge.textContent = s.status || "Active";
+      status.appendChild(badge);
+      row.appendChild(status);
 
-    this.reset();
+      const action = document.createElement("td");
+      const del = document.createElement("button");
+      del.className = "action-btn delete-btn";
+      del.textContent = "Delete";
+      del.onclick = ()=>deleteStudent(studentDoc.id);
+      action.appendChild(del);
+      row.appendChild(action);
 
-    window.hideSubjectForm();
-
-    await loadSubjects();
-
-    alert("Subject saved successfully!");
-
-  } catch(error) {
-
-    console.error(error);
-
-    alert("Subject could not be saved. Check Firestore Rules.");
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent = "Save Subject";
-
-  }
-
-});
-
-
-window.editSubject = (id,name,description) => {
-
-  editingSubjectId = id;
-
-  $("subjectName").value = name || "";
-
-  $("subjectDescription").value = description || "";
-
-  $("subjectFormTitle").textContent = "Edit Subject";
-
-  $("subjectForm").classList.remove("hidden");
-
-};
-
-
-window.toggleSubjectStatus = async (id,status) => {
-
-  try {
-
-    await updateDoc(doc(db,"subjects",id), {
-
-      status:status === "Active" ? "Inactive" : "Active",
-
-      updatedAt:serverTimestamp()
-
+      studentTable.appendChild(row);
     });
-
-    await loadSubjects();
-
-  } catch(error) {
-
+  }catch(error){
     console.error(error);
-
-    alert("Unable to update subject status.");
-
+    studentTable.innerHTML = "<tr><td colspan='5'>Unable to load students. Check Firestore Rules.</td></tr>";
   }
-
-};
-
-
-window.deleteSubject = async id => {
-
-  if (!confirm("Delete this subject? Existing exams may refer to it.")) return;
-
-  try {
-
-    await deleteDoc(doc(db,"subjects",id));
-
-    await loadSubjects();
-
-  } catch(error) {
-
-    console.error(error);
-
-    alert("Unable to delete subject.");
-
-  }
-
-};
-
-
-/* EXAMINATION MANAGEMENT */
-
-$("newExamButton").onclick = () => openExamForm();
-
-
-$("cancelExamButton").onclick = () => {
-
-  $("examFormPanel").classList.add("hidden");
-
-  $("examForm").reset();
-
-};
-
-
-function openExamForm(exam = null) {
-
-  $("examForm").reset();
-
-  currentExamId = exam?.id || null;
-
-  $("examFormTitle").textContent =
-    exam ? "Edit Examination" : "Create New Examination";
-
-  if (exam) {
-
-    $("examTitle").value = exam.title || "";
-
-    $("examSubject").value = exam.subjectId || "";
-
-    $("examDuration").value = exam.durationMinutes || 30;
-
-    $("examStart").value = toLocalDateTime(exam.startAt);
-
-    $("examEnd").value = toLocalDateTime(exam.endAt);
-
-    $("examInstructions").value = exam.instructions || "";
-
-  }
-
-  $("examFormPanel").classList.remove("hidden");
-
-  $("examFormPanel").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
 }
 
-
-$("examForm").addEventListener("submit",async e => {
-
+document.getElementById("addStudentForm").addEventListener("submit",async function(e){
   e.preventDefault();
+  if(!isAdmin()) return alert("Admin access required.");
 
-  const start = new Date($("examStart").value);
+  const btn = this.querySelector('[type="submit"]');
+  btn.disabled = true;
 
-  const end = new Date($("examEnd").value);
-
-  const duration = Number($("examDuration").value);
-
-  if (
-    isNaN(start.getTime()) ||
-    isNaN(end.getTime()) ||
-    end <= start
-  ) {
-
-    alert("End time must be after start time.");
-
-    return;
-
-  }
-
-  if (
-    !Number.isInteger(duration) ||
-    duration < 1 ||
-    duration > 300
-  ) {
-
-    alert("Duration must be between 1 and 300 minutes.");
-
-    return;
-
-  }
-
-  const subject = $("examSubject");
-
-  const payload = {
-
-    title:$("examTitle").value.trim(),
-
-    subjectId:subject.value,
-
-    subjectName:subject.options[subject.selectedIndex]?.text || "",
-
-    durationMinutes:duration,
-
-    startAt:Timestamp.fromDate(start),
-
-    endAt:Timestamp.fromDate(end),
-
-    instructions:$("examInstructions").value.trim(),
-
-    updatedAt:serverTimestamp()
-
-  };
-
-  if (
-    !payload.title ||
-    !payload.subjectId ||
-    !payload.instructions
-  ) {
-
-    alert("Please complete all required fields.");
-
-    return;
-
-  }
-
-  const button = $("saveExamButton");
-
-  button.disabled = true;
-
-  button.textContent = "Saving...";
-
-  try {
-
-    if (currentExamId) {
-
-      await updateDoc(
-        doc(db,"exams",currentExamId),
-        payload
-      );
-
-    } else {
-
-      payload.status = "Draft";
-
-      payload.questionCount = 0;
-
-      payload.createdAt = serverTimestamp();
-
-      const reference = await addDoc(
-        examCollection,
-        payload
-      );
-
-      currentExamId = reference.id;
-
-    }
-
-    $("examFormPanel").classList.add("hidden");
-
-    await loadExams();
-
-    await openQuestionManager(currentExamId);
-
-    alert("Exam details saved. Now add MCQ questions.");
-
-  } catch(error) {
-
+  try{
+    await addDoc(studentCollection,{
+      name:document.getElementById("studentName").value.trim(),
+      email:document.getElementById("studentEmail").value.trim(),
+      studentId:document.getElementById("studentId").value.trim(),
+      uid:"",
+      status:"Active",
+      createdAt:serverTimestamp()
+    });
+    this.reset();
+    window.hideStudentForm();
+    await loadStudents();
+    alert("Student record saved successfully!");
+  }catch(error){
     console.error(error);
-
-    alert("Unable to save exam. Check Firestore Rules.");
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent = "Save as Draft";
-
+    alert("Student could not be saved. Check Firestore Rules.");
+  }finally{
+    btn.disabled = false;
   }
-
 });
 
+async function deleteStudent(id){
+  if(!isAdmin() || !confirm("Delete this student record?")) return;
+  try{
+    await deleteDoc(doc(db,"students",id));
+    await loadStudents();
+    alert("Student record deleted.");
+  }catch(error){
+    console.error(error);
+    alert("Could not delete student record.");
+  }
+}
 
-/* LOAD EXAMINATIONS */
+/* SUBJECTS */
+const subjectTable = document.getElementById("subjectTable");
+const subjectCount = document.getElementById("subjectCount");
 
-async function loadExams() {
+window.showSubjectForm = function(){
+  editingSubjectId = null;
+  document.getElementById("addSubjectForm").reset();
+  document.getElementById("subjectFormTitle").textContent = "Add New Subject";
+  document.getElementById("subjectForm").classList.remove("hidden");
+};
 
-  $("examTable").innerHTML =
-    '<tr><td colspan="7">Loading examinations...</td></tr>';
+window.hideSubjectForm = function(){
+  document.getElementById("subjectForm").classList.add("hidden");
+  editingSubjectId = null;
+};
 
-  try {
+async function loadSubjects(){
+  subjectTable.innerHTML = "<tr><td colspan='4'>Loading...</td></tr>";
+  try{
+    const snap = await getDocs(subjectCollection);
+    subjectCount.textContent = snap.size;
+    subjectTable.innerHTML = "";
 
-    const snapshot = await getDocs(examCollection);
+    const subjects = [];
+    snap.forEach(d=>subjects.push({id:d.id,...d.data()}));
 
-    $("examCount").textContent = snapshot.size;
-
-    $("examTable").replaceChildren();
-
-    if (snapshot.empty) {
-
-      $("examTable").innerHTML =
-        '<tr><td colspan="7">No examinations created yet.</td></tr>';
-
-      return;
-
+    if(!subjects.length){
+      subjectTable.innerHTML = "<tr><td colspan='4'>No subjects added yet.</td></tr>";
     }
 
-    const exams = snapshot.docs.map(d => ({
-      id:d.id,
-      ...d.data()
-    }));
+    const examSubject = document.getElementById("examSubject");
+    const selectedValue = examSubject.value;
+    examSubject.innerHTML = '<option value="">Select Subject</option>';
 
-    exams.sort((a,b) =>
-      (b.createdAt?.seconds || 0) -
-      (a.createdAt?.seconds || 0)
-    );
+    subjects.forEach(s=>{
+      const option = document.createElement("option");
+      option.value = s.id;
+      option.textContent = s.name || "Unnamed Subject";
+      examSubject.appendChild(option);
+    });
+    examSubject.value = selectedValue;
 
-    exams.forEach(exam => {
-
+    subjects.forEach(s=>{
       const row = document.createElement("tr");
 
-      row.append(
-        safeCell(exam.title),
-        safeCell(exam.subjectName || "-"),
-        safeCell(`${exam.durationMinutes || 0} min`),
-        safeCell(
-          `${formatDate(exam.startAt)} – ${formatDate(exam.endAt)}`
-        ),
-        safeCell(exam.questionCount ?? 0)
-      );
+      const name = document.createElement("td");
+      name.textContent = s.name || "";
 
-      const statusCell = safeCell("");
+      const description = document.createElement("td");
+      description.textContent = s.description || "-";
 
+      const statusCell = document.createElement("td");
       const badge = document.createElement("span");
-
       badge.className = "status";
+      badge.textContent = s.status || "Active";
+      if(s.status === "Inactive") badge.classList.add("inactive-status");
+      statusCell.appendChild(badge);
 
-      badge.textContent = exam.status || "Draft";
-
-      if ((exam.status || "Draft") === "Draft") {
-        badge.classList.add("draft-status");
-      }
-
-      statusCell.append(badge);
-
-      row.append(statusCell);
-
-      const actions = safeCell("");
-
-      const manage = document.createElement("button");
-
-      manage.className = "action-btn edit-btn";
-
-      manage.textContent = "Questions";
-
-      manage.onclick = () => openQuestionManager(exam.id);
+      const actions = document.createElement("td");
 
       const edit = document.createElement("button");
-
-      edit.className = "action-btn toggle-btn";
-
+      edit.className = "action-btn edit-btn";
       edit.textContent = "Edit";
+      edit.onclick = ()=>window.editSubject(s.id,s.name,s.description);
 
-      edit.disabled = exam.status === "Published";
-
-      edit.onclick = () => openExamForm(exam);
+      const toggle = document.createElement("button");
+      toggle.className = "action-btn toggle-btn";
+      toggle.textContent = s.status === "Inactive" ? "Activate" : "Deactivate";
+      toggle.onclick = ()=>window.toggleSubjectStatus(s.id,s.status || "Active");
 
       const del = document.createElement("button");
-
       del.className = "action-btn delete-btn";
-
       del.textContent = "Delete";
+      del.onclick = ()=>window.deleteSubject(s.id);
 
-      del.onclick = () => deleteExam(exam.id);
-
-      actions.append(manage,edit,del);
-
-      row.append(actions);
-
-      $("examTable").append(row);
-
+      actions.append(edit,toggle,del);
+      row.append(name,description,statusCell,actions);
+      subjectTable.appendChild(row);
     });
-
-  } catch(error) {
-
+  }catch(error){
     console.error(error);
-
-    $("examTable").innerHTML =
-      '<tr><td colspan="7">Unable to load examinations. Check Firestore Rules.</td></tr>';
-
+    subjectTable.innerHTML = "<tr><td colspan='4'>Unable to load subjects. Check Firestore Rules.</td></tr>";
   }
-
 }
 
-
-/* GET QUESTIONS */
-
-async function getExamQuestions(examId) {
-
-  const snapshot = await getDocs(
-    query(
-      collection(db,"examQuestions"),
-      where("examId","==",examId)
-    )
-  );
-
-  return snapshot.docs
-    .map(d => ({
-      id:d.id,
-      ...d.data()
-    }))
-    .sort((a,b) => (a.order || 0) - (b.order || 0));
-
-}
-
-
-/* QUESTION MANAGER */
-
-async function openQuestionManager(examId) {
-
-  try {
-
-    const snapshot = await getDocs(
-      query(
-        examCollection,
-        where("__name__","==",examId)
-      )
-    );
-
-    if (snapshot.empty) {
-
-      alert("Exam record not found.");
-
-      return;
-
-    }
-
-    currentExamId = examId;
-
-    currentExamData = {
-      id:examId,
-      ...snapshot.docs[0].data()
-    };
-
-    if (currentExamData.status === "Published") {
-
-      alert("This examination is already published. Question editing is locked.");
-
-      return;
-
-    }
-
-    currentQuestions = await getExamQuestions(examId);
-
-    $("questionPanelTitle").textContent =
-      `MCQ Questions — ${currentExamData.title}`;
-
-    $("questionExamSummary").textContent =
-      `${currentExamData.subjectName} | ${currentExamData.durationMinutes} minutes | Draft`;
-
-    renderQuestionList();
-
-    $("questionPanel").classList.remove("hidden");
-
-    $("questionPanel").scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-
-  } catch(error) {
-
-    console.error(error);
-
-    alert("Unable to open question manager. Check Firestore Rules.");
-
-  }
-
-}
-
-
-/* DISPLAY QUESTIONS */
-
-function renderQuestionList() {
-
-  $("questionCount").textContent = currentQuestions.length;
-
-  $("questionList").replaceChildren();
-
-  if (!currentQuestions.length) {
-
-    const p = document.createElement("p");
-
-    p.className = "empty";
-
-    p.textContent = "No questions added yet.";
-
-    $("questionList").append(p);
-
-    return;
-
-  }
-
-  currentQuestions.forEach((question,index) => {
-
-    const card = document.createElement("div");
-
-    card.className = "question-card";
-
-    const heading = document.createElement("h4");
-
-    heading.textContent =
-      `Q${index+1}. ${question.questionText} (${question.marks || 1} marks)`;
-
-    card.append(heading);
-
-    const options = document.createElement("div");
-
-    options.className = "question-options";
-
-    ["A","B","C","D"].forEach(key => {
-
-      const span = document.createElement("span");
-
-      span.textContent =
-        `${key}. ${question.options?.[key] || ""}`;
-
-      options.append(span);
-
-    });
-
-    card.append(options);
-
-    const button = document.createElement("button");
-
-    button.className = "action-btn delete-btn";
-
-    button.textContent = "Remove Question";
-
-    button.onclick = () => removeQuestion(question.id);
-
-    card.append(button);
-
-    $("questionList").append(card);
-
-  });
-
-}
-
-
-/* ADD QUESTION */
-
-$("questionForm").addEventListener("submit",async e => {
-
+document.getElementById("addSubjectForm").addEventListener("submit",async function(e){
   e.preventDefault();
+  if(!isAdmin()) return alert("Admin access required.");
 
-  if (!currentExamId) return;
+  const btn = this.querySelector('[type="submit"]');
+  btn.disabled = true;
 
-  const questionText = $("questionText").value.trim();
-
-  const options = {
-
-    A:$("optionA").value.trim(),
-
-    B:$("optionB").value.trim(),
-
-    C:$("optionC").value.trim(),
-
-    D:$("optionD").value.trim()
-
+  const subject = {
+    name:document.getElementById("subjectName").value.trim(),
+    description:document.getElementById("subjectDescription").value.trim()
   };
 
-  const correctOption = $("correctOption").value;
-
-  const marks = Number($("questionMarks").value);
-
-  if (
-    !questionText ||
-    Object.values(options).some(v => !v) ||
-    !correctOption ||
-    !Number.isInteger(marks) ||
-    marks < 1
-  ) {
-
-    alert("Complete the question, all four options, correct answer and marks.");
-
-    return;
-
-  }
-
-  const button = $("saveQuestionButton");
-
-  button.disabled = true;
-
-  button.textContent = "Adding...";
-
-  try {
-
-    const order = currentQuestions.length + 1;
-
-    const questionReference = await addDoc(
-      collection(db,"examQuestions"),
-      {
-
-        examId:currentExamId,
-
-        questionText,
-
-        options,
-
-        marks,
-
-        order,
-
-        createdAt:serverTimestamp()
-
-      }
-    );
-
-
-    await addDoc(
-      collection(db,"examKeys"),
-      {
-
-        examId:currentExamId,
-
-        questionId:questionReference.id,
-
-        correctOption,
-
-        createdAt:serverTimestamp()
-
-      }
-    );
-
-
-    currentQuestions.push({
-
-      id:questionReference.id,
-
-      questionText,
-
-      options,
-
-      marks,
-
-      order
-
-    });
-
-
-    await updateDoc(
-      doc(db,"exams",currentExamId),
-      {
-
-        questionCount:currentQuestions.length,
-
-        updatedAt:serverTimestamp()
-
-      }
-    );
-
-
-    $("questionForm").reset();
-
-    $("questionMarks").value = 1;
-
-    renderQuestionList();
-
-    await loadExams();
-
-  } catch(error) {
-
+  try{
+    if(editingSubjectId){
+      await updateDoc(doc(db,"subjects",editingSubjectId),{
+        ...subject,updatedAt:serverTimestamp()
+      });
+    }else{
+      await addDoc(subjectCollection,{
+        ...subject,status:"Active",createdAt:serverTimestamp()
+      });
+    }
+    this.reset();
+    window.hideSubjectForm();
+    await loadSubjects();
+    alert("Subject saved successfully!");
+  }catch(error){
     console.error(error);
-
-    alert("Question could not be saved. Check Firestore Rules.");
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent = "Add Question";
-
+    alert("Subject could not be saved. Check Firestore Rules.");
+  }finally{
+    btn.disabled = false;
   }
-
 });
 
+window.editSubject = function(id,name,description){
+  editingSubjectId = id;
+  document.getElementById("subjectName").value = name || "";
+  document.getElementById("subjectDescription").value = description || "";
+  document.getElementById("subjectFormTitle").textContent = "Edit Subject";
+  document.getElementById("subjectForm").classList.remove("hidden");
+};
 
-/* REMOVE QUESTION */
-
-async function removeQuestion(questionId) {
-
-  if (!confirm("Remove this question and its answer key?")) return;
-
-  try {
-
-    const keys = await getDocs(
-      query(
-        collection(db,"examKeys"),
-        where("questionId","==",questionId)
-      )
-    );
-
-    for (const key of keys.docs) {
-
-      await deleteDoc(doc(db,"examKeys",key.id));
-
-    }
-
-    await deleteDoc(
-      doc(db,"examQuestions",questionId)
-    );
-
-
-    currentQuestions = await getExamQuestions(currentExamId);
-
-
-    for (
-      let index = 0;
-      index < currentQuestions.length;
-      index++
-    ) {
-
-      await updateDoc(
-        doc(db,"examQuestions",currentQuestions[index].id),
-        {order:index+1}
-      );
-
-    }
-
-
-    await updateDoc(
-      doc(db,"exams",currentExamId),
-      {
-
-        questionCount:currentQuestions.length,
-
-        updatedAt:serverTimestamp()
-
-      }
-    );
-
-
-    renderQuestionList();
-
-    await loadExams();
-
-  } catch(error) {
-
+window.toggleSubjectStatus = async function(id,currentStatus){
+  if(!isAdmin()) return;
+  try{
+    await updateDoc(doc(db,"subjects",id),{
+      status:currentStatus === "Active" ? "Inactive" : "Active",
+      updatedAt:serverTimestamp()
+    });
+    await loadSubjects();
+  }catch(error){
     console.error(error);
+    alert("Unable to update subject status.");
+  }
+};
 
-    alert("Unable to remove question.");
+window.deleteSubject = async function(id){
+  if(!isAdmin() || !confirm("Delete this subject?")) return;
+  try{
+    await deleteDoc(doc(db,"subjects",id));
+    await loadSubjects();
+    alert("Subject deleted.");
+  }catch(error){
+    console.error(error);
+    alert("Unable to delete subject.");
+  }
+};
 
+/* EXAMINATIONS */
+const examTable = document.getElementById("examTable");
+const examCount = document.getElementById("examCount");
+
+window.showExamForm = function(){
+  document.getElementById("addExamForm").reset();
+  document.getElementById("examForm").classList.remove("hidden");
+};
+
+window.hideExamForm = function(){
+  document.getElementById("examForm").classList.add("hidden");
+};
+
+document.getElementById("addExamForm").addEventListener("submit",async function(e){
+  e.preventDefault();
+  if(!isAdmin()) return alert("Admin access required.");
+
+  const title = document.getElementById("examTitle").value.trim();
+  const subjectId = document.getElementById("examSubject").value;
+  const subjectName = document.getElementById("examSubject").selectedOptions[0]?.textContent || "";
+  const duration = Number(document.getElementById("examDuration").value);
+
+  if(!title || !subjectId || !duration || duration < 1){
+    return alert("Please complete all examination details.");
   }
 
+  const btn = this.querySelector('[type="submit"]');
+  btn.disabled = true;
+
+  try{
+    await addDoc(examCollection,{
+      title,subjectId,subjectName,duration,
+      status:"Draft",
+      questionCount:0,
+      createdAt:serverTimestamp()
+    });
+
+    this.reset();
+    window.hideExamForm();
+    await loadExams();
+    alert("Examination created successfully!");
+  }catch(error){
+    console.error(error);
+    alert("Unable to create examination. Check Firestore Rules.");
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+async function loadExams(){
+  examTable.innerHTML = "<tr><td colspan='6'>Loading examinations...</td></tr>";
+  try{
+    const snap = await getDocs(examCollection);
+    examCount.textContent = snap.size;
+    examTable.innerHTML = "";
+
+    if(snap.empty){
+      examTable.innerHTML = "<tr><td colspan='6'>No examinations created yet.</td></tr>";
+      return;
+    }
+
+    snap.forEach(examDoc=>{
+      const exam = examDoc.data();
+      const row = document.createElement("tr");
+
+      [exam.title || "",exam.subjectName || "",String(exam.duration || 0)+" min",String(exam.questionCount || 0),exam.status || "Draft"].forEach(value=>{
+        const td = document.createElement("td");
+        td.textContent = value;
+        row.appendChild(td);
+      });
+
+      const action = document.createElement("td");
+
+      const questions = document.createElement("button");
+      questions.className = "action-btn edit-btn";
+      questions.textContent = "Manage Questions";
+      questions.onclick = ()=>openQuestionManager(examDoc.id,exam);
+      action.appendChild(questions);
+
+      const statusBtn = document.createElement("button");
+      statusBtn.className = "action-btn toggle-btn";
+      statusBtn.textContent = exam.status === "Published" ? "Unpublish" : "Publish";
+      statusBtn.onclick = ()=>toggleExamStatus(examDoc.id,exam.status || "Draft");
+      action.appendChild(statusBtn);
+
+      const del = document.createElement("button");
+      del.className = "action-btn delete-btn";
+      del.textContent = "Delete";
+      del.onclick = ()=>deleteExam(examDoc.id);
+      action.appendChild(del);
+
+      row.appendChild(action);
+      examTable.appendChild(row);
+    });
+  }catch(error){
+    console.error(error);
+    examTable.innerHTML = "<tr><td colspan='6'>Unable to load examinations. Check Firestore Rules.</td></tr>";
+  }
 }
 
-
-/* QUESTION BUTTONS */
-
-$("resetQuestionButton").onclick = () => {
-
-  $("questionForm").reset();
-
-  $("questionMarks").value = 1;
-
-};
-
-
-$("closeQuestionPanel").onclick = () => {
-
-  $("questionPanel").classList.add("hidden");
-
-};
-
-
-/* PUBLISH EXAM */
-
-$("publishExamButton").onclick = async () => {
-
-  if (!currentExamId || !currentExamData) return;
-
-  if (currentQuestions.length === 0) {
-
-    alert("Add at least one MCQ question before publishing.");
-
-    return;
-
-  }
-
-  if (!confirm(
-    `Publish "${currentExamData.title}"? After publishing, editing will be locked.`
-  )) return;
-
-  try {
-
-    await updateDoc(
-      doc(db,"exams",currentExamId),
-      {
-
-        status:"Published",
-
-        publishedAt:serverTimestamp(),
-
-        questionCount:currentQuestions.length,
-
-        updatedAt:serverTimestamp()
-
-      }
-    );
-
-
-    $("questionPanel").classList.add("hidden");
-
+async function toggleExamStatus(id,status){
+  if(!isAdmin()) return;
+  try{
+    await updateDoc(doc(db,"exams",id),{
+      status:status === "Published" ? "Draft" : "Published",
+      updatedAt:serverTimestamp()
+    });
     await loadExams();
-
-    alert("Examination published successfully!");
-
-  } catch(error) {
-
+  }catch(error){
     console.error(error);
-
-    alert("Unable to publish examination. Check Firestore Rules.");
-
+    alert("Unable to update exam status.");
   }
+}
 
-};
-
-
-/* DELETE EXAM */
-
-async function deleteExam(examId) {
-
-  if (!confirm(
-    "Delete this exam and all its questions and answer keys? This cannot be undone."
-  )) return;
-
-  try {
-
-    const [questions,keys] = await Promise.all([
-
-      getDocs(
-        query(
-          collection(db,"examQuestions"),
-          where("examId","==",examId)
-        )
-      ),
-
-      getDocs(
-        query(
-          collection(db,"examKeys"),
-          where("examId","==",examId)
-        )
-      )
-
-    ]);
-
-
-    for (const question of questions.docs) {
-
-      await deleteDoc(
-        doc(db,"examQuestions",question.id)
-      );
-
-    }
-
-
-    for (const key of keys.docs) {
-
-      await deleteDoc(
-        doc(db,"examKeys",key.id)
-      );
-
-    }
-
-
-    await deleteDoc(
-      doc(db,"exams",examId)
-    );
-
-
-    if (currentExamId === examId) {
-
-      currentExamId = null;
-
-      currentExamData = null;
-
-      currentQuestions = [];
-
-      $("questionPanel").classList.add("hidden");
-
-    }
-
-
+async function deleteExam(id){
+  if(!isAdmin() || !confirm("Delete this examination? This will not automatically delete its question documents.")) return;
+  try{
+    await deleteDoc(doc(db,"exams",id));
     await loadExams();
-
-    alert("Exam and related questions deleted.");
-
-  } catch(error) {
-
+    alert("Examination deleted. Note: related question documents need separate cleanup.");
+  }catch(error){
     console.error(error);
-
     alert("Unable to delete examination.");
+  }
+}
 
+/* EXCEL QUESTION UPLOAD */
+function showExcelMessage(message,isError=false){
+  const box = document.getElementById("excelMessage");
+  box.textContent = message;
+  box.classList.remove("hidden");
+  box.style.background = isError ? "#ffe8e8" : "#e8f7ed";
+  box.style.color = isError ? "#a40000" : "#176b36";
+}
+
+async function openQuestionManager(examId,exam){
+  activeExam = {id:examId,...exam};
+  pendingExcelQuestions = [];
+
+  document.getElementById("questionExamTitle").textContent =
+    "Question Manager: " + (exam.title || "");
+
+  document.getElementById("questionExamSummary").textContent =
+    "Subject: " + (exam.subjectName || "") +
+    " | Duration: " + (exam.duration || 0) + " minutes" +
+    " | Current Questions: " + (exam.questionCount || 0);
+
+  document.getElementById("questionManager").classList.remove("hidden");
+  document.getElementById("excelPreview").innerHTML = "";
+  document.getElementById("excelMessage").classList.add("hidden");
+  document.getElementById("importExcelBtn").classList.add("hidden");
+  document.getElementById("excelFile").value = "";
+
+  document.getElementById("questionManager").scrollIntoView({behavior:"smooth"});
+}
+
+window.closeQuestionManager = function(){
+  document.getElementById("questionManager").classList.add("hidden");
+  activeExam = null;
+  pendingExcelQuestions = [];
+};
+
+document.getElementById("clearExcelBtn").addEventListener("click",()=>{
+  pendingExcelQuestions = [];
+  document.getElementById("excelFile").value = "";
+  document.getElementById("excelPreview").innerHTML = "";
+  document.getElementById("excelMessage").classList.add("hidden");
+  document.getElementById("importExcelBtn").classList.add("hidden");
+});
+
+document.getElementById("previewExcelBtn").addEventListener("click",async()=>{
+  if(!isAdmin()) return alert("Admin access required.");
+  if(!activeExam) return alert("Please select an examination first.");
+
+  if(activeExam.status === "Published"){
+    return alert("Unpublish this examination before importing questions.");
   }
 
+  const file = document.getElementById("excelFile").files[0];
+  if(!file) return alert("Please select an Excel file.");
+
+  if(!window.XLSX) return alert("Excel reader library could not load. Refresh the page.");
+
+  try{
+    const data = await file.arrayBuffer();
+    const workbook = XLSX.read(data,{type:"array"});
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(sheet,{defval:""});
+
+    if(!rows.length) return showExcelMessage("Excel file is empty.",true);
+
+    const required = [
+      "Question","Option A","Option B","Option C","Option D","Correct Answer","Marks"
+    ];
+
+    const headers = Object.keys(rows[0]);
+    const missing = required.filter(h=>!headers.includes(h));
+
+    if(missing.length){
+      return showExcelMessage("Missing columns: "+missing.join(", "),true);
+    }
+
+    if(rows.length > 200){
+      return showExcelMessage("Maximum 200 questions can be imported at one time.",true);
+    }
+
+    const validQuestions = [];
+    const errors = [];
+
+    rows.forEach((row,index)=>{
+      const q = String(row["Question"]).trim();
+      const A = String(row["Option A"]).trim();
+      const B = String(row["Option B"]).trim();
+      const C = String(row["Option C"]).trim();
+      const D = String(row["Option D"]).trim();
+      const answer = String(row["Correct Answer"]).trim().toUpperCase();
+      const marks = Number(row["Marks"]);
+
+      if(!q || !A || !B || !C || !D){
+        errors.push("Row "+(index+2)+": Question or options are missing.");
+        return;
+      }
+
+      if(!["A","B","C","D"].includes(answer)){
+        errors.push("Row "+(index+2)+": Correct Answer must be A, B, C or D.");
+        return;
+      }
+
+      if(!Number.isFinite(marks) || marks <= 0){
+        errors.push("Row "+(index+2)+": Marks must be a positive number.");
+        return;
+      }
+
+      validQuestions.push({
+        questionText:q,
+        options:{A,B,C,D},
+        correctOption:answer,
+        marks
+      });
+    });
+
+    if(errors.length){
+      pendingExcelQuestions = [];
+      document.getElementById("importExcelBtn").classList.add("hidden");
+      document.getElementById("excelPreview").innerHTML = "";
+      return showExcelMessage(errors.slice(0,10).join(" "),true);
+    }
+
+    pendingExcelQuestions = validQuestions;
+
+    let html = `
+      <h3>Preview: ${validQuestions.length} Questions</h3>
+      <div class="table-wrap">
+      <table>
+      <thead><tr><th>No.</th><th>Question</th><th>Option A</th><th>Option B</th><th>Option C</th><th>Option D</th><th>Answer</th><th>Marks</th></tr></thead><tbody>
+    `;
+
+    validQuestions.slice(0,10).forEach((q,i)=>{
+      html += `<tr>
+        <td>${i+1}</td>
+        <td>${escapeHTML(q.questionText)}</td>
+        <td>${escapeHTML(q.options.A)}</td>
+        <td>${escapeHTML(q.options.B)}</td>
+        <td>${escapeHTML(q.options.C)}</td>
+        <td>${escapeHTML(q.options.D)}</td>
+        <td>${q.correctOption}</td>
+        <td>${q.marks}</td>
+      </tr>`;
+    });
+
+    html += "</tbody></table></div>";
+    if(validQuestions.length > 10){
+      html += `<p class="empty">Showing first 10 questions. Total valid questions: ${validQuestions.length}</p>`;
+    }
+
+    document.getElementById("excelPreview").innerHTML = html;
+    document.getElementById("importExcelBtn").classList.remove("hidden");
+    showExcelMessage("Excel validated successfully. Preview तपासा ani mag Import kara.");
+
+  }catch(error){
+    console.error(error);
+    showExcelMessage("Unable to read Excel file. Please check the file format.",true);
+  }
+});
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
 }
+
+document.getElementById("importExcelBtn").addEventListener("click",async()=>{
+  if(!isAdmin()) return alert("Admin access required.");
+  if(!activeExam || !pendingExcelQuestions.length) return alert("Please preview a valid Excel file first.");
+
+  if(activeExam.status === "Published"){
+    return alert("Unpublish this exam before importing.");
+  }
+
+  const confirmed = confirm(
+    "Import "+pendingExcelQuestions.length+" questions into "+activeExam.title+"?"
+  );
+  if(!confirmed) return;
+
+  const btn = document.getElementById("importExcelBtn");
+  btn.disabled = true;
+  btn.textContent = "Importing...";
+
+  try{
+    const questions = pendingExcelQuestions;
+    const batch = writeBatch(db);
+
+    questions.forEach((q,index)=>{
+      const questionRef = doc(collection(db,"examQuestions"));
+      const answerRef = doc(collection(db,"examKeys"));
+
+      batch.set(questionRef,{
+        examId:activeExam.id,
+        questionText:q.questionText,
+        options:q.options,
+        marks:q.marks,
+        order:index+1,
+        createdAt:serverTimestamp()
+      });
+
+      batch.set(answerRef,{
+        examId:activeExam.id,
+        questionId:questionRef.id,
+        correctOption:q.correctOption,
+        createdAt:serverTimestamp()
+      });
+    });
+
+    batch.update(doc(db,"exams",activeExam.id),{
+      questionCount:(Number(activeExam.questionCount)||0)+questions.length,
+      updatedAt:serverTimestamp()
+    });
+
+    await batch.commit();
+
+    alert("Questions imported successfully into Firebase!");
+
+    pendingExcelQuestions = [];
+    document.getElementById("excelFile").value = "";
+    document.getElementById("excelPreview").innerHTML = "";
+    document.getElementById("excelMessage").classList.add("hidden");
+    document.getElementById("importExcelBtn").classList.add("hidden");
+
+    activeExam.questionCount = (Number(activeExam.questionCount)||0)+questions.length;
+    document.getElementById("questionExamSummary").textContent =
+      "Subject: "+(activeExam.subjectName||"")+
+      " | Duration: "+(activeExam.duration||0)+" minutes"+
+      " | Current Questions: "+activeExam.questionCount;
+
+    await loadExams();
+
+  }catch(error){
+    console.error("Excel import error:",error);
+    alert("Import failed. Please check Firestore Rules and try again.");
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Import Questions to Firebase";
+  }
+});
 
 </script>
-
 </body>
 </html>
