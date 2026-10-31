@@ -1,17 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DigiTech | Admin Portal</title>
+<title>DigiTech Admin Portal</title>
 
 <style>
 :root {
   --orange:#FF8A24;
   --dark:#171717;
   --dark2:#252525;
-  --light:#F7F6F3;
+  --bg:#F7F6F3;
   --white:#FFFFFF;
 }
 
@@ -23,20 +22,76 @@
 }
 
 body {
-  background:var(--light);
+  background:var(--bg);
   color:#252525;
 }
 
-button {
-  cursor:pointer;
-  border:0;
+.hidden { display:none !important; }
+
+button { cursor:pointer; border:0; }
+
+input,select,textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  font-size:14px;
+  outline:none;
+  background:white;
 }
 
-.hidden {
-  display:none!important;
+input:focus,select:focus,textarea:focus {
+  border-color:var(--orange);
 }
 
-/* LOGIN */
+textarea {
+  min-height:90px;
+  resize:vertical;
+}
+
+label {
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin:15px 0 7px;
+}
+
+.primary-btn {
+  background:var(--orange);
+  color:#171717;
+  padding:12px 18px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+.secondary-btn {
+  background:#eee;
+  padding:12px 18px;
+  border-radius:7px;
+}
+
+.action-btn {
+  padding:7px 10px;
+  border-radius:6px;
+  margin:3px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.edit-btn {
+  background:#fff0df;
+  color:#a84b00;
+}
+
+.delete-btn {
+  background:#ffe8e8;
+  color:#c62828;
+}
+
+.toggle-btn {
+  background:#eee;
+  color:#333;
+}
 
 .login-page {
   min-height:100vh;
@@ -61,9 +116,7 @@ button {
   color:var(--dark);
 }
 
-.logo span {
-  color:var(--orange);
-}
+.logo span { color:var(--orange); }
 
 .login-card h2 {
   margin:28px 0 8px;
@@ -73,34 +126,6 @@ button {
   color:#777;
   font-size:14px;
   margin-bottom:25px;
-}
-
-label {
-  display:block;
-  font-size:13px;
-  font-weight:bold;
-  margin:15px 0 7px;
-}
-
-input {
-  width:100%;
-  padding:13px;
-  border:1px solid #ddd;
-  border-radius:7px;
-  font-size:14px;
-  outline:none;
-}
-
-input:focus {
-  border-color:var(--orange);
-}
-
-.primary-btn {
-  background:var(--orange);
-  color:#171717;
-  padding:13px 18px;
-  border-radius:7px;
-  font-weight:bold;
 }
 
 .login-card .primary-btn {
@@ -113,8 +138,6 @@ input:focus {
   font-size:13px;
   margin-top:12px;
 }
-
-/* DASHBOARD */
 
 .layout {
   display:flex;
@@ -172,32 +195,16 @@ input:focus {
   border-bottom:1px solid #eee;
 }
 
-.topbar h3 {
-  font-size:18px;
-}
+.content { padding:30px; }
 
 .admin-label {
   font-size:13px;
   color:#777;
 }
 
-.content {
-  padding:30px;
-}
-
-.welcome {
-  margin-bottom:25px;
-}
-
-.welcome h2 {
-  font-size:25px;
-  margin-bottom:7px;
-}
-
-.welcome p {
-  color:#777;
-  font-size:14px;
-}
+.welcome { margin-bottom:25px; }
+.welcome h2 { font-size:25px; margin-bottom:7px; }
+.welcome p { color:#777; font-size:14px; }
 
 .stats {
   display:grid;
@@ -206,8 +213,7 @@ input:focus {
   margin-bottom:28px;
 }
 
-.stat-card,
-.panel {
+.stat-card,.panel {
   background:white;
   padding:22px;
   border-radius:12px;
@@ -229,13 +235,9 @@ input:focus {
   font-size:22px;
 }
 
-.panel h3 {
-  margin-bottom:18px;
-}
+.panel h3 { margin-bottom:18px; }
 
-.table-wrap {
-  overflow-x:auto;
-}
+.table-wrap { overflow-x:auto; }
 
 table {
   width:100%;
@@ -250,9 +252,7 @@ th,td {
   font-size:13px;
 }
 
-th {
-  color:#777;
-}
+th { color:#777; }
 
 .status {
   background:#e8f7ed;
@@ -260,20 +260,16 @@ th {
   padding:5px 9px;
   border-radius:20px;
   font-size:11px;
+  white-space:nowrap;
 }
 
-.inactive-status {
-  background:#ffe8e8;
-  color:#c62828;
+.inactive-status,.draft-status {
+  background:#fff0df;
+  color:#a84b00;
 }
 
-.section {
-  display:none;
-}
-
-.section.active {
-  display:block;
-}
+.section { display:none; }
+.section.active { display:block; }
 
 .section-heading {
   display:flex;
@@ -283,51 +279,7 @@ th {
   margin-bottom:20px;
 }
 
-.section-heading h2 {
-  font-size:22px;
-}
-
-.menu-toggle {
-  display:none;
-  background:transparent;
-  font-size:23px;
-}
-
-.logout {
-  background:#333;
-  color:white;
-  padding:10px 13px;
-  border-radius:6px;
-}
-
-.empty {
-  color:#888;
-  font-size:14px;
-  padding:12px 0;
-}
-
-.action-btn {
-  padding:7px 10px;
-  border-radius:6px;
-  margin:3px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.edit-btn {
-  background:#fff0df;
-  color:#a84b00;
-}
-
-.delete-btn {
-  background:#ffe8e8;
-  color:#c62828;
-}
-
-.toggle-btn {
-  background:#eee;
-  color:#333;
-}
+.section-heading h2 { font-size:22px; }
 
 .form-actions {
   margin-top:20px;
@@ -336,24 +288,71 @@ th {
   flex-wrap:wrap;
 }
 
-.secondary-btn {
-  background:#eee;
-  padding:12px 18px;
-  border-radius:7px;
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 16px;
+}
+
+.form-grid .full { grid-column:1/-1; }
+
+.empty {
+  color:#888;
+  font-size:14px;
+  padding:12px 0;
+}
+
+.notice {
+  padding:12px 14px;
+  background:#fff0df;
+  border-radius:8px;
+  color:#75400d;
+  font-size:13px;
+  line-height:1.5;
+  margin-bottom:16px;
+}
+
+.help-text {
+  font-size:12px;
+  color:#777;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+.question-card {
+  border:1px solid #eee;
+  border-radius:10px;
+  padding:16px;
+  margin:12px 0;
+  background:white;
+}
+
+.question-card h4 { margin-bottom:10px; }
+
+.question-options {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  font-size:13px;
+  color:#555;
+}
+
+.question-options span {
+  padding:8px;
+  background:#f7f6f3;
+  border-radius:6px;
+}
+
+.menu-toggle {
+  display:none;
+  background:transparent;
+  font-size:23px;
 }
 
 @media(max-width:800px) {
-  .sidebar {
-    width:210px;
-  }
-
-  .content {
-    padding:20px;
-  }
-
-  .stats {
-    grid-template-columns:1fr 1fr;
-  }
+  .sidebar { width:210px; }
+  .content { padding:20px; }
+  .stats { grid-template-columns:1fr 1fr; }
 }
 
 @media(max-width:600px) {
@@ -364,34 +363,16 @@ th {
     height:100vh;
   }
 
-  .sidebar.open {
-    display:block;
-  }
-
-  .menu-toggle {
-    display:block;
-  }
-
-  .topbar {
-    padding:0 15px;
-  }
-
-  .content {
-    padding:17px;
-  }
-
-  .stats {
-    grid-template-columns:1fr;
-  }
-
-  .admin-label {
-    display:none;
-  }
-
-  .section-heading {
-    align-items:flex-start;
-    flex-direction:column;
-  }
+  .sidebar.open { display:block; }
+  .menu-toggle { display:block; }
+  .topbar { padding:0 15px; }
+  .content { padding:17px; }
+  .stats { grid-template-columns:1fr; }
+  .admin-label { display:none; }
+  .section-heading { align-items:flex-start; flex-direction:column; }
+  .form-grid { grid-template-columns:1fr; }
+  .form-grid .full { grid-column:auto; }
+  .login-card { padding:26px; }
 }
 </style>
 </head>
@@ -412,14 +393,12 @@ th {
     <form id="loginForm">
 
       <label>Email Address</label>
-      <input type="email" id="email"
-        placeholder="Enter admin email" required>
+      <input type="email" id="email" required>
 
       <label>Password</label>
-      <input type="password" id="password"
-        placeholder="Enter password" required>
+      <input type="password" id="password" required>
 
-      <button class="primary-btn" id="loginButton" type="submit">
+      <button class="primary-btn" id="loginButton">
         Login to Dashboard
       </button>
 
@@ -428,6 +407,7 @@ th {
     </form>
 
   </div>
+
 </div>
 
 
@@ -441,28 +421,23 @@ th {
 
     <div class="nav-title">MAIN MENU</div>
 
-    <button class="nav-btn active"
-      onclick="showSection('overview',this)">
+    <button class="nav-btn active" onclick="showSection('overview',this)">
       ▦ Dashboard
     </button>
 
-    <button class="nav-btn"
-      onclick="showSection('students',this)">
+    <button class="nav-btn" onclick="showSection('students',this)">
       ♙ Students
     </button>
 
-    <button class="nav-btn"
-      onclick="showSection('subjects',this)">
+    <button class="nav-btn" onclick="showSection('subjects',this)">
       ▤ Subjects
     </button>
 
-    <button class="nav-btn"
-      onclick="showSection('exams',this)">
+    <button class="nav-btn" onclick="showSection('exams',this)">
       ✎ Examinations
     </button>
 
-    <button class="nav-btn"
-      onclick="showSection('results',this)">
+    <button class="nav-btn" onclick="showSection('results',this)">
       ▥ Results
     </button>
 
@@ -480,8 +455,11 @@ th {
     <header class="topbar">
 
       <div style="display:flex;align-items:center;gap:12px">
+
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
         <h3>Admin Panel</h3>
+
       </div>
 
       <div class="admin-label">
@@ -493,13 +471,14 @@ th {
 
     <div class="content">
 
-      <!-- OVERVIEW -->
+
+      <!-- DASHBOARD -->
 
       <section class="section active" id="overview">
 
         <div class="welcome">
           <h2>Welcome, Admin!</h2>
-          <p>Manage your DigiTech Examination Portal from here.</p>
+          <p>Manage your DigiTech Examination Portal.</p>
         </div>
 
         <div class="stats">
@@ -528,7 +507,6 @@ th {
           <h3>Portal Overview</h3>
           <p class="empty">
             Welcome to your administration dashboard.
-            Use the sidebar to manage students, subjects and examinations.
           </p>
         </div>
 
@@ -540,11 +518,13 @@ th {
       <section class="section" id="students">
 
         <div class="section-heading">
+
           <h2>Student Management</h2>
 
           <button class="primary-btn" onclick="showStudentForm()">
             + Add Student
           </button>
+
         </div>
 
         <div class="panel hidden" id="studentForm">
@@ -554,16 +534,13 @@ th {
           <form id="addStudentForm">
 
             <label>Student Full Name</label>
-            <input id="studentName" required
-              placeholder="Enter student name">
+            <input id="studentName" required>
 
             <label>Student Email</label>
-            <input id="studentEmail" type="email" required
-              placeholder="Enter student email">
+            <input id="studentEmail" type="email" required>
 
             <label>Student ID</label>
-            <input id="studentId" required
-              placeholder="Enter student ID">
+            <input id="studentId" required>
 
             <div class="form-actions">
 
@@ -571,14 +548,14 @@ th {
                 Save Student
               </button>
 
-              <button type="button" class="secondary-btn"
-                onclick="hideStudentForm()">
+              <button type="button" class="secondary-btn" onclick="hideStudentForm()">
                 Cancel
               </button>
 
             </div>
 
           </form>
+
         </div>
 
 
@@ -601,14 +578,13 @@ th {
               </thead>
 
               <tbody id="studentTable">
-                <tr>
-                  <td colspan="5">Loading students...</td>
-                </tr>
+                <tr><td colspan="5">Loading students...</td></tr>
               </tbody>
 
             </table>
 
           </div>
+
         </div>
 
       </section>
@@ -628,7 +604,6 @@ th {
 
         </div>
 
-
         <div class="panel hidden" id="subjectForm">
 
           <h3 id="subjectFormTitle">Add New Subject</h3>
@@ -636,12 +611,10 @@ th {
           <form id="addSubjectForm">
 
             <label>Subject Name</label>
-            <input id="subjectName" required
-              placeholder="Enter subject name">
+            <input id="subjectName" required>
 
             <label>Subject Description</label>
-            <input id="subjectDescription"
-              placeholder="Enter subject description">
+            <input id="subjectDescription">
 
             <div class="form-actions">
 
@@ -649,8 +622,7 @@ th {
                 Save Subject
               </button>
 
-              <button type="button" class="secondary-btn"
-                onclick="hideSubjectForm()">
+              <button type="button" class="secondary-btn" onclick="hideSubjectForm()">
                 Cancel
               </button>
 
@@ -679,9 +651,7 @@ th {
               </thead>
 
               <tbody id="subjectTable">
-                <tr>
-                  <td colspan="4">Loading subjects...</td>
-                </tr>
+                <tr><td colspan="4">Loading subjects...</td></tr>
               </tbody>
 
             </table>
@@ -698,16 +668,290 @@ th {
       <section class="section" id="exams">
 
         <div class="section-heading">
-          <h2>Examinations</h2>
+
+          <h2>Examination Management</h2>
+
+          <button class="primary-btn" id="newExamButton">
+            + Create Examination
+          </button>
+
         </div>
 
-        <div class="panel">
 
-          <h3>Examination Management</h3>
+        <div class="notice">
+          Create exam details first and save as Draft.
+          Then add MCQ questions. Publish only after checking
+          all questions and schedule.
+        </div>
 
-          <p class="empty">
-            Exam creation and publishing module will be added next.
-          </p>
+
+        <!-- EXAM FORM -->
+
+        <div class="panel hidden" id="examFormPanel">
+
+          <h3 id="examFormTitle">Create New Examination</h3>
+
+          <form id="examForm">
+
+            <div class="form-grid">
+
+              <div class="full">
+
+                <label>Examination Title</label>
+
+                <input
+                  id="examTitle"
+                  required
+                  maxlength="100"
+                  placeholder="Example: Cyber Security - Unit Test 1"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label>Subject</label>
+
+                <select id="examSubject" required>
+                  <option value="">Select subject</option>
+                </select>
+
+              </div>
+
+
+              <div>
+
+                <label>Duration (Minutes)</label>
+
+                <input
+                  type="number"
+                  id="examDuration"
+                  min="1"
+                  max="300"
+                  required
+                  value="30"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label>Start Date & Time</label>
+
+                <input
+                  type="datetime-local"
+                  id="examStart"
+                  required
+                >
+
+              </div>
+
+
+              <div>
+
+                <label>End Date & Time (Deadline)</label>
+
+                <input
+                  type="datetime-local"
+                  id="examEnd"
+                  required
+                >
+
+              </div>
+
+
+              <div class="full">
+
+                <label>Exam Instructions (English)</label>
+
+                <textarea
+                  id="examInstructions"
+                  required
+                  placeholder="Enter examination instructions..."
+                ></textarea>
+
+              </div>
+
+            </div>
+
+
+            <p class="help-text">
+              The exam is scheduled between the start and end time.
+              Duration controls the attempt timer. Server-side timing
+              and student access will be implemented separately.
+            </p>
+
+
+            <div class="form-actions">
+
+              <button class="primary-btn" type="submit" id="saveExamButton">
+                Save as Draft
+              </button>
+
+              <button type="button" class="secondary-btn" id="cancelExamButton">
+                Cancel
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+        <!-- QUESTION MANAGER -->
+
+        <div class="panel hidden" id="questionPanel" style="margin-top:18px">
+
+          <div class="section-heading">
+
+            <h3 id="questionPanelTitle">Add MCQ Questions</h3>
+
+            <button class="secondary-btn" id="closeQuestionPanel">
+              Close
+            </button>
+
+          </div>
+
+          <div class="notice" id="questionExamSummary"></div>
+
+
+          <form id="questionForm">
+
+            <label>Question</label>
+
+            <textarea
+              id="questionText"
+              required
+              placeholder="Type your question here..."
+            ></textarea>
+
+
+            <div class="form-grid">
+
+              <div>
+                <label>Option A</label>
+                <input id="optionA" required>
+              </div>
+
+              <div>
+                <label>Option B</label>
+                <input id="optionB" required>
+              </div>
+
+              <div>
+                <label>Option C</label>
+                <input id="optionC" required>
+              </div>
+
+              <div>
+                <label>Option D</label>
+                <input id="optionD" required>
+              </div>
+
+              <div>
+
+                <label>Correct Answer</label>
+
+                <select id="correctOption" required>
+                  <option value="">Select correct option</option>
+                  <option value="A">Option A</option>
+                  <option value="B">Option B</option>
+                  <option value="C">Option C</option>
+                  <option value="D">Option D</option>
+                </select>
+
+              </div>
+
+              <div>
+
+                <label>Marks</label>
+
+                <input
+                  type="number"
+                  id="questionMarks"
+                  min="1"
+                  max="100"
+                  value="1"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button class="primary-btn" type="submit" id="saveQuestionButton">
+                Add Question
+              </button>
+
+              <button type="button" class="secondary-btn" id="resetQuestionButton">
+                Clear
+              </button>
+
+            </div>
+
+          </form>
+
+
+          <div style="margin-top:22px">
+
+            <h3>
+              Questions Added:
+              <span id="questionCount">0</span>
+            </h3>
+
+            <div id="questionList"></div>
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button class="primary-btn" id="publishExamButton">
+              Publish Examination
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- EXAM LIST -->
+
+        <div class="panel" style="margin-top:18px">
+
+          <h3>Examination List</h3>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Exam Title</th>
+                  <th>Subject</th>
+                  <th>Duration</th>
+                  <th>Schedule</th>
+                  <th>Questions</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="examTable">
+                <tr><td colspan="7">Loading examinations...</td></tr>
+              </tbody>
+
+            </table>
+
+          </div>
 
         </div>
 
@@ -727,13 +971,14 @@ th {
           <h3>Student Results</h3>
 
           <p class="empty">
-            Student examination results will appear here after
-            the exam module is connected.
+            Student examination results will appear here
+            after the student exam module is connected.
           </p>
 
         </div>
 
       </section>
+
 
     </div>
 
@@ -741,8 +986,6 @@ th {
 
 </div>
 
-
-<!-- FIREBASE JAVASCRIPT -->
 
 <script type="module">
 
@@ -765,11 +1008,14 @@ import {
   deleteDoc,
   doc,
   updateDoc,
-  serverTimestamp
+  serverTimestamp,
+  Timestamp,
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
 
-/* FIREBASE CONFIGURATION */
+/* FIREBASE CONFIG */
 
 const firebaseConfig = {
   apiKey: "AIzaSyCRKMuzKEShSTmg4luQMRg_youeuIUo9nU",
@@ -781,36 +1027,79 @@ const firebaseConfig = {
 };
 
 
-/* INITIALIZE FIREBASE */
-
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
 
 
-/* ADMIN DETAILS */
-
 const ADMIN_EMAIL = "digitechecosystem@gmail.com";
+
 const ADMIN_UID = "Pzdm5hd10gQFPtlv6YZVUdyW2wq1";
 
 
-/* ELEMENTS */
+const studentCollection = collection(db,"students");
 
-const loginPage = document.getElementById("loginPage");
-const dashboard = document.getElementById("dashboard");
-const errorBox = document.getElementById("error");
-const loginButton = document.getElementById("loginButton");
+const subjectCollection = collection(db,"subjects");
+
+const examCollection = collection(db,"exams");
 
 
-/* COLLECTIONS */
+let editingSubjectId = null;
 
-const studentCollection = collection(db, "students");
-const subjectCollection = collection(db, "subjects");
+let currentExamId = null;
+
+let currentExamData = null;
+
+let currentQuestions = [];
+
+
+const $ = id => document.getElementById(id);
+
+
+function safeCell(value) {
+
+  const td = document.createElement("td");
+
+  td.textContent = value ?? "";
+
+  return td;
+
+}
+
+
+function formatDate(value) {
+
+  if (!value) return "-";
+
+  const date = value.toDate
+    ? value.toDate()
+    : new Date(value);
+
+  return date.toLocaleString();
+
+}
+
+
+function toLocalDateTime(value) {
+
+  const date = value.toDate
+    ? value.toDate()
+    : new Date(value);
+
+  const offset = date.getTimezoneOffset() * 60000;
+
+  return new Date(
+    date.getTime() - offset
+  ).toISOString().slice(0,16);
+
+}
 
 
 /* AUTHENTICATION */
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, async user => {
 
   if (
     user &&
@@ -818,20 +1107,29 @@ onAuthStateChanged(auth, async (user) => {
     user.uid === ADMIN_UID
   ) {
 
-    loginPage.classList.add("hidden");
-    dashboard.classList.remove("hidden");
+    $("loginPage").classList.add("hidden");
 
-    await loadStudents();
-    await loadSubjects();
+    $("dashboard").classList.remove("hidden");
+
+    await Promise.all([
+      loadStudents(),
+      loadSubjects(),
+      loadExams()
+    ]);
 
   } else {
 
-    loginPage.classList.remove("hidden");
-    dashboard.classList.add("hidden");
+    $("loginPage").classList.remove("hidden");
+
+    $("dashboard").classList.add("hidden");
 
     if (user) {
+
       await signOut(auth);
-      errorBox.textContent = "You are not authorized as Admin.";
+
+      $("error").textContent =
+        "You are not authorized as Admin.";
+
     }
 
   }
@@ -839,26 +1137,24 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-/* ADMIN LOGIN */
-
-document.getElementById("loginForm")
-.addEventListener("submit", async (e) => {
+$("loginForm").addEventListener("submit", async e => {
 
   e.preventDefault();
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const button = $("loginButton");
 
-  errorBox.textContent = "";
-  loginButton.disabled = true;
-  loginButton.textContent = "Please wait...";
+  $("error").textContent = "";
+
+  button.disabled = true;
+
+  button.textContent = "Please wait...";
 
   try {
 
     const result = await signInWithEmailAndPassword(
       auth,
-      email,
-      password
+      $("email").value.trim(),
+      $("password").value
     );
 
     if (
@@ -868,238 +1164,209 @@ document.getElementById("loginForm")
 
       await signOut(auth);
 
-      errorBox.textContent =
+      $("error").textContent =
         "You are not authorized as Admin.";
 
     }
 
-  } catch (error) {
+  } catch(error) {
 
-    console.error("Login error:", error);
+    console.error(error);
 
-    errorBox.textContent =
-      "Login failed. Please check your email and password.";
+    $("error").textContent =
+      "Login failed. Check your email and password.";
 
   } finally {
 
-    loginButton.disabled = false;
-    loginButton.textContent = "Login to Dashboard";
+    button.disabled = false;
+
+    button.textContent = "Login to Dashboard";
 
   }
 
 });
 
 
-/* LOGOUT */
+window.logout = () => signOut(auth);
 
-window.logout = async function() {
 
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error("Logout error:", error);
-  }
-
+window.toggleMenu = () => {
+  $("sidebar").classList.toggle("open");
 };
 
 
-/* DASHBOARD NAVIGATION */
+window.showSection = (id,button) => {
 
-window.showSection = function(id, button) {
+  document.querySelectorAll(".section")
+    .forEach(s => s.classList.remove("active"));
 
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.remove("active");
-  });
+  $(id).classList.add("active");
 
-  document.getElementById(id).classList.add("active");
-
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
+  document.querySelectorAll(".nav-btn")
+    .forEach(b => b.classList.remove("active"));
 
   button.classList.add("active");
 
-  document.getElementById("sidebar").classList.remove("open");
+  $("sidebar").classList.remove("open");
 
-};
+  if (id === "exams") loadExams();
 
-
-window.toggleMenu = function() {
-  document.getElementById("sidebar").classList.toggle("open");
-};
-
-
-/* STUDENT FORM */
-
-window.showStudentForm = function() {
-  document.getElementById("studentForm").classList.remove("hidden");
-};
-
-
-window.hideStudentForm = function() {
-  document.getElementById("studentForm").classList.add("hidden");
 };
 
 
 /* STUDENT MANAGEMENT */
 
-const studentTable = document.getElementById("studentTable");
-const studentCount = document.getElementById("studentCount");
+window.showStudentForm = () => {
+  $("studentForm").classList.remove("hidden");
+};
+
+window.hideStudentForm = () => {
+  $("studentForm").classList.add("hidden");
+};
 
 
 async function loadStudents() {
 
-  studentTable.innerHTML =
+  $("studentTable").innerHTML =
     '<tr><td colspan="5">Loading students...</td></tr>';
 
   try {
 
     const snapshot = await getDocs(studentCollection);
 
-    const students = snapshot.docs.map(studentDoc => ({
-      firestoreId: studentDoc.id,
-      ...studentDoc.data()
-    }));
+    $("studentCount").textContent = snapshot.size;
 
-    renderStudents(students);
+    $("studentTable").replaceChildren();
 
-  } catch (error) {
+    if (snapshot.empty) {
 
-    console.error("Load students error:", error);
+      $("studentTable").innerHTML =
+        '<tr><td colspan="5">No students added yet.</td></tr>';
 
-    studentTable.innerHTML =
-      '<tr><td colspan="5">Unable to load students. Check Firestore Rules.</td></tr>';
+      return;
 
-  }
+    }
 
-}
+    snapshot.forEach(studentDoc => {
 
+      const student = studentDoc.data();
 
-function renderStudents(students) {
+      const row = document.createElement("tr");
 
-  studentCount.textContent = students.length;
-  studentTable.innerHTML = "";
+      row.append(
+        safeCell(student.name),
+        safeCell(student.email),
+        safeCell(student.studentId)
+      );
 
-  if (students.length === 0) {
+      const statusCell = safeCell("");
 
-    studentTable.innerHTML =
-      '<tr><td colspan="5">No students added yet.</td></tr>';
+      const badge = document.createElement("span");
 
-    return;
-  }
+      badge.className = "status";
 
-  students.forEach(student => {
+      badge.textContent = student.status || "Active";
 
-    const row = document.createElement("tr");
+      statusCell.append(badge);
 
-    [student.name || "", student.email || "", student.studentId || ""]
-      .forEach(value => {
+      row.append(statusCell);
 
-        const cell = document.createElement("td");
-        cell.textContent = value;
-        row.appendChild(cell);
+      const actionCell = safeCell("");
 
-      });
+      const deleteButton = document.createElement("button");
 
-    const statusCell = document.createElement("td");
+      deleteButton.className = "action-btn delete-btn";
 
-    const badge = document.createElement("span");
-    badge.className = "status";
-    badge.textContent = student.status || "Active";
+      deleteButton.textContent = "Delete";
 
-    statusCell.appendChild(badge);
-    row.appendChild(statusCell);
+      deleteButton.onclick = () => deleteStudent(studentDoc.id);
 
-    const actionCell = document.createElement("td");
+      actionCell.append(deleteButton);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.type = "button";
-    deleteButton.textContent = "Delete";
-    deleteButton.className = "action-btn delete-btn";
+      row.append(actionCell);
 
-    deleteButton.addEventListener("click", () => {
-      deleteStudent(student.firestoreId);
+      $("studentTable").append(row);
+
     });
 
-    actionCell.appendChild(deleteButton);
-    row.appendChild(actionCell);
+  } catch(error) {
 
-    studentTable.appendChild(row);
+    console.error(error);
 
-  });
+    $("studentTable").innerHTML =
+      '<tr><td colspan="5">Unable to load students.</td></tr>';
+
+  }
 
 }
 
 
-/* ADD STUDENT */
-
-document.getElementById("addStudentForm")
-.addEventListener("submit", async function(e) {
+$("addStudentForm").addEventListener("submit", async function(e) {
 
   e.preventDefault();
 
-  const saveButton = this.querySelector('button[type="submit"]');
+  const button = this.querySelector('button[type="submit"]');
 
-  saveButton.disabled = true;
-  saveButton.textContent = "Saving...";
+  button.disabled = true;
 
-  const student = {
-    name: document.getElementById("studentName").value.trim(),
-    email: document.getElementById("studentEmail").value.trim(),
-    studentId: document.getElementById("studentId").value.trim(),
-    uid: "",
-    status: "Active",
-    createdAt: serverTimestamp()
-  };
+  button.textContent = "Saving...";
 
   try {
 
-    await addDoc(studentCollection, student);
+    await addDoc(studentCollection, {
+
+      name: $("studentName").value.trim(),
+
+      email: $("studentEmail").value.trim(),
+
+      studentId: $("studentId").value.trim(),
+
+      uid: "",
+
+      status: "Active",
+
+      createdAt: serverTimestamp()
+
+    });
 
     this.reset();
+
     window.hideStudentForm();
 
     await loadStudents();
 
     alert("Student record saved successfully!");
 
-  } catch (error) {
+  } catch(error) {
 
-    console.error("Save student error:", error);
+    console.error(error);
 
     alert("Student could not be saved. Check Firestore Rules.");
 
   } finally {
 
-    saveButton.disabled = false;
-    saveButton.textContent = "Save Student";
+    button.disabled = false;
+
+    button.textContent = "Save Student";
 
   }
 
 });
 
 
-/* DELETE STUDENT RECORD */
+async function deleteStudent(id) {
 
-async function deleteStudent(studentDocumentId) {
-
-  const confirmed = confirm(
-    "Are you sure you want to delete this student record?"
-  );
-
-  if (!confirmed) return;
+  if (!confirm("Delete this student record?")) return;
 
   try {
 
-    await deleteDoc(doc(db, "students", studentDocumentId));
+    await deleteDoc(doc(db,"students",id));
 
     await loadStudents();
 
-    alert("Student record deleted.");
+  } catch(error) {
 
-  } catch (error) {
-
-    console.error("Delete student error:", error);
+    console.error(error);
 
     alert("Could not delete student record.");
 
@@ -1110,280 +1377,269 @@ async function deleteStudent(studentDocumentId) {
 
 /* SUBJECT MANAGEMENT */
 
-const subjectTable = document.getElementById("subjectTable");
-const subjectCount = document.getElementById("subjectCount");
-
-let editingSubjectId = null;
-
-
-/* SHOW SUBJECT FORM */
-
-window.showSubjectForm = function() {
+window.showSubjectForm = () => {
 
   editingSubjectId = null;
 
-  document.getElementById("addSubjectForm").reset();
+  $("addSubjectForm").reset();
 
-  document.getElementById("subjectFormTitle").textContent =
-    "Add New Subject";
+  $("subjectFormTitle").textContent = "Add New Subject";
 
-  document.getElementById("subjectForm")
-    .classList.remove("hidden");
+  $("subjectForm").classList.remove("hidden");
 
 };
 
 
-/* HIDE SUBJECT FORM */
+window.hideSubjectForm = () => {
 
-window.hideSubjectForm = function() {
-
-  document.getElementById("subjectForm")
-    .classList.add("hidden");
+  $("subjectForm").classList.add("hidden");
 
   editingSubjectId = null;
 
 };
 
-
-/* LOAD SUBJECTS */
 
 async function loadSubjects() {
 
-  subjectTable.innerHTML =
+  $("subjectTable").innerHTML =
     '<tr><td colspan="4">Loading subjects...</td></tr>';
 
   try {
 
     const snapshot = await getDocs(subjectCollection);
 
-    const subjects = snapshot.docs.map(subjectDoc => ({
-      id: subjectDoc.id,
-      ...subjectDoc.data()
+    $("subjectCount").textContent = snapshot.size;
+
+    const subjects = snapshot.docs.map(d => ({
+      id:d.id,
+      ...d.data()
     }));
 
     renderSubjects(subjects);
 
-  } catch (error) {
+    populateSubjectSelect(subjects);
 
-    console.error("Subject loading error:", error);
+  } catch(error) {
 
-    subjectTable.innerHTML =
-      '<tr><td colspan="4">Unable to load subjects. Check Firestore Rules.</td></tr>';
+    console.error(error);
+
+    $("subjectTable").innerHTML =
+      '<tr><td colspan="4">Unable to load subjects.</td></tr>';
 
   }
 
 }
 
 
-/* DISPLAY SUBJECTS */
+function populateSubjectSelect(subjects) {
+
+  const select = $("examSubject");
+
+  const previous = select.value;
+
+  select.replaceChildren(
+    new Option("Select subject","")
+  );
+
+  subjects
+    .filter(s => (s.status || "Active") === "Active")
+    .forEach(s => {
+      select.add(new Option(s.name,s.id));
+    });
+
+  if (subjects.some(s => s.id === previous)) {
+    select.value = previous;
+  }
+
+}
+
 
 function renderSubjects(subjects) {
 
-  subjectCount.textContent = subjects.length;
-  subjectTable.innerHTML = "";
+  $("subjectTable").replaceChildren();
 
-  if (subjects.length === 0) {
+  if (!subjects.length) {
 
-    subjectTable.innerHTML =
+    $("subjectTable").innerHTML =
       '<tr><td colspan="4">No subjects added yet.</td></tr>';
 
     return;
+
   }
 
   subjects.forEach(subject => {
 
     const row = document.createElement("tr");
 
-    const nameCell = document.createElement("td");
-    nameCell.textContent = subject.name || "";
+    row.append(
+      safeCell(subject.name),
+      safeCell(subject.description || "-")
+    );
 
-    const descriptionCell = document.createElement("td");
-    descriptionCell.textContent = subject.description || "-";
+    const statusCell = safeCell("");
 
-    const statusCell = document.createElement("td");
+    const badge = document.createElement("span");
 
-    const statusBadge = document.createElement("span");
-    statusBadge.className = "status";
-    statusBadge.textContent = subject.status || "Active";
+    badge.className = "status";
+
+    badge.textContent = subject.status || "Active";
 
     if (subject.status === "Inactive") {
-      statusBadge.classList.add("inactive-status");
+      badge.classList.add("inactive-status");
     }
 
-    statusCell.appendChild(statusBadge);
+    statusCell.append(badge);
 
-    const actionCell = document.createElement("td");
+    row.append(statusCell);
 
-    /* EDIT BUTTON */
+    const actions = safeCell("");
 
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.className = "action-btn edit-btn";
+    const edit = document.createElement("button");
 
-    editButton.addEventListener("click", () => {
-      window.editSubject(
-        subject.id,
-        subject.name,
-        subject.description
-      );
-    });
+    edit.className = "action-btn edit-btn";
 
-    /* STATUS BUTTON */
+    edit.textContent = "Edit";
 
-    const statusButton = document.createElement("button");
-
-    statusButton.textContent =
-      subject.status === "Inactive" ? "Activate" : "Deactivate";
-
-    statusButton.className = "action-btn toggle-btn";
-
-    statusButton.addEventListener("click", () => {
-      window.toggleSubjectStatus(
-        subject.id,
-        subject.status || "Active"
-      );
-    });
-
-    /* DELETE BUTTON */
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.className = "action-btn delete-btn";
-
-    deleteButton.addEventListener("click", () => {
-      window.deleteSubject(subject.id);
-    });
-
-    actionCell.append(
-      editButton,
-      statusButton,
-      deleteButton
+    edit.onclick = () => window.editSubject(
+      subject.id,
+      subject.name,
+      subject.description
     );
 
-    row.append(
-      nameCell,
-      descriptionCell,
-      statusCell,
-      actionCell
+    const toggle = document.createElement("button");
+
+    toggle.className = "action-btn toggle-btn";
+
+    toggle.textContent =
+      subject.status === "Inactive"
+        ? "Activate"
+        : "Deactivate";
+
+    toggle.onclick = () => window.toggleSubjectStatus(
+      subject.id,
+      subject.status || "Active"
     );
 
-    subjectTable.appendChild(row);
+    const del = document.createElement("button");
+
+    del.className = "action-btn delete-btn";
+
+    del.textContent = "Delete";
+
+    del.onclick = () => window.deleteSubject(subject.id);
+
+    actions.append(edit,toggle,del);
+
+    row.append(actions);
+
+    $("subjectTable").append(row);
 
   });
 
 }
 
 
-/* ADD OR UPDATE SUBJECT */
-
-document.getElementById("addSubjectForm")
-.addEventListener("submit", async function(e) {
+$("addSubjectForm").addEventListener("submit",async function(e) {
 
   e.preventDefault();
 
-  const saveButton = this.querySelector('button[type="submit"]');
+  const button = this.querySelector('button[type="submit"]');
 
-  saveButton.disabled = true;
-  saveButton.textContent = "Saving...";
+  button.disabled = true;
+
+  button.textContent = "Saving...";
 
   const subject = {
-    name: document.getElementById("subjectName").value.trim(),
-    description: document.getElementById("subjectDescription").value.trim()
-  };
 
-  if (!subject.name) {
-    alert("Please enter subject name.");
-    saveButton.disabled = false;
-    saveButton.textContent = "Save Subject";
-    return;
-  }
+    name: $("subjectName").value.trim(),
+
+    description: $("subjectDescription").value.trim()
+
+  };
 
   try {
 
     if (editingSubjectId) {
 
       await updateDoc(
-        doc(db, "subjects", editingSubjectId),
+        doc(db,"subjects",editingSubjectId),
         {
           ...subject,
-          updatedAt: serverTimestamp()
+          updatedAt:serverTimestamp()
         }
       );
-
-      alert("Subject updated successfully!");
 
     } else {
 
       await addDoc(subjectCollection, {
-        ...subject,
-        status: "Active",
-        createdAt: serverTimestamp()
-      });
 
-      alert("Subject added successfully!");
+        ...subject,
+
+        status:"Active",
+
+        createdAt:serverTimestamp()
+
+      });
 
     }
 
     this.reset();
+
     window.hideSubjectForm();
 
     await loadSubjects();
 
-  } catch (error) {
+    alert("Subject saved successfully!");
 
-    console.error("Subject save error:", error);
+  } catch(error) {
+
+    console.error(error);
 
     alert("Subject could not be saved. Check Firestore Rules.");
 
   } finally {
 
-    saveButton.disabled = false;
-    saveButton.textContent = "Save Subject";
+    button.disabled = false;
+
+    button.textContent = "Save Subject";
 
   }
 
 });
 
 
-/* EDIT SUBJECT */
-
-window.editSubject = function(id, name, description) {
+window.editSubject = (id,name,description) => {
 
   editingSubjectId = id;
 
-  document.getElementById("subjectName").value = name || "";
+  $("subjectName").value = name || "";
 
-  document.getElementById("subjectDescription").value =
-    description || "";
+  $("subjectDescription").value = description || "";
 
-  document.getElementById("subjectFormTitle").textContent =
-    "Edit Subject";
+  $("subjectFormTitle").textContent = "Edit Subject";
 
-  document.getElementById("subjectForm")
-    .classList.remove("hidden");
+  $("subjectForm").classList.remove("hidden");
 
 };
 
 
-/* ACTIVATE / DEACTIVATE SUBJECT */
-
-window.toggleSubjectStatus = async function(id, currentStatus) {
-
-  const newStatus =
-    currentStatus === "Active" ? "Inactive" : "Active";
+window.toggleSubjectStatus = async (id,status) => {
 
   try {
 
-    await updateDoc(doc(db, "subjects", id), {
-      status: newStatus,
-      updatedAt: serverTimestamp()
+    await updateDoc(doc(db,"subjects",id), {
+
+      status:status === "Active" ? "Inactive" : "Active",
+
+      updatedAt:serverTimestamp()
+
     });
 
     await loadSubjects();
 
-  } catch (error) {
+  } catch(error) {
 
-    console.error("Status update error:", error);
+    console.error(error);
 
     alert("Unable to update subject status.");
 
@@ -1392,33 +1648,824 @@ window.toggleSubjectStatus = async function(id, currentStatus) {
 };
 
 
-/* DELETE SUBJECT */
+window.deleteSubject = async id => {
 
-window.deleteSubject = async function(id) {
-
-  const confirmed = confirm(
-    "Are you sure you want to delete this subject?"
-  );
-
-  if (!confirmed) return;
+  if (!confirm("Delete this subject? Existing exams may refer to it.")) return;
 
   try {
 
-    await deleteDoc(doc(db, "subjects", id));
+    await deleteDoc(doc(db,"subjects",id));
 
     await loadSubjects();
 
-    alert("Subject deleted successfully!");
+  } catch(error) {
 
-  } catch (error) {
-
-    console.error("Delete subject error:", error);
+    console.error(error);
 
     alert("Unable to delete subject.");
 
   }
 
 };
+
+
+/* EXAMINATION MANAGEMENT */
+
+$("newExamButton").onclick = () => openExamForm();
+
+
+$("cancelExamButton").onclick = () => {
+
+  $("examFormPanel").classList.add("hidden");
+
+  $("examForm").reset();
+
+};
+
+
+function openExamForm(exam = null) {
+
+  $("examForm").reset();
+
+  currentExamId = exam?.id || null;
+
+  $("examFormTitle").textContent =
+    exam ? "Edit Examination" : "Create New Examination";
+
+  if (exam) {
+
+    $("examTitle").value = exam.title || "";
+
+    $("examSubject").value = exam.subjectId || "";
+
+    $("examDuration").value = exam.durationMinutes || 30;
+
+    $("examStart").value = toLocalDateTime(exam.startAt);
+
+    $("examEnd").value = toLocalDateTime(exam.endAt);
+
+    $("examInstructions").value = exam.instructions || "";
+
+  }
+
+  $("examFormPanel").classList.remove("hidden");
+
+  $("examFormPanel").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+}
+
+
+$("examForm").addEventListener("submit",async e => {
+
+  e.preventDefault();
+
+  const start = new Date($("examStart").value);
+
+  const end = new Date($("examEnd").value);
+
+  const duration = Number($("examDuration").value);
+
+  if (
+    isNaN(start.getTime()) ||
+    isNaN(end.getTime()) ||
+    end <= start
+  ) {
+
+    alert("End time must be after start time.");
+
+    return;
+
+  }
+
+  if (
+    !Number.isInteger(duration) ||
+    duration < 1 ||
+    duration > 300
+  ) {
+
+    alert("Duration must be between 1 and 300 minutes.");
+
+    return;
+
+  }
+
+  const subject = $("examSubject");
+
+  const payload = {
+
+    title:$("examTitle").value.trim(),
+
+    subjectId:subject.value,
+
+    subjectName:subject.options[subject.selectedIndex]?.text || "",
+
+    durationMinutes:duration,
+
+    startAt:Timestamp.fromDate(start),
+
+    endAt:Timestamp.fromDate(end),
+
+    instructions:$("examInstructions").value.trim(),
+
+    updatedAt:serverTimestamp()
+
+  };
+
+  if (
+    !payload.title ||
+    !payload.subjectId ||
+    !payload.instructions
+  ) {
+
+    alert("Please complete all required fields.");
+
+    return;
+
+  }
+
+  const button = $("saveExamButton");
+
+  button.disabled = true;
+
+  button.textContent = "Saving...";
+
+  try {
+
+    if (currentExamId) {
+
+      await updateDoc(
+        doc(db,"exams",currentExamId),
+        payload
+      );
+
+    } else {
+
+      payload.status = "Draft";
+
+      payload.questionCount = 0;
+
+      payload.createdAt = serverTimestamp();
+
+      const reference = await addDoc(
+        examCollection,
+        payload
+      );
+
+      currentExamId = reference.id;
+
+    }
+
+    $("examFormPanel").classList.add("hidden");
+
+    await loadExams();
+
+    await openQuestionManager(currentExamId);
+
+    alert("Exam details saved. Now add MCQ questions.");
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert("Unable to save exam. Check Firestore Rules.");
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent = "Save as Draft";
+
+  }
+
+};
+
+
+/* LOAD EXAMINATIONS */
+
+async function loadExams() {
+
+  $("examTable").innerHTML =
+    '<tr><td colspan="7">Loading examinations...</td></tr>';
+
+  try {
+
+    const snapshot = await getDocs(examCollection);
+
+    $("examCount").textContent = snapshot.size;
+
+    $("examTable").replaceChildren();
+
+    if (snapshot.empty) {
+
+      $("examTable").innerHTML =
+        '<tr><td colspan="7">No examinations created yet.</td></tr>';
+
+      return;
+
+    }
+
+    const exams = snapshot.docs.map(d => ({
+      id:d.id,
+      ...d.data()
+    }));
+
+    exams.sort((a,b) =>
+      (b.createdAt?.seconds || 0) -
+      (a.createdAt?.seconds || 0)
+    );
+
+    exams.forEach(exam => {
+
+      const row = document.createElement("tr");
+
+      row.append(
+        safeCell(exam.title),
+        safeCell(exam.subjectName || "-"),
+        safeCell(`${exam.durationMinutes || 0} min`),
+        safeCell(
+          `${formatDate(exam.startAt)} – ${formatDate(exam.endAt)}`
+        ),
+        safeCell(exam.questionCount ?? 0)
+      );
+
+      const statusCell = safeCell("");
+
+      const badge = document.createElement("span");
+
+      badge.className = "status";
+
+      badge.textContent = exam.status || "Draft";
+
+      if ((exam.status || "Draft") === "Draft") {
+        badge.classList.add("draft-status");
+      }
+
+      statusCell.append(badge);
+
+      row.append(statusCell);
+
+      const actions = safeCell("");
+
+      const manage = document.createElement("button");
+
+      manage.className = "action-btn edit-btn";
+
+      manage.textContent = "Questions";
+
+      manage.onclick = () => openQuestionManager(exam.id);
+
+      const edit = document.createElement("button");
+
+      edit.className = "action-btn toggle-btn";
+
+      edit.textContent = "Edit";
+
+      edit.disabled = exam.status === "Published";
+
+      edit.onclick = () => openExamForm(exam);
+
+      const del = document.createElement("button");
+
+      del.className = "action-btn delete-btn";
+
+      del.textContent = "Delete";
+
+      del.onclick = () => deleteExam(exam.id);
+
+      actions.append(manage,edit,del);
+
+      row.append(actions);
+
+      $("examTable").append(row);
+
+    });
+
+  } catch(error) {
+
+    console.error(error);
+
+    $("examTable").innerHTML =
+      '<tr><td colspan="7">Unable to load examinations. Check Firestore Rules.</td></tr>';
+
+  }
+
+}
+
+
+/* GET QUESTIONS */
+
+async function getExamQuestions(examId) {
+
+  const snapshot = await getDocs(
+    query(
+      collection(db,"examQuestions"),
+      where("examId","==",examId)
+    )
+  );
+
+  return snapshot.docs
+    .map(d => ({
+      id:d.id,
+      ...d.data()
+    }))
+    .sort((a,b) => (a.order || 0) - (b.order || 0));
+
+}
+
+
+/* QUESTION MANAGER */
+
+async function openQuestionManager(examId) {
+
+  try {
+
+    const snapshot = await getDocs(
+      query(
+        examCollection,
+        where("__name__","==",examId)
+      )
+    );
+
+    if (snapshot.empty) {
+
+      alert("Exam record not found.");
+
+      return;
+
+    }
+
+    currentExamId = examId;
+
+    currentExamData = {
+      id:examId,
+      ...snapshot.docs[0].data()
+    };
+
+    if (currentExamData.status === "Published") {
+
+      alert("This examination is already published. Question editing is locked.");
+
+      return;
+
+    }
+
+    currentQuestions = await getExamQuestions(examId);
+
+    $("questionPanelTitle").textContent =
+      `MCQ Questions — ${currentExamData.title}`;
+
+    $("questionExamSummary").textContent =
+      `${currentExamData.subjectName} | ${currentExamData.durationMinutes} minutes | Draft`;
+
+    renderQuestionList();
+
+    $("questionPanel").classList.remove("hidden");
+
+    $("questionPanel").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert("Unable to open question manager. Check Firestore Rules.");
+
+  }
+
+}
+
+
+/* DISPLAY QUESTIONS */
+
+function renderQuestionList() {
+
+  $("questionCount").textContent = currentQuestions.length;
+
+  $("questionList").replaceChildren();
+
+  if (!currentQuestions.length) {
+
+    const p = document.createElement("p");
+
+    p.className = "empty";
+
+    p.textContent = "No questions added yet.";
+
+    $("questionList").append(p);
+
+    return;
+
+  }
+
+  currentQuestions.forEach((question,index) => {
+
+    const card = document.createElement("div");
+
+    card.className = "question-card";
+
+    const heading = document.createElement("h4");
+
+    heading.textContent =
+      `Q${index+1}. ${question.questionText} (${question.marks || 1} marks)`;
+
+    card.append(heading);
+
+    const options = document.createElement("div");
+
+    options.className = "question-options";
+
+    ["A","B","C","D"].forEach(key => {
+
+      const span = document.createElement("span");
+
+      span.textContent =
+        `${key}. ${question.options?.[key] || ""}`;
+
+      options.append(span);
+
+    });
+
+    card.append(options);
+
+    const button = document.createElement("button");
+
+    button.className = "action-btn delete-btn";
+
+    button.textContent = "Remove Question";
+
+    button.onclick = () => removeQuestion(question.id);
+
+    card.append(button);
+
+    $("questionList").append(card);
+
+  });
+
+}
+
+
+/* ADD QUESTION */
+
+$("questionForm").addEventListener("submit",async e => {
+
+  e.preventDefault();
+
+  if (!currentExamId) return;
+
+  const questionText = $("questionText").value.trim();
+
+  const options = {
+
+    A:$("optionA").value.trim(),
+
+    B:$("optionB").value.trim(),
+
+    C:$("optionC").value.trim(),
+
+    D:$("optionD").value.trim()
+
+  };
+
+  const correctOption = $("correctOption").value;
+
+  const marks = Number($("questionMarks").value);
+
+  if (
+    !questionText ||
+    Object.values(options).some(v => !v) ||
+    !correctOption ||
+    !Number.isInteger(marks) ||
+    marks < 1
+  ) {
+
+    alert("Complete the question, all four options, correct answer and marks.");
+
+    return;
+
+  }
+
+  const button = $("saveQuestionButton");
+
+  button.disabled = true;
+
+  button.textContent = "Adding...";
+
+  try {
+
+    const order = currentQuestions.length + 1;
+
+    const questionReference = await addDoc(
+      collection(db,"examQuestions"),
+      {
+
+        examId:currentExamId,
+
+        questionText,
+
+        options,
+
+        marks,
+
+        order,
+
+        createdAt:serverTimestamp()
+
+      }
+    );
+
+
+    await addDoc(
+      collection(db,"examKeys"),
+      {
+
+        examId:currentExamId,
+
+        questionId:questionReference.id,
+
+        correctOption,
+
+        createdAt:serverTimestamp()
+
+      }
+    );
+
+
+    currentQuestions.push({
+
+      id:questionReference.id,
+
+      questionText,
+
+      options,
+
+      marks,
+
+      order
+
+    });
+
+
+    await updateDoc(
+      doc(db,"exams",currentExamId),
+      {
+
+        questionCount:currentQuestions.length,
+
+        updatedAt:serverTimestamp()
+
+      }
+    );
+
+
+    $("questionForm").reset();
+
+    $("questionMarks").value = 1;
+
+    renderQuestionList();
+
+    await loadExams();
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert("Question could not be saved. Check Firestore Rules.");
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent = "Add Question";
+
+  }
+
+});
+
+
+/* REMOVE QUESTION */
+
+async function removeQuestion(questionId) {
+
+  if (!confirm("Remove this question and its answer key?")) return;
+
+  try {
+
+    const keys = await getDocs(
+      query(
+        collection(db,"examKeys"),
+        where("questionId","==",questionId)
+      )
+    );
+
+    for (const key of keys.docs) {
+
+      await deleteDoc(doc(db,"examKeys",key.id));
+
+    }
+
+    await deleteDoc(
+      doc(db,"examQuestions",questionId)
+    );
+
+
+    currentQuestions = await getExamQuestions(currentExamId);
+
+
+    for (
+      let index = 0;
+      index < currentQuestions.length;
+      index++
+    ) {
+
+      await updateDoc(
+        doc(db,"examQuestions",currentQuestions[index].id),
+        {order:index+1}
+      );
+
+    }
+
+
+    await updateDoc(
+      doc(db,"exams",currentExamId),
+      {
+
+        questionCount:currentQuestions.length,
+
+        updatedAt:serverTimestamp()
+
+      }
+    );
+
+
+    renderQuestionList();
+
+    await loadExams();
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert("Unable to remove question.");
+
+  }
+
+}
+
+
+/* QUESTION BUTTONS */
+
+$("resetQuestionButton").onclick = () => {
+
+  $("questionForm").reset();
+
+  $("questionMarks").value = 1;
+
+};
+
+
+$("closeQuestionPanel").onclick = () => {
+
+  $("questionPanel").classList.add("hidden");
+
+};
+
+
+/* PUBLISH EXAM */
+
+$("publishExamButton").onclick = async () => {
+
+  if (!currentExamId || !currentExamData) return;
+
+  if (currentQuestions.length === 0) {
+
+    alert("Add at least one MCQ question before publishing.");
+
+    return;
+
+  }
+
+  if (!confirm(
+    `Publish "${currentExamData.title}"? After publishing, editing will be locked.`
+  )) return;
+
+  try {
+
+    await updateDoc(
+      doc(db,"exams",currentExamId),
+      {
+
+        status:"Published",
+
+        publishedAt:serverTimestamp(),
+
+        questionCount:currentQuestions.length,
+
+        updatedAt:serverTimestamp()
+
+      }
+    );
+
+
+    $("questionPanel").classList.add("hidden");
+
+    await loadExams();
+
+    alert("Examination published successfully!");
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert("Unable to publish examination. Check Firestore Rules.");
+
+  }
+
+};
+
+
+/* DELETE EXAM */
+
+async function deleteExam(examId) {
+
+  if (!confirm(
+    "Delete this exam and all its questions and answer keys? This cannot be undone."
+  )) return;
+
+  try {
+
+    const [questions,keys] = await Promise.all([
+
+      getDocs(
+        query(
+          collection(db,"examQuestions"),
+          where("examId","==",examId)
+        )
+      ),
+
+      getDocs(
+        query(
+          collection(db,"examKeys"),
+          where("examId","==",examId)
+        )
+      )
+
+    ]);
+
+
+    for (const question of questions.docs) {
+
+      await deleteDoc(
+        doc(db,"examQuestions",question.id)
+      );
+
+    }
+
+
+    for (const key of keys.docs) {
+
+      await deleteDoc(
+        doc(db,"examKeys",key.id)
+      );
+
+    }
+
+
+    await deleteDoc(
+      doc(db,"exams",examId)
+    );
+
+
+    if (currentExamId === examId) {
+
+      currentExamId = null;
+
+      currentExamData = null;
+
+      currentQuestions = [];
+
+      $("questionPanel").classList.add("hidden");
+
+    }
+
+
+    await loadExams();
+
+    alert("Exam and related questions deleted.");
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert("Unable to delete examination.");
+
+  }
+
+}
 
 </script>
 
