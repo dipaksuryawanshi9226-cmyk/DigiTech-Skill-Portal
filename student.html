@@ -62,6 +62,16 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px #ff8a2422}
 .card h3{margin:0 0 7px;font-size:16px}
 .card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
 .soon{display:inline-block;margin-top:12px;font-size:10px;font-weight:800;letter-spacing:.7px;color:#a45a12;background:var(--light);padding:5px 8px;border-radius:6px}
+
+.exam-list{display:grid;gap:12px;margin-top:16px}
+.exam-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px}
+.exam-item h3{font-size:16px;margin:0 0 8px}
+.exam-subject{font-size:13px;color:var(--muted);margin:0 0 13px}
+.exam-meta{display:flex;gap:9px;flex-wrap:wrap}
+.exam-meta span{background:var(--light);color:#75400f;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
+.exam-status{display:inline-block;color:var(--green);background:#e7f5ec;padding:5px 9px;border-radius:7px;font-size:10px;font-weight:800;margin-bottom:10px}
+.exam-info{font-size:13px;color:var(--muted);line-height:1.6}
+.empty-exams{background:white;border:1px dashed #d8d0c7;border-radius:14px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
 .notice{margin-top:22px;padding:15px 17px;border-radius:12px;background:var(--light);color:#75400f;font-size:12px;line-height:1.6}
 footer{text-align:center;color:#938d85;font-size:11px;padding:25px 10px 35px}
 
@@ -114,7 +124,6 @@ header{padding:14px 4%}
       </div>
 
       <button id="loginButton" class="primary" type="submit">Login to Student Portal</button>
-
       <p id="loginMessage" class="message" role="status"></p>
 
       <p class="login-note">
@@ -158,11 +167,12 @@ header{padding:14px 4%}
   <h2 class="section-title">My Portal</h2>
 
   <div class="grid">
+
     <article class="card">
       <div class="ico">📝</div>
       <h3>Examinations</h3>
-      <p>Your assigned exams and assessment activities will appear here.</p>
-      <span class="soon">COMING SOON</span>
+      <p>Your published examinations are listed below.</p>
+      <span class="soon">PUBLISHED EXAMS</span>
     </article>
 
     <article class="card">
@@ -171,7 +181,13 @@ header{padding:14px 4%}
       <p>View your examination scores and result history in this section.</p>
       <span class="soon">COMING SOON</span>
     </article>
+
   </div>
+
+  <h2 class="section-title">Available Examinations</h2>
+
+  <div id="examMessage" class="exam-info">Loading examinations...</div>
+  <div id="examList" class="exam-list"></div>
 
   <div class="notice">
     <strong>Important:</strong> Keep your login password private. DigiTech Admin will provide updates about examinations and results.
@@ -231,6 +247,9 @@ const loginForm = document.getElementById("loginForm");
 const loginButton = document.getElementById("loginButton");
 const loginMessage = document.getElementById("loginMessage");
 
+const examList = document.getElementById("examList");
+const examMessage = document.getElementById("examMessage");
+
 
 /* SHOW LOGIN */
 
@@ -288,143 +307,192 @@ function authError(error) {
 }
 
 
-/* STUDENT PROFILE + AUTOMATIC UID LINKING */
+/* LOAD PUBLISHED EXAMINATIONS */
 
-async function loadStudentProfile(user) {
+async function loadPublishedExams() {
+
+  examList.replaceChildren();
+  examMessage.textContent = "Loading examinations...";
 
   try {
 
-    if (!user.email) {
-      throw new Error("Firebase account email sapadla nahi.");
-    }
-
-    const studentEmail = user.email.trim().toLowerCase();
-
-    /*
-      Find profile using:
-      1. Authenticated student's email
-      2. UID empty OR UID already belongs to this student
-
-      This query is designed to match the published Firestore Rules.
-    */
-
-    const studentQuery = query(
-      collection(db, "students"),
-      where("email", "==", studentEmail),
-      where("uid", "in", ["", user.uid]),
-      limit(1)
+    const examQuery = query(
+      collection(db, "exams"),
+      where("status", "==", "Published")
     );
 
-    const snapshot = await getDocs(studentQuery);
+    const snapshot = await getDocs(examQuery);
 
     if (snapshot.empty) {
 
-      await signOut(auth);
-
-      showLogin(
-        "Student profile sapadla nahi kiwa dusrya account shi link aahe. Admin shi sampark kara."
-      );
-
+      examMessage.textContent = "Currently no published examinations are available.";
       return;
-    }
-
-    const studentDoc = snapshot.docs[0];
-    const student = studentDoc.data();
-
-
-    /*
-      FIRST LOGIN:
-      If UID is empty, link authenticated UID.
-    */
-
-    if (!student.uid) {
-
-      await updateDoc(studentDoc.ref, {
-        uid: user.uid
-      });
-
-      student.uid = user.uid;
 
     }
 
+    examMessage.textContent =
+      snapshot.size + " published examination(s) available.";
 
-    /*
-      VERIFY UID OWNERSHIP
-    */
+    snapshot.forEach((examDoc) => {
 
-    if (student.uid !== user.uid) {
+      const exam = examDoc.data();
 
-      await signOut(auth);
+      const item = document.createElement("article");
+      item.className = "exam-item";
 
-      showLogin(
-        "Ha student profile dusrya account shi already link aahe."
-      );
+      const status = document.createElement("span");
+      status.className = "exam-status";
+      status.textContent = "PUBLISHED";
 
-      return;
-    }
+      const title = document.createElement("h3");
+      title.textContent = exam.title || "Untitled Examination";
 
+      const subject = document.createElement("p");
+      subject.className = "exam-subject";
+      subject.textContent = "Subject: " + (exam.subject || "Not specified");
 
-    /*
-      CHECK ACCOUNT STATUS
-    */
+      const meta = document.createElement("div");
+      meta.className = "exam-meta";
 
-    if (
-      !student.status ||
-      student.status.toLowerCase() !== "active"
-    ) {
+      const duration = document.createElement("span");
+      duration.textContent =
+        "Duration: " + (exam.duration ?? "—") + " minutes";
 
-      await signOut(auth);
+      const questions = document.createElement("span");
+      questions.textContent =
+        "Questions: " + (exam.questionCount ?? "Not specified");
 
-      showLogin(
-        "Tumche account active nahi. DigiTech Admin shi sampark kara."
-      );
+      meta.append(duration, questions);
 
-      return;
-    }
+      item.append(status, title, subject, meta);
 
+      examList.appendChild(item);
 
-    /*
-      DISPLAY STUDENT PROFILE
-    */
-
-    const name = student.name || "Student";
-
-    document.getElementById("welcomeTitle").textContent =
-      "Welcome, " + name.split(" ")[0];
-
-    document.getElementById("studentName").textContent =
-      name;
-
-    document.getElementById("studentEmail").textContent =
-      student.email || user.email || "";
-
-    document.getElementById("studentId").textContent =
-      student.studentId || "Not assigned";
-
-    document.getElementById("studentStatus").textContent =
-      student.status;
-
-    document.getElementById("studentInitial").textContent =
-      name.trim().charAt(0).toUpperCase() || "S";
-
-
-    showDashboard();
+    });
 
   }
 
   catch (error) {
 
-    console.error("Student profile error:", error);
+    console.error("Published exams error:", error);
 
-    if (auth.currentUser) {
-      await signOut(auth);
-    }
-
-    showLogin(
-      "Student profile load hot nahi. Email, Firestore Rules ani UID link check kara."
-    );
+    examMessage.textContent =
+      "Examinations load hou shakle nahi. Firestore Rules ani internet connection check kara.";
 
   }
+
+}
+
+
+/* STUDENT PROFILE + AUTOMATIC UID LINKING */
+
+async function loadStudentProfile(user) {
+
+  if (!user.email) {
+    throw new Error("Firebase account email sapadla nahi.");
+  }
+
+  const studentEmail = user.email.trim().toLowerCase();
+
+  const studentQuery = query(
+    collection(db, "students"),
+    where("email", "==", studentEmail),
+    where("uid", "in", ["", user.uid]),
+    limit(1)
+  );
+
+  const snapshot = await getDocs(studentQuery);
+
+  if (snapshot.empty) {
+
+    await signOut(auth);
+
+    showLogin(
+      "Student profile sapadla nahi kiwa dusrya account shi link aahe. Admin shi sampark kara."
+    );
+
+    return;
+
+  }
+
+  const studentDoc = snapshot.docs[0];
+  const student = studentDoc.data();
+
+
+  /* FIRST LOGIN: LINK UID */
+
+  if (!student.uid) {
+
+    await updateDoc(studentDoc.ref, {
+      uid: user.uid
+    });
+
+    student.uid = user.uid;
+
+  }
+
+
+  /* VERIFY UID */
+
+  if (student.uid !== user.uid) {
+
+    await signOut(auth);
+
+    showLogin(
+      "Ha student profile dusrya account shi already link aahe."
+    );
+
+    return;
+
+  }
+
+
+  /* CHECK STATUS */
+
+  if (
+    !student.status ||
+    student.status.toLowerCase() !== "active"
+  ) {
+
+    await signOut(auth);
+
+    showLogin(
+      "Tumche account active nahi. DigiTech Admin shi sampark kara."
+    );
+
+    return;
+
+  }
+
+
+  /* DISPLAY PROFILE */
+
+  const name = student.name || "Student";
+
+  document.getElementById("welcomeTitle").textContent =
+    "Welcome, " + name.split(" ")[0];
+
+  document.getElementById("studentName").textContent =
+    name;
+
+  document.getElementById("studentEmail").textContent =
+    student.email || user.email || "";
+
+  document.getElementById("studentId").textContent =
+    student.studentId || "Not assigned";
+
+  document.getElementById("studentStatus").textContent =
+    student.status;
+
+  document.getElementById("studentInitial").textContent =
+    name.trim().charAt(0).toUpperCase() || "S";
+
+
+  showDashboard();
+
+  /* LOAD EXAMS ONLY AFTER STUDENT PROFILE VERIFICATION */
+
+  await loadPublishedExams();
 
 }
 
@@ -444,11 +512,7 @@ loginForm.addEventListener("submit", async (event) => {
 
   try {
 
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    await signInWithEmailAndPassword(auth, email, password);
 
   }
 
@@ -506,7 +570,25 @@ onAuthStateChanged(auth, async (user) => {
 
   }
 
-  await loadStudentProfile(user);
+  try {
+
+    await loadStudentProfile(user);
+
+  }
+
+  catch (error) {
+
+    console.error("Student profile error:", error);
+
+    if (auth.currentUser) {
+      await signOut(auth);
+    }
+
+    showLogin(
+      "Student profile load hot nahi. Email, Firestore Rules ani UID link check kara."
+    );
+
+  }
 
 });
 
